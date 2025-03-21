@@ -1,49 +1,13 @@
 import React, { useState } from 'react';
 import { RefreshCcw, MoreVertical } from 'lucide-react';
 
+
 const EmailList = ({ onSelectEmail }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [tabSelected, setTabSelected] = useState('all');
   
   // Sample data for emails
-  const emails = [
-    {
-      id: 1,
-      sender: 'Lacasa',
-      date: 'Dec 31',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      read: false,
-    },
-    {
-      id: 2,
-      sender: 'Lacasa',
-      date: 'Dec 29',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      read: false,
-    },
-    {
-      id: 3,
-      sender: 'Lacasa',
-      date: 'Dec 27',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      read: true,
-    },
-    {
-      id: 4,
-      sender: 'Lacasa',
-      date: 'Dec 25',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      read: true,
-    },
-    {
-      id: 5,
-      sender: 'Lacasa',
-      date: 'Dec 25',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      read: true,
-    },
-  ];
-
+  const emails = []
   const handleSelectEmail = (index) => {
     setSelectedIndex(index);
     onSelectEmail(emails[index]);
@@ -54,7 +18,10 @@ const EmailList = ({ onSelectEmail }) => {
     : emails.filter(email => !email.read);
 
   return (
-    <div className="w-full h-full flex flex-col bg-gray-50">
+    <div className="bg-gray-100 min-h-screen pt-4 pl-2">
+      <div className="w-full bg-white rounded-lg shadow p-2">
+
+    <div className="w-fullflex flex-col bg-gray-50 200">
       {/* Header with tabs */}
       <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <div className="flex space-x-4">
@@ -72,7 +39,7 @@ const EmailList = ({ onSelectEmail }) => {
           </button>
         </div>
         <div className="flex items-center space-x-2">
-          <button className="p-1 rounded-full hover:bg-gray-100">
+          <button onClick="reloadPage()" className="p-1 rounded-full hover:bg-gray-100">
             <RefreshCcw size={18} className="text-gray-500" />
           </button>
           <button className="p-1 rounded-full hover:bg-gray-100">
@@ -93,7 +60,7 @@ const EmailList = ({ onSelectEmail }) => {
               <div className="flex-shrink-0 mr-3">
                 <img
                   className="h-8 w-8 rounded-full"
-                  src="/png/avatar.png"
+                  src="/png/profile.png"
                   alt={`${email.sender} avatar`}
                 />
               </div>
@@ -114,6 +81,8 @@ const EmailList = ({ onSelectEmail }) => {
           </div>
         ))}
       </div>
+    </div>
+    </div>
     </div>
   );
 };

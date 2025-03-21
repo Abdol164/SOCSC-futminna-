@@ -96,7 +96,7 @@ export default function EmailDetailPage() {
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       {/* Header */}
-      <div className="flex justify-between items-center bg-white p-4 shadow rounded-md mb-4">
+      {/* <div className="flex justify-between items-center bg-white p-4 shadow rounded-md mb-4">
         <div className="flex items-center space-x-3">
           <FiSearch className="text-gray-500 text-lg" />
           <input type="text" placeholder="Search..." className="outline-none bg-transparent w-40 text-gray-700" />
@@ -105,14 +105,14 @@ export default function EmailDetailPage() {
           <FiBell className="text-gray-500 text-xl" />
           <img src="https://via.placeholder.com/30" alt="User" className="w-8 h-8 rounded-full" />
         </div>
-      </div>
+      </div> */}
 
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
+      <div className="max-w-4xl  bg-white rounded-lg shadow p-6">
         <h1 className="text-2xl font-bold mb-2">Meeting with new client</h1>
 
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center space-x-3">
-            <img src="avatar.png" alt="Sender" className="w-10 h-10 rounded-full" />
+            <img src="/png/avatar.png" alt="Sender" className="w-10 h-10 rounded-full" />
             <div>
               <p className="font-semibold flex items-center space-x-2">
                 Lacasa Da Papel <FiCornerUpRight className="ml-2 text-gray-500" /> <FiMoreHorizontal className="ml-2 text-gray-500" />

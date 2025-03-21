@@ -4,6 +4,8 @@ import { useWallet } from "@suiet/wallet-kit";
 import { ConnectButton } from "@suiet/wallet-kit";
 import InboxPage from "./Inbox";
 import { useCustomWallet } from "../utils/contexts/CustomWallet";
+// import"../App.css";
+
 
 const LandingPage = () => {
   const wallet = useWallet();
@@ -82,22 +84,25 @@ const LandingPage = () => {
           </header>
           {/* ///////////////main/////////////// */}
           <main className="flex flex-col md:flex-row items-center justify-between px-4 md:px-10 py-10 md:py-20 bg-white-50">
-            <div className="w-full md:max-w-lg">
+            <div className="w-full md:max-w-lg ">
               <img
                 src="/png/suimail.sig.png"
                 alt="SuiMail logo-illustration"
-                className="mb-6 max-w-[250px]"
+                className="mb-6 max-w-[250px] "
               />
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-6 ">
                 Build a secure, private, and community-driven email platform
                 where users have full control over their data and identity.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-2">
                 {/* <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
               Launch App
             </button> */}
                 <Link
                   to="/Home-Page"
+                  style={{
+                    background: "linear-gradient(to bottom, #006bf9, #00c1fa)",
+                  }}
                   className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                 >
                   Launch App
@@ -110,7 +115,7 @@ const LandingPage = () => {
             <img
               src="/png/token.png"
               alt="SuiMail guard-illustration"
-              className="hidden md:block max-w-[300px] lg:max-w-[400px]"
+              className="hidden md:block max-w-[100px] lg:max-w-[400px] bouncing-image "
             />
           </main>
 
@@ -147,23 +152,28 @@ const LandingPage = () => {
                     Features & Benefits
                   </h2>
                   <p className="text-gray-600 text-sm">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Temporibus porro, repellendus natus adipisci iusto et nam
-                    error, magnam eaque amet alias aliquid ea earum. Unde
-                    accusamus quis, eius eaque doloremque beatae incidunt soluta
-                    labore cumque obcaecati quibusdam quas ea fugit est enim?{" "}
+                    Suimail offers a user-friendly email platform with a focus
+                    on privacy and security. Key features include encrypted
+                    messaging, an intuitive interface, customizable themes, and
+                    seamless integration with other apps. Suimail also provides
+                    robust spam protection, unlimited storage, and fast
+                    synchronization across devices, ensuring efficient
+                    communication while safeguarding user data.{" "}
                   </p>
                 </div>
               </div>
 
               {/* Cards Section */}
-              <div className="grid gap-14 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mx-auto max-w-5xl">
+              <div
+                className="grid gap-14 sm:grid
+                    scalability while reducing reliance on centralized servers.-cols-1 md:grid-cols-2 lg:grid-cols-2 mx-auto max-w-5xl"
+              >
                 {/* Feature 1 */}
                 <div className="bg-white bg-opacity-60 shadow-lg  p-6 backdrop-filter backdrop-blur-md">
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Suimail’s end-to-end encryption ensures that only you and
+                    your intended recipient can read your messages, safeguarding
+                    privacy and security.
                   </p>
                   <h4 className="text-lg font-bold text-gray-800 mt-4">
                     End-to-end encryption
@@ -173,9 +183,10 @@ const LandingPage = () => {
                 {/* Feature 2 */}
                 <div className="bg-white bg-opacity-60 shadow-lg  p-6 backdrop-filter backdrop-blur-md">
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Suimail integrates Walrus for decentralized storage,
+                    securely distributing emails across multiple nodes, ensuring
+                    data privacy, redundancy, and reliability without
+                    centralized control.
                   </p>
                   <h4 className="text-lg font-bold text-gray-800 mt-4">
                     Decentralized data storage
@@ -185,21 +196,21 @@ const LandingPage = () => {
                 {/* Feature 3 */}
                 <div className="bg-white bg-opacity-60 shadow-lg  p-6 backdrop-filter backdrop-blur-md">
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Suimail integrates ZkLogin and wallet-based
+                    authentication for secure, seamless access, empowering users
+                    to manage emails through blockchain technology..
                   </p>
                   <h4 className="text-lg font-bold text-gray-800 mt-4">
-                    Integration with Web3 and wallet-based authentication
+                    Integration with ZkLogin and wallet-based authentication
                   </h4>
                 </div>
 
                 {/* Feature 4 */}
                 <div className="bg-white bg-opacity-60 shadow-lg  p-6 backdrop-filter backdrop-blur-md">
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Suimail offers scalable solutions for both individuals and
+                    enterprises, adapting to growing needs with secure, flexible
+                    email management and storage.
                   </p>
                   <h4 className="text-lg font-bold text-gray-800 mt-4">
                     Scalability for individuals and enterprises
@@ -214,12 +225,15 @@ const LandingPage = () => {
             <div className="max-w-3xl mx-auto">
               <h2 className="text-2xl font-bold mb-4">How It Works</h2>
               <p className="text-gray-600 leading-relaxed mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur.
+                Suimail works by combining privacy-focused encryption and
+                decentralized storage to secure your communications. When you
+                send an email, it is encrypted end-to-end, ensuring that only
+                the intended recipient can read it. Suimail utilizes
+                decentralized storage, distributing data across multiple nodes
+                to ensure redundancy and security. The platform also integrates
+                Web3 for wallet-based authentication, providing seamless and
+                secure access, while offering scalability for both individuals
+                and enterprises with growing needs.
               </p>
               <div className="w-full h-48 bg-gray-300"></div>
             </div>
@@ -231,11 +245,21 @@ const LandingPage = () => {
               <h2 className="text-3xl font-bold text-gray-800">
                 Customer Segments
               </h2>
-              <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+              <p className="mt-4 text-gray-600 max-w-2xl mx-auto font-bold">
+              Individual Users:
+ Privacy-conscious
+ individuals, Web3 enthusiasts,
+ crypto users, and DAOs.<br/> Journalists, activists,
+ and high-risk groups
+ needing secure
+ communication.<br/>
+
+ <h2 className="py-2">Enterprise Users :
+  Businesses requiring
+ private, branded email
+ solutions.<br/>Government agencies
+ focused on compliance
+ and secure email-system</h2>
               </p>
 
               <div className="mt-10 grid gap-8 md:grid-cols-3">

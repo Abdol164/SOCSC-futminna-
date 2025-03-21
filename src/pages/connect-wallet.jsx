@@ -1,64 +1,16 @@
 // import React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useWallet } from "@suiet/wallet-kit";
 import { ConnectButton } from "@suiet/wallet-kit";
-
+import "@suiet/wallet-kit/style.css";
 import { useCustomWallet } from "../utils/contexts/CustomWallet.tsx";
 import InboxPage from "./Inbox.jsx";
-
-const wallets = [
-  {
-    id: "sui-wallet",
-    name: "Sui Wallet",
-    icon: "/png/Sui Symbol.png", // the images needed
-    category: "main",
-  },
-  {
-    id: "suiet",
-    name: "Suiet",
-    icon: "/png/suiet.png",
-    category: "main",
-  },
-  {
-    id: "nightly",
-    name: "Nightly",
-    icon: "/png/nightly.png",
-    category: "main",
-  },
-  {
-    id: "ethos",
-    name: "Ethos",
-    icon: "/png/ethos.png",
-    category: "main",
-  },
-  {
-    id: "martian",
-    name: "Martian",
-    icon: "/png/martian.png",
-    category: "main",
-  },
-  {
-    id: "surf",
-    name: "Surf Wallet",
-    icon: "/png/surf.png",
-    category: "main",
-  },
-];
-
-const web2Logins = [
-  {
-    id: "google",
-    name: "Google",
-    icon: "/path/to/google.png",
-  },
-  {
-    id: "discord",
-    name: "Discord",
-    icon: "/png/discord-login.png",
-  },
-];
+import axios from "axios";
+import { AppContext } from '../utils/contexts/AppContext';
 
 const WalletConnect = () => {
+  const { sharedState, setSharedState } = useContext(AppContext);
+  const { responseData, setResponseData } = useState();
   const { isConnected, redirectToAuthUrl, address } = useCustomWallet();
   console.log("address", address);
   const handleGoogleLogin = () => {
@@ -68,24 +20,60 @@ const WalletConnect = () => {
   const wallet = useWallet();
 
   const [walletAddress, setWalletAddress] = useState("");
+  const handleConnect = () => {
+    // Update shared state
+    setSharedState({ ...sharedState, walletConnected: true });
+  };
 
   useEffect(() => {
     if (!wallet.connected) return;
     setWalletAddress(wallet.account?.address); // Set the wallet address
   }, [wallet.connected]);
 
-  // Log the updated wallet address inside the effect or use it wherever needed
-  useEffect(() => {
-    console.log(walletAddress); // Logs the updated wallet address
+  // Log
+  useEffect(async() => {
+    if (walletAddress) {
+      // Send the wallet address to the backend
+      // axios
+      //   .post("http://localhost:5000/user/login", { walletAddress })
+      //   .then((response) => {
+      //     console.log("Response from backend:", response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error sending wallet address to backend:", error);
+      //   });
+      try{
+        const response = await fetch("http://localhost:3000/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ walletAddress }),
+        })
+      }catch(err){
+        console.log(err)
+      }
+
+      const result = await response.json();
+      setResponseData(result);
+      console.log(result.message)
+
+    }
   }, [walletAddress]);
 
   return (
     <div>
-      {isConnected ? (
+      {isConnected || wallet.connected ? (
         <InboxPage />
       ) : (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+        <div
+          className="min-h-screen bg-gray-100 flex items-center justify-center p-4 absolute inset-0 bg-black bg-opacity-10"
+          style={{ backgroundImage: "url('/png/brand.png" }}
+        >
+          <div
+            className="bg-black rounded-2xl  p-10 w-   bg-black bg-opacity-50 backdrop-blur-md "
+            style={{ backgroundImage: "url('/" }}
+          >
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-blue-500 flex items-center justify-center gap-2">
                 <img
@@ -95,25 +83,10 @@ const WalletConnect = () => {
                 />
                 SUIMAIL
               </h1>
-              <h2 className="text-xl font-semibold mt-4 text-gray-700">
-                Login
-              </h2>
+              <h2 className="text-xl font-semibold mt-4 text-white">Login</h2>
             </div>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
-              {/* {wallets.map(wallet => (
-              <button
-                key={wallet.id}
-                className="p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow flex flex-col items-center justify-center gap-2"
-              >
-                <img 
-                  src={wallet.icon} 
-                  alt={wallet.name} 
-                  className="w-8 h-8 object-contain"
-                />
-                <span className="text-sm text-gray-600 font-medium">{wallet.name}</span>
-              </button>
-            ))} */}
               <div className="col-span-3 flex justify-center items-center">
                 <ConnectButton
                   style={{
@@ -123,20 +96,25 @@ const WalletConnect = () => {
                   }}
                   className=""
                   connectText={
-                    <div className="">
+                    <div className="wkit-button">
                       <img src="logo" alt="" />
-                      <p>{walletAddress ? walletAddress : "Login"}</p>
+                      <p>
+                        {walletAddress ? walletAddress : "Login"}connect wallet
+                      </p>
                     </div>
                   }
                 />
               </div>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-500 mb-4">Web2 Login</p>
+              <p className="text-sm text-white mb-4">Web2 Login</p>
               <div className="flex justify-center gap-4">
-                <button className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={handleGoogleLogin}>
+                <button
+                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  onClick={handleGoogleLogin}
+                >
                   <img
-                    src="/path/to/google.png"
+                    src="/png/Google.png"
                     alt="Google"
                     className="w-6 h-6 object-contain"
                   />
@@ -144,7 +122,7 @@ const WalletConnect = () => {
 
                 <button className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
                   <img
-                    src="/png/discord-login.png"
+                    src="/png/apple.png"
                     alt="Discord"
                     className="w-6 h-6 object-contain"
                   />

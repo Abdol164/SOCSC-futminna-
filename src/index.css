@@ -29,3 +29,7 @@
     background: #fff; /* Customize the hover color */
     color: #000;
   }
+
+  .wkit-button  {
+    height: 44px;
+  }
