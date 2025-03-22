@@ -94,7 +94,7 @@ export default function EmailDetailPage() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4">
+    <div className="bg-gray-100  p-4">
       {/* Header */}
       {/* <div className="flex justify-between items-center bg-white p-4 shadow rounded-md mb-4">
         <div className="flex items-center space-x-3">
