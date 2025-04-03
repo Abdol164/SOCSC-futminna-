@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useContext } from 'react';
 // import Navbar from './navbar';
 import { HiOutlineInboxIn } from "react-icons/hi";
 import { MdPresentToAll } from "react-icons/md";
@@ -11,6 +10,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CiCreditCard1 } from "react-icons/ci";
 import { MdCurrencyExchange } from "react-icons/md";
 import { MdOutlineHelpCenter } from "react-icons/md";
+import { AppContext } from '../utils/contexts/AppContext';
 
 
 interface SidebarItemProps {
@@ -54,16 +54,22 @@ const Profile: React.FC<ProfileProps> = ({ avatar, name, email }) => {
 
 
 const Sidebar = () => {
-  // Active state for the navigation items
-  const [activeNavItem, setActiveNavItem] = useState<string>('Inbox');
+  const appContext = useContext(AppContext);
+
+  if (!appContext) {
+    throw new Error("AppContext is not provided");
+  }
+
+  const { activeNavItem, setActiveNavItem } = appContext;
 
   // Handle item click to set the active item
   const handleNavItemClick = (item: string) => {
     setActiveNavItem(item); // Update the active item state
+    console.log(`Clicked on ${item}:`, activeNavItem); // Log the clicked item
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white w-64 border-r border-gray-200">
+    <div className="w-64 border-r border-b-5 border-gray-200 overflow-auto sticky-top">
       {/* Logo */}
       <div className="px-5 py-6 align-items-center">
         <img src="/png/inbox.icon.png" alt="SUIMAIL" className="h-8" />
