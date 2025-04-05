@@ -69,7 +69,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 border-r border-b-5 border-gray-200 overflow-auto sticky-top">
+    <div className="border-r border-b-5 overflow-auto sticky-top">
       {/* Logo */}
       <div className="px-5 py-6 align-items-center">
         <img src="/png/inbox.icon.png" alt="SUIMAIL" className="h-8" />

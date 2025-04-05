@@ -1,18 +1,12 @@
 import React, { useContext } from "react";
 import Sidebar from "./Sidebar";
-import { AppContext } from "../utils/contexts/AppContext";
+import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import Inbox from "./Inbox";
 import Sent from "./Sent";
 
 function Mail() {
+    const { activeNavItem } = useContext(AppContext) as AppContextProps;
     window.location.hash = "#mail";
-
-    const appContext = useContext(AppContext);
-    if (!appContext) {
-        throw new Error("AppContext is not provided");
-    }
-
-    const { activeNavItem } = appContext;
     
     return (
         <div className="flex h-screen">
