@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
+// import { AppContext, AppContextProps } from '../utils/contexts/AppContext';
 
 interface EmailListProps {
-    key: number;
+    // key: number;
     email: {
         date: string;
         subject: string;
@@ -9,9 +10,8 @@ interface EmailListProps {
         to: string;
     };
 }
-  
-const EmailList: React.FC<EmailListProps> = ({ key, email }) => {
 
+const EmailList: React.FC<EmailListProps> = ({ email }) => {
     return (
         <div className="bg-gray-100 pt-4 pl-2">
             <div className="w-full bg-white rounded-lg shadow p-2">

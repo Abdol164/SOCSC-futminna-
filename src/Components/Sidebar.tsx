@@ -81,6 +81,7 @@ const Sidebar = () => {
           style={{
             background: "linear-gradient(to bottom, #006bf9, #00c1fa)",
           }}
+          onClick={() => handleNavItemClick('Compose')}
           className="flex items-center justify-center w-full bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-full"
         >
           <span className="mr-2 text-xl font-bold">+</span>

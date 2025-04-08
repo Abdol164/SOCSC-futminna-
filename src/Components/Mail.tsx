@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import Inbox from "./Inbox";
 import Sent from "./Sent";
+import Compose from "./Compose";
 
 function Mail() {
     const { activeNavItem } = useContext(AppContext) as AppContextProps;
@@ -15,6 +16,7 @@ function Mail() {
             </div>
             {activeNavItem === "Inbox" && (<Inbox/>)}
             {activeNavItem === "Sent" && (<Sent/>)}
+            {activeNavItem === "Compose" && (<Compose/>)}
 
         </div>
     );

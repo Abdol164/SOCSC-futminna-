@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import EmailList from "./EmailList";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 
@@ -21,13 +21,15 @@ const Sent = () => {
         console.log("Response from server:", responseData);
     }
 
-    fetchEmail();
-
+    useEffect(()=>{
+        fetchEmail();
+    }, [])
+    
     return (
         <div className="flex flex-1 overflow-hidden relative pt-16">
             <div className="flex-1 overflow-auto bg-white shadow-md">
-                {outbox.map((email, index) => (
-                    <EmailList key={index} email={email} />
+                {outbox.length !==0 && outbox.map((email) => (
+                    <EmailList email={email} />
                 ))}
             </div>
         </div>
