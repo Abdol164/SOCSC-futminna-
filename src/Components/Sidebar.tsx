@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-// import Navbar from './navbar';
+ import Navbar from './Navbar';
 import { HiOutlineInboxIn } from "react-icons/hi";
 import { MdPresentToAll } from "react-icons/md";
 import { RiDraftLine } from "react-icons/ri";
@@ -62,15 +62,15 @@ const Sidebar = () => {
 
   const { activeNavItem, setActiveNavItem } = appContext;
 
-  // Handle item click to set the active item
+//setting active items
   const handleNavItemClick = (item: string) => {
-    setActiveNavItem(item); // Update the active item state
-    console.log(`Clicked on ${item}:`, activeNavItem); // Log the clicked item
+    setActiveNavItem(item);
+    console.log(`Clicked on ${item}:`, activeNavItem); 
   };
 
   return (
     <div className="border-r border-b-5 overflow-auto sticky-top">
-      {/* Logo */}
+  
       <div className="px-5 py-6 align-items-center">
         <img src="/png/inbox.icon.png" alt="SUIMAIL" className="h-8" />
       </div>

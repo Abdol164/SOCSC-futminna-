@@ -1,13 +1,7 @@
 import React from "react";
-import Connect from "./Components/Connect";
 
-function App() {
-
-  return (
-    <div>
-      <Connect />
-    </div>
-  );
+function App({ children }) {
+  return <>{children}</>;
 }
 
-export default App
+export default App;

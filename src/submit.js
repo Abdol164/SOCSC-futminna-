@@ -11,7 +11,7 @@ const Submit = () => {
     e.preventDefault();
 
     const formData = {
-      name,
+      name, 
       email,
       message,
     };

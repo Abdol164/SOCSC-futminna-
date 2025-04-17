@@ -1,5 +1,5 @@
-import React, { createContext, useState, ReactNode } from 'react';
-// import App from './../../App';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface AppContextProps {
   activeNavItem: string;
@@ -10,20 +10,6 @@ export interface AppContextProps {
   setConnectionState: React.Dispatch<React.SetStateAction<string>>;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
-  // from: string;
-  // setFrom: React.Dispatch<React.SetStateAction<string>>;
-  // to: string;
-  // setTo: React.Dispatch<React.SetStateAction<string>>;
-  // subject: string;
-  // setSubject: React.Dispatch<React.SetStateAction<string>>;
-  // date: string;
-  // setDate: React.Dispatch<React.SetStateAction<string>>;
-  // newbie: string;
-  // setNewbie: React.Dispatch<React.SetStateAction<string>>;
-  // decryptedMessage: string | undefined;
-  // setDecryptedMessage: React.Dispatch<React.SetStateAction<string | undefined>>;
-  // emailClick: boolean;
-  // setEmailClick: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -37,13 +23,18 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState('');
   const [connectionState, setConnectionState] = useState('');
   const [token, setToken] = useState('');
-  // const [from, setFrom] = useState('');
-  // const [to, setTo] = useState('');
-  // const [subject, setSubject] = useState('');
-  // const [date, setDate] = useState('');
-  // const [newbie, setNewbie] = useState('');
-  // const [decryptedMessage, setDecryptedMessage] = useState<string | undefined>(undefined);
-  // const [emailClick, setEmailClick] = useState(false);
+  const navigate = useNavigate();
+
+  const user = {
+    subname: '' // Example user object, replace with actual user data
+  };
+
+  useEffect(() => {
+    if (!user.subname) {
+      // Redirect to subname creation page if subname is not set
+      navigate("/create-subname");
+    }
+  }, [user]);
 
   return (
     <AppContext.Provider value={{
@@ -54,22 +45,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       connectionState,
       setConnectionState,
       token,
-      setToken, 
-      // from,
-      // setFrom,
-      // to,
-      // setTo,
-      // subject,
-      // setSubject,
-      // date,
-      // setDate,
-            // newbie, 
-      // setNewbie,
-      // decryptedMessage,
-      // setDecryptedMessage,
-      // emailClick,
-      // setEmailClick
-      
+      setToken
     }}>
       {children}
     </AppContext.Provider>

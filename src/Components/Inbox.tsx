@@ -26,9 +26,9 @@ const Inbox = () => {
   useEffect(() => {
     fetchEmail();
   }, [])
-
+ 
   return (
-    <div className="flex flex-1 overflow-hidden relative pt-16">
+    <div className="flex flex-1 flex-col overflow-hidden relative pt-50">
         <div className="flex-1 overflow-auto bg-white shadow-md">
           {inbox.length === 0 ? (
             <p className="text-center text-gray-500">No emails found</p>
