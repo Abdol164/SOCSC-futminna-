@@ -1,7 +1,8 @@
+import { ExecuteSponsoredTransactionApiInput } from "../contexts/CustomWallet.js";
 import { enokiClient
 
-} from "./EnokiClient.ts";
-export const createSponsoredTx = async (sponsorTxBody) => {
+} from "./EnokiClient";
+export const createSponsoredTx = async (sponsorTxBody: { network: any; txBytes: any; sender: any; allowedAddresses: any; }) => {
    const { network, txBytes, sender, allowedAddresses } = sponsorTxBody;
    try {
        const resp = await enokiClient.createSponsoredTransaction({
@@ -18,7 +19,7 @@ export const createSponsoredTx = async (sponsorTxBody) => {
 
 }
 
-export const executeSponsoredTx = async (executeSponsoredTxBody) => {
+export const executeSponsoredTx = async (executeSponsoredTxBody: ExecuteSponsoredTransactionApiInput) => {
    const { digest, signature } = executeSponsoredTxBody;
    const resp = await enokiClient.executeSponsoredTransaction({
        digest,

@@ -1,4 +1,4 @@
-import { UserProps } from "../types/Authentication.ts"; 
+import { UserProps } from "../types/Authentication"; 
 
 export const isFollowingUserPropsSchema = (obj: any): obj is UserProps => {
     return (

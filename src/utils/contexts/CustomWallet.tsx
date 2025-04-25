@@ -17,17 +17,17 @@ import {
   useZkLogin,
   useZkLoginSession,
 } from "@mysten/enoki/react";
-import clientConfig from "../config/clientConfig.ts";
+import clientConfig from "../config/clientConfig";
 import { useNavigate } from "react-router-dom";
-import { SponsorTxRequestBody } from "../types/SponsorTx.ts";
+import { SponsorTxRequestBody } from "../types/SponsorTx";
 import { fromBase64, toBase64 } from "@mysten/sui/utils";
 // import axios, { AxiosResponse } from "axios";
-import { useAuthentication } from "./Authentication.tsx";
-import { UserRole } from "../types/Authentication.ts";
+import { useAuthentication } from "./Authentication";
+import { UserRole } from "../types/Authentication";
 import { jwtDecode } from "jwt-decode";
-import { createSponsoredTx, executeSponsoredTx } from '../EnokiTx/sponsorTx.ts';
+import { createSponsoredTx, executeSponsoredTx } from '../EnokiTx/sponsorTx';
 // import { set } from 'zod';
-import { SuiClient } from '@mysten/sui/client';
+// import { SuiClient } from '@mysten/sui/client';
 
 export interface CreateSponsoredTransactionApiResponse {
   bytes: string;

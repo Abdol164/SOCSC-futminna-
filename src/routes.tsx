@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBrowserRouter } from "react-router-dom";
-
 import Connect from './Components/Connect';
 import Mail from './Components/Mail';
+import Auth from "./utils/auth/page";
 
 const routes = createBrowserRouter([
     {
@@ -13,6 +13,11 @@ const routes = createBrowserRouter([
      {
          path: '/mail',
         element: <Mail />
+     },
+     {
+        path:"/auth", 
+        element:<Auth /> 
+        
      }
 ]);
 

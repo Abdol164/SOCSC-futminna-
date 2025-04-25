@@ -8,11 +8,12 @@ import { z } from "zod";
  * They must not be tracked by Git
  * They are SECRET, and not exposed to the client side
  */
+
 const serverConfigSchema = z.object({
-    ENOKI_SECRET_KEY: z.string(),
+    VITE_ENOKI_API_KEY: z.string(),
 });
 const serverConfig = serverConfigSchema.parse({
-    ENOKI_SECRET_KEY: import.meta.env.VITE_ENOKI_API_KEY,
+    VITE_ENOKI_API_KEY: import.meta.env.VITE_ENOKI_API_KEY,
 });
 
 export default serverConfig;

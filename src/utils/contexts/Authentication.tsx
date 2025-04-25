@@ -4,10 +4,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   AuthenticationContextProps,
   UserProps,
-} from "../types/Authentication.ts";
+} from "../types/Authentication";
 import { createContext } from "react";
-import { ChildrenProps } from "../types/ChildrenProps.ts";
-import { isFollowingUserPropsSchema } from "../helpers/isFollowingUserPropsSchema.ts";
+import { ChildrenProps } from "../types/ChildrenProps";
+import { isFollowingUserPropsSchema } from "..//helpers/isFollowingUserPropsSchema";
 
 export const anonymousUser: UserProps = {
   firstName: "",

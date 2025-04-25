@@ -1,19 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { AppContext } from "../utils/contexts/AppContext"; // Make sure the path is correct
 
 interface NavbarProps {
-  activePage: string;
   profileImageUrl: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activePage, profileImageUrl }) => {
+const Navbar: React.FC<NavbarProps> = ({ profileImageUrl }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showSearch, setShowSearch] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
+
+  const appContext = useContext(AppContext);
+
+  if (!appContext) {
+    throw new Error("AppContext is not available");
+  }
+
+  const { activeNavItem } = appContext;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +37,6 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, profileImageUrl }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Close when clicking outside or pressing "Escape"
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -64,17 +71,21 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, profileImageUrl }) => {
 
       {/* Navbar */}
       <div
-        className={`fixed top-4 left-[270px] w-[calc(100%-270px)] flex items-center justify-between h-16 px-6 md:px-10 transition-transform duration-300 z-50 bg-white shadow-lg rounded-2xl ${
+        className={`fixed top-4 left-[280px] w-[calc(100%-280px)] flex items-center justify-between h-16 px-6 md:px-10 transition-transform duration-300 z-50 bg-white shadow-lg rounded-2xl ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {/* Left: Page Title */}
+        {/* Left: Active Page Title from Context */}
         <div className="flex">
-          <h1 className="text-xl font-bold text-gray-900">{activePage}</h1>
+          <h1 className="text-xl font-bold text-gray-900">{activeNavItem}</h1>
         </div>
 
-        {/* Search Bar (Inside Navbar) */}
-        <div className={`flex-1 mx-10 transition-all duration-300 ${showSearch ? "w-full" : "w-0 opacity-0 pointer-events-none"}`}>
+        {/* Search Bar */}
+        <div
+          className={`flex-1 mx-10 transition-all duration-300 ${
+            showSearch ? "w-full" : "w-0 opacity-0 pointer-events-none"
+          }`}
+        >
           <input
             ref={searchRef}
             type="text"
@@ -84,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, profileImageUrl }) => {
           />
         </div>
 
-        {/* Right: Search, Notifications & Profile */}
+        {/* Right: Icons & Profile */}
         <div className="flex items-center space-x-6">
           {/* Search Icon */}
           <button
@@ -113,7 +124,7 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, profileImageUrl }) => {
         </div>
       </div>
 
-      {/* Floating Notification Panel */}
+      {/* Notifications Dropdown */}
       {showNotifications && (
         <div
           ref={notificationRef}
