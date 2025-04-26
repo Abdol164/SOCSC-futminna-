@@ -1,18 +1,19 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { ConnectButton, useWallet } from "@suiet/wallet-kit";
 import "../App.css";
 import "@suiet/wallet-kit/style.css";
 import { useCustomWallet } from "../utils/contexts/CustomWallet";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import Mail from "./Mail";
+import { useNavigate } from "react-router-dom";
+import PadlockLoader from "./PadlockLoader";
 
 
 function Connect() {
-  const { setConnectionState, setWalletAddress, setToken } = useContext(AppContext) as AppContextProps;
+  const { setConnectionState, setWalletAddress, setToken, token } = useContext(AppContext) as AppContextProps;
   const { isConnected, redirectToAuthUrl, address } = useCustomWallet();
   const wallet = useWallet();
-
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
     console.log("Google login button clicked");
@@ -33,15 +34,17 @@ function Connect() {
     setToken(responseData.token);
   };
 
-  const checkSuimailSubname = async () => {
-    if (!wallet.account?.address) return;
-    setLoading(false);
-  };
+  // const checkSuimailSubname = async () => {
+  //   if (!wallet.account?.address) return;
+  //   setLoading(false);
+  // };
 
   useEffect(() => {
-    if (wallet.connected) {
+    if (wallet.connected && !token) {
       handleConnect();
-      setLoading(false);
+    }
+    if (token){
+      navigate("/mail");
     }
     setWalletAddress(wallet.account?.address || "");
     setConnectionState(wallet.connected ? "connected" : "disconnected");
@@ -50,22 +53,19 @@ function Connect() {
     wallet.account?.address,
     setWalletAddress,
     setConnectionState,
+    token,
   ]);
 
   return (
     <div className={wallet.connected ? "min-h-screen bg-white" : "flex flex-col items-center justify-center min-h-screen bg-white"}>
       {wallet.connected ? (
-        loading ? (
-          <div className="text-white text-xl font-semibold">Checking username...</div>
-        ) : (
-          <Mail />
-        )
+        <PadlockLoader/>
       ) : (
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Login Your Suimail Account
           </h1>
-          <form className="space-y-6">
+          <div className="space-y-6">
             <div className="flex justify-center">
               <ConnectButton className="mb-4" />
             </div>
@@ -77,7 +77,7 @@ function Connect() {
               <img src="/png/Google.png" alt="Google" className="w-6 h-6 mr-2" />
               Sign in with Google
             </button>
-          </form>
+          </div>
         </div>
       )}
     </div>
