@@ -8,7 +8,7 @@ const Sent = () => {
     const [outbox, setOutbox] = useState([]);
 
     const fetchEmail = async () => {
-        const response = await fetch(`http://localhost:3000/mail/outbox/${walletAddress}`, {
+        const response = await fetch(`https://fc81j2ps-3000.uks1.devtunnels.ms/mail/outbox/${walletAddress}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

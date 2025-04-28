@@ -13,7 +13,7 @@ const Inbox: React.FC = () => {
 
   const fetchEmail = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/mail/inbox/${walletAddress}`, {
+      const response = await fetch(`https://fc81j2ps-3000.uks1.devtunnels.ms/mail/inbox/${walletAddress}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
