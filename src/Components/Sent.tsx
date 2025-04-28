@@ -4,7 +4,7 @@ import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 
 
 const Sent = () => {
-    const { walletAddress, token } = useContext(AppContext) as AppContextProps;
+    const { walletAddress, token, activeNavItem } = useContext(AppContext) as AppContextProps;
     const [outbox, setOutbox] = useState([]);
 
     const fetchEmail = async () => {
@@ -24,11 +24,13 @@ const Sent = () => {
     useEffect(()=>{
         fetchEmail();
     }, [])
+
+
     
     return (
         <div className="flex flex-1 overflow-hidden relative pt-16">
             <div className="flex-1 overflow-auto bg-white shadow-md">
-                {outbox.length !==0 && outbox.map((email) => (
+                {outbox.length !==0 && outbox.slice().reverse().map((email) => (
                     <EmailList email={email} />
                 ))}
             </div>
