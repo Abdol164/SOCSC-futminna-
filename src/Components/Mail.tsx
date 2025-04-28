@@ -11,25 +11,25 @@ import { Pencil, X } from "lucide-react";
 const Mail: React.FC = () => {
   const { activeNavItem, setActiveNavItem } = useContext(AppContext) as AppContextProps;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showCompose, setShowCompose] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [showCompose, setShowCompose] = useState(false);
+  // const [isDesktop, setIsDesktop] = useState(true);
 
-  useEffect(() => {
-    const checkScreenSize = () => setIsDesktop(window.innerWidth >= 768);
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
+  // useEffect(() => {
+  //   const checkScreenSize = () => setIsDesktop(window.innerWidth >= 768);
+  //   checkScreenSize();
+  //   window.addEventListener("resize", checkScreenSize);
+  //   return () => window.removeEventListener("resize", checkScreenSize);
+  // }, []);
 
-  useEffect(() => {
-    if (!activeNavItem) setActiveNavItem("Inbox");
-  }, [activeNavItem, setActiveNavItem]);
+  // useEffect(() => {
+  //   if (!activeNavItem) setActiveNavItem("Inbox");
+  // }, [activeNavItem, setActiveNavItem]);
 
   const renderActiveView = () => {
     switch (activeNavItem) {
       case "Inbox":
-        return <Inbox searchTerm={searchTerm} />;
+        return <Inbox/>;
       case "Sent":
         return <Sent />;
       case "Subscription":
@@ -41,18 +41,20 @@ const Mail: React.FC = () => {
     }
   };
 
-  const handleComposeClick = () => {
-    if (isDesktop) {
-      setShowCompose(true);
-    } else {
-      setActiveNavItem("Compose");
-    }
-  };
+  // const handleComposeClick = () => {
+  //   if (isDesktop) {
+  //     setShowCompose(true);
+  //   } else {
+  //     setActiveNavItem("Compose");
+  //   }
+  // };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen overflow-hidden bg-gray-100">
+    <div 
+      className="flex flex-col md:flex-row h-screen overflow-hidden bg-gray-100"
+    >
       {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center gap-2 p-2 bg-white shadow sticky top-0 z-20">
+      {/* <div className="md:hidden flex items-center gap-2 p-2 bg-white shadow sticky top-0 z-20">
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-600">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
@@ -66,7 +68,7 @@ const Mail: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <img src="/png/profile.png" alt="Profile" className="w-8 h-8 rounded-full" />
-      </div>
+      </div> */}
 
       {/* Sidebar */}
       <div
@@ -74,34 +76,36 @@ const Mail: React.FC = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <Sidebar onNavChange={(tab) => {
-          setActiveNavItem(tab);
-          if (window.innerWidth < 768) setIsSidebarOpen(false);
-        }} />
+        <Sidebar
+        // onNavChange={(tab) => {
+        //   setActiveNavItem(tab);
+        //   if (window.innerWidth < 768) setIsSidebarOpen(false);
+        // }} 
+        />
       </div>
 
       {/* Main View */}
       <div className="flex-1 flex flex-col h-full overflow-y-auto">
         {/* Desktop Navbar */}
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <Navbar profileImageUrl="/png/profile.png" />
-        </div>
+        </div> */}
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-3 py-1">{renderActiveView()}</div>
       </div>
 
       {/* Floating Compose Button (always visible) */}
-      <button
+      {/* <button
         onClick={handleComposeClick}
         className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg z-40"
         title="Compose"
       >
         <Pencil className="w-5 h-5" />
-      </button>
+      </button> */}
 
       {/* Gmail-style Compose Overlay (desktop only) */}
-      {isDesktop && showCompose && (
+      {/* {isDesktop && showCompose && (
         <div className="fixed bottom-4 right-4 md:right-6 w-[95%] sm:w-[80%] md:w-[450px] bg-white shadow-xl rounded-xl z-50 overflow-hidden animate-slideUp border border-gray-200">
           <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b">
             <span className="font-semibold text-gray-800">New Message</span>
@@ -113,7 +117,7 @@ const Mail: React.FC = () => {
             <Compose onDone={() => setShowCompose(false)} />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

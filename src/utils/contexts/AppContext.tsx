@@ -72,20 +72,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       setToken,
       subname,            // new context value
       setSubname,         // new context setter
-      // from,
-      // setFrom,
-      // to,
-      // setTo,
-      // subject,
-      // setSubject,
-      // date,
-      // setDate,
-      // newbie,
-      // setNewbie,
-      // decryptedMessage,
-      // setDecryptedMessage,
-      // emailClick,
-      // setEmailClick
+      
     }}>
       {children}
     </AppContext.Provider>
