@@ -26,13 +26,6 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
       walletAddress, recipient, subject, message
     )
 
-    // const formData = new FormData();
-    // formData.append("from", walletAddress);
-    // formData.append("to", recipient);
-    // formData.append("subject", subject);
-    // formData.append("body", message);
-    // attachments.forEach((file) => formData.append("attachments", file));
-
     try {
       const response = await fetch("https://fc81j2ps-3000.uks1.devtunnels.ms/mail/sendMail", { //localhost:3000
         method: "POST",
@@ -59,7 +52,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
       setSubject("");
       setMessage("");
       // setAttachments([]);
-      // if (onDone) onDone(); // Auto-close drawer
+      if (onDone) onDone(); // Auto-close drawer
     } catch (error) {
       setFeedback({ type: "error", message: "Failed to send email." });
     } finally {
@@ -89,34 +82,34 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   //   }
   // };
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     setAttachments([...attachments, ...Array.from(e.target.files)]);
-  //   }
-  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAttachments([...attachments, ...Array.from(e.target.files)]);
+    }
+  };
 
-  // const removeAttachment = (index: number) => {
-  //   setAttachments(attachments.filter((_, i) => i !== index));
-  // };
+  const removeAttachment = (index: number) => {
+    setAttachments(attachments.filter((_, i) => i !== index));
+  };
 
-  // const isDrawer = typeof onDone === "function";
+  const isDrawer = typeof onDone === "function";
 
   return (
     <div
-      // className={`${
-      //   isDrawer
-      //     ? "bg-white p-4"
-      //     : "min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center py-10 px-4"
-      // }`}
+      className={`${
+        isDrawer
+          ? "bg-white p-4"
+          : "min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center py-10 px-4"
+      }`}
     >
       <div
-        // className={`w-full ${isDrawer ? "" : "max-w-3xl shadow-xl"} bg-white rounded-xl ${
-        //   isDrawer ? "" : "p-6 md:p-10"
-        // } space-y-6`}
+        className={`w-full ${isDrawer ? "" : "max-w-3xl shadow-xl"} bg-white rounded-xl ${
+          isDrawer ? "" : "p-6 md:p-10"
+        } space-y-6`}
       >
-        {/* {!isDrawer && (
+        {!isDrawer && (
           <h2 className="text-3xl font-semibold text-gray-800 text-center">New Message</h2>
-        )} */}
+        )}
 
         <form className="space-y-5">
           <div>
@@ -167,7 +160,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
             /> */}
           </div>
 
-          {/* <div>
+          <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">Attachments</label>
             <input
               type="file"
@@ -193,7 +186,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
                 </div>
               ))}
             </div>
-          </div> */}
+          </div>
 
           <div className="flex justify-end gap-2 pt-2">
             {onDone && (
