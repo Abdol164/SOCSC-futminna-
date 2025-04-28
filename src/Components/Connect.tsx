@@ -21,7 +21,7 @@ function Connect() {
   };
 
   const handleConnect = async () => {
-    const response = await fetch("http://localhost:3000/user/login", {
+    const response = await fetch("https://fc81j2ps-3000.uks1.devtunnels.ms/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,6 +40,7 @@ function Connect() {
   // };
 
   useEffect(() => {
+    console.log('address:', wallet.account?.address);
     if (wallet.connected && !token) {
       handleConnect();
     }
