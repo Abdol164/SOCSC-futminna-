@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import EmailList from "./EmailList";
-import EmailView from "./View";
+import EmailView from "./EmailView";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 
 const Inbox: React.FC = () => {
@@ -68,7 +68,7 @@ const Inbox: React.FC = () => {
         //  Email List
         <div className="w-full h-full overflow-y-auto border-r border-gray-200">
           {inbox.length === 0 ? (
-            <p className="text-center text-gray-500 mt-4">No Inbox found yet</p>
+            <p className="text-center text-gray-500 mt-4">Inbox loading....</p>
           ) : (
             inbox
               .slice() // Create a shallow copy of the array

@@ -30,7 +30,7 @@ interface EmailViewProps {
 }
 
 const EmailView: React.FC<EmailViewProps> = ({
-  email: { subject, from, to, date, senderImage, attachments = [] },
+  email: { subject, from, to, date },
   body,
   onBack,
 }) => {
@@ -100,7 +100,7 @@ const EmailView: React.FC<EmailViewProps> = ({
       {/* Sender Info */}
       <div className="flex justify-between items-start sm:items-center mb-6">
         <div className="flex items-center gap-3">
-          <img src={senderImage} alt="Sender" className="w-10 h-10 rounded-full" />
+          <img src="../public/logo.jpg" alt="Sender" className="w-10 h-10 rounded-full" />
           <div>
             <p className="font-semibold">{from}</p>
             <p className="text-sm text-gray-500">to {to}</p>
@@ -118,19 +118,19 @@ const EmailView: React.FC<EmailViewProps> = ({
       </div>
 
       {/* Promo Image */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <img
           src="https://ae01.alicdn.com/kf/Screenshot_FakeBannerImage.png"
           alt="Banner"
           className="w-full max-h-[400px] object-cover rounded-lg"
         />
-      </div>
+      </div> */}
 
       {/* Email Body */}
       <div className="text-base leading-relaxed whitespace-pre-line mb-6">{body}</div>
 
       {/* Attachments */}
-      {attachments.length > 0 && (
+      {/* {attachments.length > 0 && (
         <div className="mb-10">
           <h2 className="text-sm font-semibold mb-2">Attachments</h2>
           <div className="grid grid-cols-2 sm:flex gap-4">
@@ -148,10 +148,10 @@ const EmailView: React.FC<EmailViewProps> = ({
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Reply Area */}
-      <div className="border-t pt-6">
+      {/* <div className="border-t pt-6">
         <h2 className="text-sm font-semibold mb-2">Reply</h2>
         <textarea
           placeholder="Write your reply..."
@@ -164,7 +164,7 @@ const EmailView: React.FC<EmailViewProps> = ({
             Send
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
