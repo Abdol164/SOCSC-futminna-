@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   ChevronLeft,
   Archive,
@@ -10,6 +10,7 @@ import {
   Star,
   Smile,
 } from "lucide-react";
+import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 
 interface Attachment {
   name: string;
@@ -18,6 +19,7 @@ interface Attachment {
 
 interface EmailViewProps {
   email: {
+    _id: string;
     subject: string;
     from: string;
     to: string;
@@ -25,15 +27,54 @@ interface EmailViewProps {
     senderImage: string;
     attachments?: Attachment[];
   };
-  body: string;
   onBack: () => void;
 }
 
-const EmailView: React.FC<EmailViewProps> = ({
-  email: { subject, from, to, date },
-  body,
-  onBack,
-}) => {
+const EmailView: React.FC<EmailViewProps> = ({ email: { _id, subject, from, to, date }, onBack }) => {
+  const { walletAddress, token } = useContext(AppContext) as AppContextProps;
+  const [mailBody, setMailBody] = useState<string>("");
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+
+  const fetchEmailBody = async () => {
+    try {
+      const response = await fetch(
+        `https://fc81j2ps-3000.uks1.devtunnels.ms/mail/inboxMessage/${walletAddress}/${_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseData = await response.json();
+      console.log("Email body response:", responseData);
+
+      // Reconstruct Buffers from serialized data
+      const reconstructedAttachments = responseData.attachments.map((attachment: any) => {
+        const buffer = new Uint8Array(attachment.content.data); // Reconstruct Buffer
+        return {
+          name: attachment.fileName,
+          url: URL.createObjectURL(new Blob([buffer], { type: attachment.fileType })),
+        };
+      });
+
+      responseData.attachments.map((attachment: any) => {
+        console.log("Attachment buffer:",attachment.content.data)
+      })
+
+      setMailBody(responseData.mail); // Set the decrypted email body
+      setAttachments(reconstructedAttachments); // Set reconstructed attachments
+    } catch (err) {
+      console.error("Failed to fetch email body.", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmailBody();
+  }, [])
+
+
   const handleArchive = () => {
     console.log("Archived email:", subject);
     onBack(); // optionally return to list
@@ -127,10 +168,10 @@ const EmailView: React.FC<EmailViewProps> = ({
       </div> */}
 
       {/* Email Body */}
-      <div className="text-base leading-relaxed whitespace-pre-line mb-6">{body}</div>
+      <div className="text-base leading-relaxed whitespace-pre-line mb-6">{mailBody}</div>
 
       {/* Attachments */}
-      {/* {attachments.length > 0 && (
+      {attachments.length > 0 && (
         <div className="mb-10">
           <h2 className="text-sm font-semibold mb-2">Attachments</h2>
           <div className="grid grid-cols-2 sm:flex gap-4">
@@ -140,7 +181,7 @@ const EmailView: React.FC<EmailViewProps> = ({
                 <a
                   href={attachment.url}
                   className="text-blue-600 text-xs mt-1 hover:underline block"
-                  download
+                  download={attachment.name}
                 >
                   Download
                 </a>
@@ -148,7 +189,7 @@ const EmailView: React.FC<EmailViewProps> = ({
             ))}
           </div>
         </div>
-      )} */}
+      )}
 
       {/* Reply Area */}
       {/* <div className="border-t pt-6">
