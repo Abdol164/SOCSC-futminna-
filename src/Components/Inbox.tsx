@@ -60,7 +60,6 @@ const Inbox: React.FC = () => {
         <div className="w-full h-full">
           <EmailView
             email={selectedEmail}
-            body={selectedEmail.body}
             onBack={() => setSelectedEmail(null)}
           />
         </div>
@@ -75,7 +74,7 @@ const Inbox: React.FC = () => {
               .reverse() // Reverse the order of the array
               .map((email, index) => (
                 <div key={index} onClick={() => setSelectedEmail(email)}>
-                  <EmailList email={email} />
+                  <EmailList email={email}/>
                 </div>
               ))
           )}

@@ -18,42 +18,52 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const { walletAddress, token } = useContext(AppContext) as AppContextProps;
 
   const handleSendEmail = async (e: React.FormEvent) => {
-    // e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     setIsLoading(true);
     setFeedback(null);
 
-    console.log(
-      walletAddress, recipient, subject, message
-    )
-
     try {
-      const response = await fetch("https://fc81j2ps-3000.uks1.devtunnels.ms/mail/sendMail", { //localhost:3000
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-            
-        },
-        body: JSON.stringify({
-            from: walletAddress,
-            to: recipient,
-            subject,
-            body: message,
-        }),
+      // Create a FormData object
+      const formData = new FormData();
+
+      // Append JSON fields
+      formData.append("from", walletAddress);
+      formData.append("to", recipient);
+      formData.append("subject", subject);
+      formData.append("body", message);
+
+      // Append attachments
+      attachments.forEach((file) => {
+        formData.append("attachments", file, file.name);
       });
 
-      // if (!res.ok) throw new Error("Send failed");
+      console.log("FormData:", formData.getAll("attachments"));
+      console.log("FormData message:", formData.get("body"));
+
+      // Send the request
+      const response = await fetch("https://fc81j2ps-3000.uks1.devtunnels.ms/mail/sendMail", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`, // Authorization header
+        },
+        body: formData, // FormData as the body
+      });
 
       const responseData = await response.json();
       console.log("Response from server:", responseData);
+
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to send email.");
+      }
 
       setFeedback({ type: "success", message: "Email sent successfully!" });
       setRecipient("");
       setSubject("");
       setMessage("");
-      // setAttachments([]);
+      setAttachments([]);
       if (onDone) onDone(); // Auto-close drawer
     } catch (error) {
+      console.error("Error sending email:", error);
       setFeedback({ type: "error", message: "Failed to send email." });
     } finally {
       setIsLoading(false);
@@ -96,16 +106,14 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
 
   return (
     <div
-      className={`${
-        isDrawer
+      className={`${isDrawer
           ? "bg-white p-4"
           : "min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center py-10 px-4"
-      }`}
+        }`}
     >
       <div
-        className={`w-full ${isDrawer ? "" : "max-w-3xl shadow-xl"} bg-white rounded-xl ${
-          isDrawer ? "" : "p-6 md:p-10"
-        } space-y-6`}
+        className={`w-full ${isDrawer ? "" : "max-w-3xl shadow-xl"} bg-white rounded-xl ${isDrawer ? "" : "p-6 md:p-10"
+          } space-y-6`}
       >
         {!isDrawer && (
           <h2 className="text-3xl font-semibold text-gray-800 text-center">New Message</h2>
@@ -210,9 +218,8 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
               onClick={handleSendEmail}
               // type="submit"
               disabled={isLoading}
-              className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               <Send className="w-5 h-5" />
               {isLoading ? "Sending..." : "Send"}
@@ -222,13 +229,12 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
 
         {feedback && (
           <div
-            className={`mt-4 p-3 rounded-lg text-center text-white transition-all duration-300 ${
-              feedback.type === "success"
+            className={`mt-4 p-3 rounded-lg text-center text-white transition-all duration-300 ${feedback.type === "success"
                 ? "bg-green-500"
                 : feedback.type === "draft"
-                ? "bg-blue-500"
-                : "bg-red-500"
-            }`}
+                  ? "bg-blue-500"
+                  : "bg-red-500"
+              }`}
           >
             {feedback.message}
           </div>
