@@ -13,7 +13,7 @@ const Sent: React.FC = () => {
 
   const fetchEmail = async () => {
     try {
-      const response = await fetch(`https://fc81j2ps-3000.uks1.devtunnels.ms/mail/outbox/${walletAddress}`, {
+      const response = await fetch(`/api/mail/outbox/${walletAddress}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,6 @@ const Sent: React.FC = () => {
         <div className="w-full h-full">
           <EmailView
             email={selectedEmail}
-            body={selectedEmail.body}
             onBack={() => setSelectedEmail(null)}
           />
         </div>

@@ -41,7 +41,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
       console.log("FormData message:", formData.get("body"));
 
       // Send the request
-      const response = await fetch("https://fc81j2ps-3000.uks1.devtunnels.ms/mail/sendMail", {
+      const response = await fetch("api/mail/sendMail", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`, // Authorization header
