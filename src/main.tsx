@@ -8,10 +8,8 @@ import App from "./App"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-      <WalletProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </WalletProvider>
+    {/* <AppProvider> */}
+      <App />
+    {/* </AppProvider> */}
   </StrictMode>
 );
