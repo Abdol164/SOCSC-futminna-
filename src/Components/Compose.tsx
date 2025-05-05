@@ -2,6 +2,10 @@ import React, { useState, useContext } from "react";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import { Editor } from "@tinymce/tinymce-react";
 import { Paperclip, Send, Save, X } from "lucide-react";
+import { Transaction } from '@mysten/sui/transactions';
+import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
+
+
 
 interface ComposeProps {
   onDone?: () => void; // Used for drawer mode (desktop)
@@ -17,80 +21,136 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
 
   const { walletAddress, token } = useContext(AppContext) as AppContextProps;
 
+  const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
+  const [digest, setDigest] = useState('');
+  const currentAccount = useCurrentAccount();
+
+  const SUI_AMOUNT = 10_000_000;
+
+  const sendSui = async (): Promise<boolean> => {
+    try {
+      const tx = new Transaction();
+
+      // Split 0.01 SUI from the gas coin
+      const [coin] = tx.splitCoins(tx.gas, [tx.pure.u64(SUI_AMOUNT)]);
+
+      // Transfer the split coin to the recipient
+      tx.transferObjects([coin], tx.pure.address(recipient));
+
+      // Sign and execute the transaction block
+      const result = await new Promise<boolean>((resolve, reject) => {
+        signAndExecuteTransaction(
+          { transaction: tx, chain: 'sui:testnet' },
+          {
+            onSuccess: (result) => {
+              console.log('Executed transaction:', result);
+              setDigest(result.digest);
+              resolve(true); // Resolve the Promise with success
+            },
+            onError: (error) => {
+              console.error('Transaction rejected:', error); // Log the rejection
+              setIsLoading(false); // Stop loading
+              resolve(false); // Resolve the Promise with failure
+            },
+          },
+        );
+      })
+      console.log('Transaction result:', result);
+      return true;
+    } catch (error) {
+      console.error('Error sending SUI:', error);
+      return false;
+    }
+  };
+
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setIsLoading(true);
     setFeedback(null);
+    const transferSuccess: any = await sendSui(); // Wait for sendSui to complete
+    console.log("Transfer success:", transferSuccess);
+
+    if (transferSuccess === true) {
+      try {
+        // Create a FormData object
+        const formData = new FormData();
+
+        // Append JSON fields
+        formData.append("from", walletAddress);
+        formData.append("to", recipient);
+        formData.append("subject", subject);
+        formData.append("body", message);
+
+        // Append attachments
+        attachments.forEach((file) => {
+          formData.append("attachments", file, file.name);
+        });
+
+        console.log("FormData:", formData.getAll("attachments"));
+        console.log("FormData message:", formData.get("body"));
+
+        // Send the request
+        const response = await fetch("api/mail/sendMail", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`, // Authorization header
+          },
+          body: formData, // FormData as the body
+        });
+
+        const responseData = await response.json();
+        console.log("Response from server:", responseData);
+
+        if (!response.ok) {
+          throw new Error(responseData.message || "Failed to send email.");
+        }
+
+        setFeedback({ type: "success", message: "Email sent successfully!" });
+        setRecipient("");
+        setSubject("");
+        setMessage("");
+        setAttachments([]);
+        if (onDone) onDone(); // Auto-close drawer
+      } catch (error) {
+        console.error("Error sending email:", error);
+        setFeedback({ type: "error", message: "Failed to send email." });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (transferSuccess === false) {
+      setIsLoading(false);
+      setFeedback({ type: "error", message: "Failed to send SUI." });
+      console.error("Failed to send SUI.");
+      return;
+    }
+
+  }
+
+
+
+  const handleSaveDraft = async () => {
+    const formData = new FormData();
+    formData.append("from", walletAddress);
+    formData.append("to", recipient);
+    formData.append("subject", subject);
+    formData.append("body", message);
+    attachments.forEach((file) => formData.append("attachments", file));
 
     try {
-      // Create a FormData object
-      const formData = new FormData();
-
-      // Append JSON fields
-      formData.append("from", walletAddress);
-      formData.append("to", recipient);
-      formData.append("subject", subject);
-      formData.append("body", message);
-
-      // Append attachments
-      attachments.forEach((file) => {
-        formData.append("attachments", file, file.name);
-      });
-
-      console.log("FormData:", formData.getAll("attachments"));
-      console.log("FormData message:", formData.get("body"));
-
-      // Send the request
-      const response = await fetch("api/mail/sendMail", {
+      const res = await fetch("http://localhost:3000/mail/saveDraft", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`, // Authorization header
-        },
-        body: formData, // FormData as the body
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
       });
 
-      const responseData = await response.json();
-      console.log("Response from server:", responseData);
-
-      if (!response.ok) {
-        throw new Error(responseData.message || "Failed to send email.");
-      }
-
-      setFeedback({ type: "success", message: "Email sent successfully!" });
-      setRecipient("");
-      setSubject("");
-      setMessage("");
-      setAttachments([]);
-      if (onDone) onDone(); // Auto-close drawer
+      if (!res.ok) throw new Error("Draft save failed");
+      setFeedback({ type: "draft", message: "Draft saved!" });
     } catch (error) {
-      console.error("Error sending email:", error);
-      setFeedback({ type: "error", message: "Failed to send email." });
-    } finally {
-      setIsLoading(false);
+      setFeedback({ type: "error", message: "Failed to save draft." });
     }
   };
-
-  // const handleSaveDraft = async () => {
-  //   const formData = new FormData();
-  //   formData.append("from", walletAddress);
-  //   formData.append("to", recipient);
-  //   formData.append("subject", subject);
-  //   formData.append("body", message);
-  //   attachments.forEach((file) => formData.append("attachments", file));
-
-  //   try {
-  //     const res = await fetch("http://localhost:3000/mail/saveDraft", {
-  //       method: "POST",
-  //       headers: { Authorization: `Bearer ${token}` },
-  //       body: formData,
-  //     });
-
-  //     if (!res.ok) throw new Error("Draft save failed");
-  //     setFeedback({ type: "draft", message: "Draft saved!" });
-  //   } catch (error) {
-  //     setFeedback({ type: "error", message: "Failed to save draft." });
-  //   }
-  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -105,10 +165,39 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const isDrawer = typeof onDone === "function";
 
   return (
+    // <div>
+    //   {currentAccount && (
+    //     <>
+    //       <div>
+    //         <button
+    //           onClick={() => {
+    //             signAndExecuteTransaction(
+    //               {
+    //                 transaction: new Transaction(),
+    //                 chain: 'sui:devnet',
+    //               },
+    //               {
+    //                 onSuccess: (result) => {
+    //                   console.log('executed transaction', result);
+    //                   setDigest(result.digest);
+    //                 },
+    //               },
+    //             );
+    //           }}
+    //         >
+    //           Sign and execute transaction
+    //         </button>
+    //       </div>
+    //       <div>Digest: {digest}</div>
+    //     </>
+    //   )}
+
+    // </div>
+
     <div
       className={`${isDrawer
-          ? "bg-white p-4"
-          : "min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center py-10 px-4"
+        ? "bg-white p-4"
+        : "min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center py-10 px-4"
         }`}
     >
       <div
@@ -230,10 +319,10 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
         {feedback && (
           <div
             className={`mt-4 p-3 rounded-lg text-center text-white transition-all duration-300 ${feedback.type === "success"
-                ? "bg-green-500"
-                : feedback.type === "draft"
-                  ? "bg-blue-500"
-                  : "bg-red-500"
+              ? "bg-green-500"
+              : feedback.type === "draft"
+                ? "bg-blue-500"
+                : "bg-red-500"
               }`}
           >
             {feedback.message}

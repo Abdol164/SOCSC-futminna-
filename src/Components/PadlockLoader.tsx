@@ -1,7 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import "../App.css";
+import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
+
 
 const PadlockLoader = () => {
+
+    const currentAccount = useCurrentAccount();
+    console.log('currentAccount:', currentAccount);
+    
     return (
         <>
             <div className="padlock-loader-container">
