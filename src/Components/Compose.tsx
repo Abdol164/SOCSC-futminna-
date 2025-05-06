@@ -263,8 +263,11 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
               type="text"
               placeholder="e.g. jane@sui.id"
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              value={suimailNs || recipient}
-              onChange={(e) => setRecipient(e.target.value)}
+              value={isCheckingRecipient ? recipient : suimailNs || recipient}
+              onChange={(e) => {
+                setRecipient(e.target.value);
+                setSuimailNs("");
+              }}
               onBlur={handleRecipientBlur}
               required
             />
