@@ -56,7 +56,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
             onError: (error) => {
               console.error('Transaction rejected:', error); // Log the rejection
               setIsLoading(false); // Stop loading
-              resolve(false); // Resolve the Promise with failure
+              reject(true); // Resolve the Promise with failure
             },
           },
         );
