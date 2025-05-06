@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Inbox from "./Inbox";
 import Sent from "./Sent";
 import Compose from "./Compose";
+import Settings from "./Settings";
 import Subscription from "./Subscription";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import { Pencil, X } from "lucide-react";
@@ -29,13 +30,13 @@ const Mail: React.FC = () => {
   const renderActiveView = () => {
     switch (activeNavItem) {
       case "Inbox":
-        return <Inbox/>;
+        return <Inbox />;
       case "Sent":
         return <Sent />;
-      case "Subscription":
-        return <Subscription />;
       case "Compose":
         return <Compose />;
+      case "Settings":
+        return <Settings />;
       default:
         return <Inbox />;
     }
@@ -50,7 +51,7 @@ const Mail: React.FC = () => {
   // };
 
   return (
-    <div 
+    <div
       className="flex flex-col md:flex-row h-screen overflow-hidden bg-gray-100"
     >
       {/* Mobile Top Bar */}
@@ -72,9 +73,8 @@ const Mail: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`bg-white w-64 shadow-md z-30 transform transition-transform duration-200 fixed md:static h-full top-0 left-0 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        className={`bg-white w-64 shadow-md z-30 transform transition-transform duration-200 fixed md:static h-full top-0 left-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0`}
       >
         <Sidebar
         // onNavChange={(tab) => {

@@ -4,6 +4,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Paperclip, Send, Save, X } from "lucide-react";
 import { Transaction } from '@mysten/sui/transactions';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
+import { set } from "zod";
 
 
 
@@ -18,6 +19,10 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error" | "draft"; message: string } | null>(null);
+  const [requiredFee, setRequiredFee] = useState(0);
+  const [isCheckingRecipient, setIsCheckingRecipient] = useState(false); // New state for recipient validation
+  const [suimailNs, setSuimailNs] = useState<string>(); // New state for recipient validation
+
 
   const { walletAddress, token } = useContext(AppContext) as AppContextProps;
 
@@ -25,7 +30,8 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const [digest, setDigest] = useState('');
   const currentAccount = useCurrentAccount();
 
-  const SUI_AMOUNT = 10_000_000;
+  const SUI_AMOUNT = requiredFee * 1_000_000_000; // Convert requiredFee (in SUI) to its MIST value
+
 
   const sendSui = async (): Promise<boolean> => {
     try {
@@ -128,6 +134,48 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
 
   }
 
+  const handleRecipientBlur = async () => {
+    console.log('handleBlur')
+    if (recipient) {
+      console.log('try Ns request')
+      setIsCheckingRecipient
+      try {
+        const suimailRes = await fetch(`api/settings/suimailNs/${recipient}`, {
+          method: "GET",
+          // headers: {
+          //   "Content-type": "application/json",
+          // },
+        });
+
+        const suimailNsData = await suimailRes.json();
+        console.log("Recipient validation data:", suimailNsData);
+        setSuimailNs(suimailNsData.suimailNs); // Assuming the API returns the required fee
+
+        console.log('trying fee request')
+        const feeResponse = await fetch(`api/settings/mailFee/${recipient}`, {
+          method: "GET",
+          // headers: {
+          //   "Content-type": "application/json",
+          // },
+        });
+
+        // if (!response.ok) {
+        //   throw new Error("Failed to validate recipient address.");
+        // }
+
+        const data = await feeResponse.json();
+        setRequiredFee(data.mailFee); // Assuming the API returns the required fee
+        console.log("Recipient validation response:", data);
+        // Optionally, handle the response data (e.g., show feedback to the user)
+      } catch (error) {
+        console.error("Error validating recipient address:", error);
+        setFeedback({ type: "error", message: "Invalid recipient address." });
+      } finally {
+        setIsCheckingRecipient(false); // Stop loading
+      }
+    }
+  };
+
 
 
   const handleSaveDraft = async () => {
@@ -215,10 +263,18 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
               type="text"
               placeholder="e.g. jane@sui.id"
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              value={recipient}
+              value={suimailNs || recipient}
               onChange={(e) => setRecipient(e.target.value)}
+              onBlur={handleRecipientBlur}
               required
             />
+            <span className="text-sm text-gray-500 mt-1 block">
+              {isCheckingRecipient
+                ? "Anti-spam check loading..."
+                : requiredFee == 0
+                  ? "No fee required"
+                  : `Required Fee: ${requiredFee} SUI`}
+            </span>
           </div>
 
           <div>
