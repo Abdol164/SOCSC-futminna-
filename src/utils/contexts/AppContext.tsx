@@ -44,24 +44,24 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [subname, setSubname] = useState<string | null>(null); // new state for subname
   const [mailFee, setMailFee] = useState(0); // default mail fee
 
-  useEffect(() => {
-    const fetchSubname = async () => {
-      try {
-        const res = await fetch(`/api/get-subname?wallet=${walletAddress}`);
-        const data = await res.json();
-        if (data.subname) {
-          setSubname(data.subname);
-        }
+  // useEffect(() => {
+  //   const fetchSubname = async () => {
+  //     try {
+  //       const res = await fetch(`/api/get-subname?wallet=${walletAddress}`);
+  //       const data = await res.json();
+  //       if (data.subname) {
+  //         setSubname(data.subname);
+  //       }
         
-      } catch (error) {
-        console.error("Failed to fetch subname:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Failed to fetch subname:", error);
+  //     }
+  //   };
 
-    if (walletAddress) {
-      fetchSubname();
-    }
-  }, [walletAddress]);
+  //   if (walletAddress) {
+  //     fetchSubname();
+  //   }
+  // }, [walletAddress]);
 
   return (
     <AppContext.Provider value={{
