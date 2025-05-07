@@ -13,7 +13,6 @@ import PadlockLoader from "./PadlockLoader";
 import { Transaction } from '@mysten/sui/transactions';
 import {
   useCurrentAccount,
-  // useSignAndExecuteTransaction,
   useAutoConnectWallet,
   useConnectWallet,
   useWallets,
@@ -26,7 +25,6 @@ function Connect() {
   const wallet = useWallet();
   const navigate = useNavigate();
 
-  // const [digest, setDigest] = useState('');
   const currentAccount = useCurrentAccount();
   const autoConnectionStatus = useAutoConnectWallet();
   const { mutate: connect } = useConnectWallet();
@@ -40,23 +38,32 @@ function Connect() {
   };
 
   const handleConnect = async () => {
-    const response = await fetch("/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ address: currentAccount?.address }),
-    });
+    try {
+      const response = await fetch("/https://suimail-backend.onrender.com/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address: currentAccount?.address }),
+      });
 
-    const responseData = await response.json();
-    console.log("Response from server:", responseData);
-    setToken(responseData.token);
+      if (!response.ok) {
+        console.error("Failed to fetch:", response.status, response.statusText);
+        return;
+      }
+
+      const responseData = response.headers.get("Content-Length") !== "0" ? await response.json() : {};
+      console.log("Response from server:", responseData);
+
+      if (responseData.token) {
+        setToken(responseData.token);
+      } else {
+        console.warn("No token received in response");
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    }
   };
-
-  // const checkSuimailSubname = async () => {
-  //   if (!wallet.account?.address) return;
-  //   setLoading(false);
-  // };
 
   useEffect(() => {
     console.log('inside useEffect');
@@ -78,35 +85,6 @@ function Connect() {
   ]);
 
   return (
-    // <div style={{ padding: 20 }}>
-    // 	<ConnectButton />
-    // 	{currentAccount && (
-    // 		<>
-    // 			<div>
-    // 				<button
-    // 					onClick={() => {
-    // 						signAndExecuteTransaction(
-    // 							{
-    // 								transaction: new Transaction(),
-    // 								chain: 'sui:devnet',
-    // 							},
-    // 							{
-    // 								onSuccess: (result) => {
-    // 									console.log('executed transaction', result);
-    // 									setDigest(result.digest);
-    // 								},
-    // 							},
-    // 						);
-    // 					}}
-    // 				>
-    // 					Sign and execute transaction
-    // 				</button>
-    // 			</div>
-    // 			<div>Digest: {digest}</div>
-    // 		</>
-    // 	)}
-    // </div>
-
     <div>
       {currentAccount ? (
         <PadlockLoader />

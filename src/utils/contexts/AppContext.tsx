@@ -10,8 +10,8 @@ export interface AppContextProps {
   setConnectionState: React.Dispatch<React.SetStateAction<string>>;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
-  subname: string | null;                        // new: store user's suimail subname
-  setSubname: React.Dispatch<React.SetStateAction<string | null>>; // new setter for subname
+  // subname: string | null;                        // new: store user's suimail subname
+  // setSubname: React.Dispatch<React.SetStateAction<string | null>>; // new setter for subname
   mailFee: number;
   setMailFee: React.Dispatch<React.SetStateAction<number>>;
   // from: string;
@@ -41,13 +41,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState('');
   const [connectionState, setConnectionState] = useState('');
   const [token, setToken] = useState('');
-  const [subname, setSubname] = useState<string | null>(null); // new state for subname
+  // const [subname, setSubname] = useState<string | null>(null); // new state for subname
   const [mailFee, setMailFee] = useState(0); // default mail fee
 
   // useEffect(() => {
   //   const fetchSubname = async () => {
   //     try {
-  //       const res = await fetch(`/api/get-subname?wallet=${walletAddress}`);
+  //       const res = await fetch(`/https://suimail-backend.onrender.com/get-subname?wallet=${walletAddress}`);
   //       const data = await res.json();
   //       if (data.subname) {
   //         setSubname(data.subname);
@@ -73,8 +73,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       setConnectionState,
       token,
       setToken,
-      subname,            // new context value
-      setSubname,         // new context setter
+      // subname,            // new context value
+      // setSubname,         // new context setter
       mailFee,
       setMailFee,
     }}>

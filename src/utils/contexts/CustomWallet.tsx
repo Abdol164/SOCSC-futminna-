@@ -240,7 +240,7 @@ export default function CustomWalletProvider({
         };
         console.log("Sponsoring transaction block...");
         // const sponsorResponse: AxiosResponse<CreateSponsoredTransactionApiResponse> =
-        //   await axios.post("/api/sponsor", sponsorTxBody);
+        //   await axios.post("/https://suimail-backend.onrender.com/sponsor", sponsorTxBody);
         // const { bytes, digest: sponsorDigest } = sponsorResponse.data;
         const resp = await createSponsoredTx(sponsorTxBody);
         const { bytes, digest: sponsorDigest } = resp;
@@ -252,7 +252,7 @@ export default function CustomWalletProvider({
           digest: sponsorDigest,
         };
         // const executeResponse: AxiosResponse<{ digest: string }> =
-        //   await axios.post("/api/execute", executeSponsoredTxBody);
+        //   await axios.post("/https://suimail-backend.onrender.com/execute", executeSponsoredTxBody);
         const executeResponse = await executeSponsoredTx(executeSponsoredTxBody);
         console.log("Executed response: ");
         digest = executeResponse.digest;

@@ -98,7 +98,7 @@
 //       setStatus("✅ Subname registered successfully!");
 
 //       // Send the registered subname to the backend
-//       await axios.post("/api/register-subname", { name, parentNftId, walletAddress });
+//       await axios.post("/https://suimail-backend.onrender.com/register-subname", { name, parentNftId, walletAddress });
 
 //       // Store the registered subname in context
 //       setSubname(name);
