@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://fc81j2ps-3000.uks1.devtunnels.ms', // OR http://localhost:3000
+        target: 'https://suimail-backend.onrender.com', // OR http://localhost:3000
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
