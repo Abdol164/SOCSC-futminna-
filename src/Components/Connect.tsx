@@ -1,5 +1,7 @@
-import React, { useEffect, useContext } from "react";
-import { ConnectButton, useWallet } from "@suiet/wallet-kit";
+import React, { useEffect, useContext, useState } from "react";
+import { useWallet } from "@suiet/wallet-kit";
+import { ConnectButton } from '@mysten/dapp-kit';
+
 import "../App.css";
 import "@suiet/wallet-kit/style.css";
 import { useCustomWallet } from "../utils/contexts/CustomWallet";
@@ -8,6 +10,15 @@ import Mail from "./Mail";
 import { useNavigate } from "react-router-dom";
 import PadlockLoader from "./PadlockLoader";
 
+import { Transaction } from '@mysten/sui/transactions';
+import {
+  useCurrentAccount,
+  // useSignAndExecuteTransaction,
+  useAutoConnectWallet,
+  useConnectWallet,
+  useWallets,
+} from '@mysten/dapp-kit';
+
 
 function Connect() {
   const { setConnectionState, setWalletAddress, setToken, token } = useContext(AppContext) as AppContextProps;
@@ -15,18 +26,26 @@ function Connect() {
   const wallet = useWallet();
   const navigate = useNavigate();
 
+  // const [digest, setDigest] = useState('');
+  const currentAccount = useCurrentAccount();
+  const autoConnectionStatus = useAutoConnectWallet();
+  const { mutate: connect } = useConnectWallet();
+  const wallets = useWallets();
+  console.log('currentAccount:(connect)', currentAccount);
+
+  
   const handleGoogleLogin = () => {
     console.log("Google login button clicked");
     redirectToAuthUrl();
   };
 
   const handleConnect = async () => {
-    const response = await fetch("http://localhost:3000/user/login", {
+    const response = await fetch("/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ address: wallet.account?.address }),
+      body: JSON.stringify({ address: currentAccount?.address }),
     });
 
     const responseData = await response.json();
@@ -40,26 +59,57 @@ function Connect() {
   // };
 
   useEffect(() => {
-    if (wallet.connected && !token) {
+    console.log('inside useEffect');
+    if (currentAccount && !token) {
       handleConnect();
     }
-    if (token){
+    if (token) {
       navigate("/mail");
     }
-    setWalletAddress(wallet.account?.address || "");
-    setConnectionState(wallet.connected ? "connected" : "disconnected");
+    if (currentAccount) {
+      setWalletAddress(currentAccount.address || "");
+    }
+    setConnectionState(currentAccount ? "connected" : "disconnected");
   }, [
-    wallet.connected,
-    wallet.account?.address,
+    currentAccount,
     setWalletAddress,
     setConnectionState,
     token,
   ]);
 
   return (
-    <div className={wallet.connected ? "min-h-screen bg-white" : "flex flex-col items-center justify-center min-h-screen bg-white"}>
-      {wallet.connected ? (
-        <PadlockLoader/>
+    // <div style={{ padding: 20 }}>
+    // 	<ConnectButton />
+    // 	{currentAccount && (
+    // 		<>
+    // 			<div>
+    // 				<button
+    // 					onClick={() => {
+    // 						signAndExecuteTransaction(
+    // 							{
+    // 								transaction: new Transaction(),
+    // 								chain: 'sui:devnet',
+    // 							},
+    // 							{
+    // 								onSuccess: (result) => {
+    // 									console.log('executed transaction', result);
+    // 									setDigest(result.digest);
+    // 								},
+    // 							},
+    // 						);
+    // 					}}
+    // 				>
+    // 					Sign and execute transaction
+    // 				</button>
+    // 			</div>
+    // 			<div>Digest: {digest}</div>
+    // 		</>
+    // 	)}
+    // </div>
+
+    <div>
+      {currentAccount ? (
+        <PadlockLoader />
       ) : (
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
@@ -67,7 +117,27 @@ function Connect() {
           </h1>
           <div className="space-y-6">
             <div className="flex justify-center">
-              <ConnectButton className="mb-4" />
+              <div style={{ padding: 20 }}>
+                <ConnectButton />
+                <ul>
+                  {wallets.map((wallet) => (
+                    <li key={wallet.name}>
+                      <button
+                        onClick={() => {
+                          connect(
+                            { wallet },
+                            {
+                              onSuccess: () => console.log('connected'),
+                            },
+                          );
+                        }}
+                      >
+                        Connect to {wallet.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <button
               type="button"

@@ -12,6 +12,8 @@ export interface AppContextProps {
   setToken: React.Dispatch<React.SetStateAction<string>>;
   subname: string | null;                        // new: store user's suimail subname
   setSubname: React.Dispatch<React.SetStateAction<string | null>>; // new setter for subname
+  mailFee: number;
+  setMailFee: React.Dispatch<React.SetStateAction<number>>;
   // from: string;
   // setFrom: React.Dispatch<React.SetStateAction<string>>;
   // to: string;
@@ -40,6 +42,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [connectionState, setConnectionState] = useState('');
   const [token, setToken] = useState('');
   const [subname, setSubname] = useState<string | null>(null); // new state for subname
+  const [mailFee, setMailFee] = useState(0); // default mail fee
 
   useEffect(() => {
     const fetchSubname = async () => {
@@ -72,20 +75,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       setToken,
       subname,            // new context value
       setSubname,         // new context setter
-      // from,
-      // setFrom,
-      // to,
-      // setTo,
-      // subject,
-      // setSubject,
-      // date,
-      // setDate,
-      // newbie,
-      // setNewbie,
-      // decryptedMessage,
-      // setDecryptedMessage,
-      // emailClick,
-      // setEmailClick
+      mailFee,
+      setMailFee,
     }}>
       {children}
     </AppContext.Provider>

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import EmailList from "./EmailList";
-import EmailView from "./View";
+import EmailView from "./EmailView";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 
 const Inbox: React.FC = () => {
-  const { walletAddress, token } = useContext(AppContext) as AppContextProps;
+  const { walletAddress, token, activeNavItem } = useContext(AppContext) as AppContextProps;
   const [inbox, setInbox] = useState<any[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<any | null>(null);
 
@@ -13,7 +13,7 @@ const Inbox: React.FC = () => {
 
   const fetchEmail = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/mail/inbox/${walletAddress}`, {
+      const response = await fetch(`/api/mail/inbox/${walletAddress}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -22,6 +22,7 @@ const Inbox: React.FC = () => {
       });
 
       const responseData = await response.json();
+      console.log('Inbox response:', responseData);
       setInbox(responseData);
     } catch (err) {
       console.error("Failed to fetch inbox, using default test data.", err);
@@ -51,7 +52,7 @@ const Inbox: React.FC = () => {
 
   useEffect(() => {
     fetchEmail();
-  }, []);
+  }, [activeNavItem]);
 
   return (
     <div className={`flex flex-col h-screen pt-${isDesktop ? 16 : 5}`}>
@@ -59,7 +60,6 @@ const Inbox: React.FC = () => {
         <div className="w-full h-full">
           <EmailView
             email={selectedEmail}
-            body={selectedEmail.body}
             onBack={() => setSelectedEmail(null)}
           />
         </div>
@@ -67,13 +67,16 @@ const Inbox: React.FC = () => {
         //  Email List
         <div className="w-full h-full overflow-y-auto border-r border-gray-200">
           {inbox.length === 0 ? (
-            <p className="text-center text-gray-500 mt-4">No emails found</p>
+            <p className="text-center text-gray-500 mt-4">Inbox loading....</p>
           ) : (
-            inbox.map((email, index) => (
-              <div key={index} onClick={() => setSelectedEmail(email)}>
-                <EmailList email={email} />
-              </div>
-            ))
+            inbox
+              .slice() // Create a shallow copy of the array
+              .reverse() // Reverse the order of the array
+              .map((email, index) => (
+                <div key={index} onClick={() => setSelectedEmail(email)}>
+                  <EmailList email={email}/>
+                </div>
+              ))
           )}
         </div>
       )}
