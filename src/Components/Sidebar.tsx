@@ -82,6 +82,7 @@ const Sidebar = () => {
           }}
           onClick={() => handleNavItemClick('Compose')}
           className="flex items-center justify-center w-full bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-full"
+          onClick={onCompose} 
         >
           <span className="mr-2 text-xl font-bold">+</span>
           <span>Compose</span>
