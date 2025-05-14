@@ -22,7 +22,7 @@ const Settings: React.FC = () => {
 
   const handleDone = async () => {
     try {
-      const response = await fetch(`/https://suimail-backend.onrender.com/settings/mailFee/${walletAddress}`, {
+      const response = await fetch(`https://suimail-backend.onrender.com/settings/mailFee/${walletAddress}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

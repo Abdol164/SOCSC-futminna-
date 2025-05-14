@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import { Editor } from "@tinymce/tinymce-react";
-import { Paperclip, Send, Save, X } from "lucide-react";
+import { Paperclip, Send, Save, X, Underline } from "lucide-react";
 import { Transaction } from '@mysten/sui/transactions';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import { set } from "zod";
@@ -19,7 +19,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error" | "draft"; message: string } | null>(null);
-  const [requiredFee, setRequiredFee] = useState(0);
+  const [requiredFee, setRequiredFee] = useState<number>(0);
   const [isCheckingRecipient, setIsCheckingRecipient] = useState(false); // New state for recipient validation
   const [suimailNs, setSuimailNs] = useState<string>(); // New state for recipient validation
 
@@ -31,7 +31,6 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
   const currentAccount = useCurrentAccount();
 
   const SUI_AMOUNT = requiredFee * 1_000_000_000; // Convert requiredFee (in SUI) to its MIST value
-
 
   const sendSui = async (): Promise<boolean> => {
     try {
@@ -69,14 +68,26 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
     }
   };
 
+  const feeChecker = async () => {
+    if (requiredFee > 0) {
+      await sendSui(); // Wait for sendSui to complete
+      console.log("Fee required");
+      return true;
+    }else if (requiredFee === 0) {
+      console.log("No fee required, no transfer needed.");
+      return true;
+    }
+  }
+
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
     setIsLoading(true);
     setFeedback(null);
-    const transferSuccess: any = await sendSui(); // Wait for sendSui to complete
+    let transferSuccess: any = await feeChecker(); // Wait for sendSui to complete
     console.log("Transfer success:", transferSuccess);
 
     if (transferSuccess === true) {
+      console.log(transferSuccess)
       try {
         // Create a FormData object
         const formData = new FormData();
@@ -96,7 +107,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
         console.log("FormData message:", formData.get("body"));
 
         // Send the request
-        const response = await fetch("api/mail/sendMail", {
+        const response = await fetch("https://suimail-backend.onrender.com/mail/sendMail", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`, // Authorization header
@@ -138,9 +149,10 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
     console.log('handleBlur')
     if (recipient) {
       console.log('try Ns request')
-      setIsCheckingRecipient
+      setIsCheckingRecipient(true)
+      
       try {
-        const suimailRes = await fetch(`api/settings/suimailNs/${recipient}`, {
+        const suimailRes = await fetch(`https://suimail-backend.onrender.com/settings/suimailNs/${recipient}`, {
           method: "GET",
           // headers: {
           //   "Content-type": "application/json",
@@ -152,7 +164,7 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
         setSuimailNs(suimailNsData.suimailNs); // Assuming the API returns the required fee
 
         console.log('trying fee request')
-        const feeResponse = await fetch(`api/settings/mailFee/${recipient}`, {
+        const feeResponse = await fetch(`https://suimail-backend.onrender.com/settings/mailFee/${recipient}`, {
           method: "GET",
           // headers: {
           //   "Content-type": "application/json",
@@ -164,8 +176,8 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
         // }
 
         const data = await feeResponse.json();
+        console.log("Recipient validation response:", data.mail);
         setRequiredFee(data.mailFee); // Assuming the API returns the required fee
-        console.log("Recipient validation response:", data);
         // Optionally, handle the response data (e.g., show feedback to the user)
       } catch (error) {
         console.error("Error validating recipient address:", error);
@@ -271,13 +283,18 @@ const Compose: React.FC<ComposeProps> = ({ onDone }) => {
               onBlur={handleRecipientBlur}
               required
             />
-            <span className="text-sm text-gray-500 mt-1 block">
-              {isCheckingRecipient
-                ? "Anti-spam check loading..."
-                : requiredFee == 0
-                  ? "No fee required"
-                  : `Required Fee: ${requiredFee} SUI`}
-            </span>
+            {!isCheckingRecipient && requiredFee > 0 && (
+              <span className="text-sm text-gray-500 mt-1 block">{`Required fee ${requiredFee} SUI`}</span>
+            )}
+            {/* {requiredFee !== 0 && (
+              <span className="text-sm text-gray-500 mt-1 block">
+                {isCheckingRecipient
+                  ? "Anti-spam check loading..."
+                  : requiredFee == 0
+                    ? "No fee required"
+                    : `Required Fee: ${requiredFee} SUI`}
+              </span> 
+            )} */}
           </div>
 
           <div>

@@ -39,12 +39,12 @@ function Connect() {
 
   const handleConnect = async () => {
     try {
-      const response = await fetch("/https://suimail-backend.onrender.com/user/login", {
-        method: "POST",
+      const response = await fetch(`https://suimail-backend.onrender.com/user/login/${currentAccount?.address}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ address: currentAccount?.address }),
+        // body: JSON.stringify({ address: currentAccount?.address }),
       });
 
       if (!response.ok) {
@@ -57,7 +57,8 @@ function Connect() {
 
       if (responseData.token) {
         setToken(responseData.token);
-      } else {
+      } 
+      else {
         console.warn("No token received in response");
       }
     } catch (error) {

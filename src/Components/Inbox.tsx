@@ -13,7 +13,7 @@ const Inbox: React.FC = () => {
 
   const fetchEmail = async () => {
     try {
-      const response = await fetch(`/https://suimail-backend.onrender.com/mail/inbox/${walletAddress}`, {
+      const response = await fetch(`https://suimail-backend.onrender.com/mail/inbox/${walletAddress}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

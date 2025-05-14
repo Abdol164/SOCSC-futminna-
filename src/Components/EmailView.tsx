@@ -38,7 +38,7 @@ const EmailView: React.FC<EmailViewProps> = ({ email: { _id, subject, from, to, 
   const fetchEmailBody = async () => {
     try {
       const response = await fetch(
-        `/https://suimail-backend.onrender.com/mail/inboxMessage/${walletAddress}/${_id}`,
+        `https://suimail-backend.onrender.com/mail/inboxMessage/${walletAddress}/${_id}`,
         {
           method: "GET",
           headers: {
