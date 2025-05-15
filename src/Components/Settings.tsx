@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
-// import SubnameManager from "./SubnameManager"; // extracted from ClaimNameUI
+import SubnameManager from "./SubnameManager"; // extracted from ClaimNameUI
 import { IoPersonOutline, IoNotificationsOutline, IoWalletOutline, IoSettingsOutline } from "react-icons/io5";
 
 
@@ -67,7 +67,7 @@ const Settings: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6 bg-white shadow-inner">
-        {/* {activeTab === "Subname" && <SubnameManager />} */}
+        {activeTab === "Subname" && <SubnameManager />}
         {activeTab === "Notifications" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Notification Preferences</h2>

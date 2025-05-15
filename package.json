@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mantine/rte": "^3.4.3",
-    "@mysten/dapp-kit": "^0.15.5",
+    "@mysten/dapp-kit": "^0.15.7",
     "@mysten/enoki": "^0.6.11",
     "@mysten/sui": "^1.27.1",
     "@mysten/suins": "^0.7.9",
