@@ -1,41 +1,36 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useWallet } from "@suiet/wallet-kit";
-import { ConnectButton } from '@mysten/dapp-kit';
+import { ConnectButton, useWallets, useCurrentAccount, useConnectWallet, useAutoConnectWallet } from '@mysten/dapp-kit';
 
 import "../App.css";
 import "@suiet/wallet-kit/style.css";
-import { useCustomWallet } from "../utils/contexts/CustomWallet";
 import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
 import Mail from "./Mail";
 import { useNavigate } from "react-router-dom";
 import PadlockLoader from "./PadlockLoader";
+import { isEnokiWallet, EnokiWallet, AuthProvider } from '@mysten/enoki';
 
 import { Transaction } from '@mysten/sui/transactions';
-import {
-  useCurrentAccount,
-  useAutoConnectWallet,
-  useConnectWallet,
-  useWallets,
-} from '@mysten/dapp-kit';
 
 
 function Connect() {
   const { setConnectionState, setWalletAddress, setToken, token } = useContext(AppContext) as AppContextProps;
-  const { isConnected, redirectToAuthUrl, address } = useCustomWallet();
   const wallet = useWallet();
   const navigate = useNavigate();
-
   const currentAccount = useCurrentAccount();
   const autoConnectionStatus = useAutoConnectWallet();
-  const { mutate: connect } = useConnectWallet();
-  const wallets = useWallets();
-  console.log('currentAccount:(connect)', currentAccount);
+  const { mutateAsync: connect } = useConnectWallet();
 
-  
-  const handleGoogleLogin = () => {
-    console.log("Google login button clicked");
-    redirectToAuthUrl();
-  };
+  const wallets = useWallets().filter(isEnokiWallet);
+  const walletsByProvider = wallets.reduce(
+    (map, wallet) => map.set(wallet.provider, wallet),
+    new Map<AuthProvider, EnokiWallet>(),
+  );
+  console.log(wallets);
+
+  const googleWallet = walletsByProvider.get('google');
+  console.log('currentAccount:(connect)', currentAccount?.address);
+  console.log(connect);
 
   const handleConnect = async () => {
     try {
@@ -57,7 +52,7 @@ function Connect() {
 
       if (responseData.token) {
         setToken(responseData.token);
-      } 
+      }
       else {
         console.warn("No token received in response");
       }
@@ -116,16 +111,20 @@ function Connect() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div>  
             </div>
-            <button
-              type="button"
-              className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100"
-              onClick={handleGoogleLogin}
-            >
-              <img src="/png/Google.png" alt="Google" className="w-6 h-6 mr-2" />
-              Sign in with Google
-            </button>
+            {googleWallet ? (
+              <button
+                type="button"
+                className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100"
+                onClick={() => {
+                  connect({ wallet: googleWallet });
+                }}
+              >
+                <img src="/png/Google.png" alt="Google" className="w-6 h-6 mr-2" />
+                Sign in with Google
+              </button>
+            ) : null}
           </div>
         </div>
       )}

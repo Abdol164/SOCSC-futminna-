@@ -12,7 +12,7 @@
   "dependencies": {
     "@mantine/rte": "^3.4.3",
     "@mysten/dapp-kit": "^0.15.5",
-    "@mysten/enoki": "^0.5.3",
+    "@mysten/enoki": "^0.6.11",
     "@mysten/sui": "^1.27.1",
     "@mysten/suins": "^0.7.9",
     "@suiet/wallet-kit": "^0.3.4",
