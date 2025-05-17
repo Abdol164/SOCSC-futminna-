@@ -1,226 +1,225 @@
-import React, { useState } from "react"
-import {
-  ChevronLeft,
-  Archive,
-  Trash2,
-  AlertTriangle,
-  MailOpen,
-  Printer,
-  ExternalLink,
-  Star,
-  Smile,
-} from "lucide-react"
-import { useAppContext } from "../utils/contexts/AppContext/AppContext"
+// import React, { useState } from "react"
+// import {
+//   ChevronLeft,
+//   Archive,
+//   Trash2,
+//   AlertTriangle,
+//   MailOpen,
+//   Printer,
+//   ExternalLink,
+//   Star,
+//   Smile,
+// } from "lucide-react"
+// import { useAppContext } from "../utils/contexts/AppContext/AppContext"
 
-interface Attachment {
-  name: string
-  url: string
-}
+// interface Attachment {
+//   name: string
+//   url: string
+// }
 
-interface EmailViewProps {
-  email: {
-    _id: string
-    subject: string
-    from: string
-    to: string
-    date: string
-    senderImage: string
-    attachments?: Attachment[]
-  }
-  onBack: () => void
-}
+// interface EmailViewProps {
+//   email: {
+//     _id: string
+//     subject: string
+//     from: string
+//     to: string
+//     date: string
+//     senderImage: string
+//     attachments?: Attachment[]
+//   }
+//   onBack: () => void
+// }
 
-const EmailView: React.FC<EmailViewProps> = ({
-  email: { subject, from, to, date },
-  onBack,
-}) => {
-  const { walletAddress } = useAppContext()
-  const [mailBody, setMailBody] = useState<string>("")
-  const [attachments, setAttachments] = useState<Attachment[]>([])
+// const EmailView: React.FC<EmailViewProps> = ({
+//   email: { subject, from, to, date },
+//   onBack,
+// }) => {
+//   const [mailBody, setMailBody] = useState<string>("")
+//   const [attachments, setAttachments] = useState<Attachment[]>([])
 
-  // const fetchEmailBody = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://suimail-backend.onrender.com/mail/inboxMessage/${walletAddress}/${_id}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     const responseData = await response.json()
-  //     console.log("Email body response:", responseData)
+//   // const fetchEmailBody = async () => {
+//   //   try {
+//   //     const response = await fetch(
+//   //       `https://suimail-backend.onrender.com/mail/inboxMessage/${walletAddress}/${_id}`,
+//   //       {
+//   //         method: "GET",
+//   //         headers: {
+//   //           "Content-Type": "application/json",
+//   //           Authorization: `Bearer ${token}`,
+//   //         },
+//   //       }
+//   //     )
+//   //     const responseData = await response.json()
+//   //     console.log("Email body response:", responseData)
 
-  //     // Reconstruct Buffers from serialized data
-  //     const reconstructedAttachments = responseData.attachments.map(
-  //       (attachment: any) => {
-  //         const buffer = new Uint8Array(attachment.content.data) // Reconstruct Buffer
-  //         return {
-  //           name: attachment.fileName,
-  //           url: URL.createObjectURL(
-  //             new Blob([buffer], { type: attachment.fileType })
-  //           ),
-  //         }
-  //       }
-  //     )
+//   //     // Reconstruct Buffers from serialized data
+//   //     const reconstructedAttachments = responseData.attachments.map(
+//   //       (attachment: any) => {
+//   //         const buffer = new Uint8Array(attachment.content.data) // Reconstruct Buffer
+//   //         return {
+//   //           name: attachment.fileName,
+//   //           url: URL.createObjectURL(
+//   //             new Blob([buffer], { type: attachment.fileType })
+//   //           ),
+//   //         }
+//   //       }
+//   //     )
 
-  //     responseData.attachments.map((attachment: any) => {
-  //       console.log("Attachment buffer:", attachment.content.data)
-  //     })
+//   //     responseData.attachments.map((attachment: any) => {
+//   //       console.log("Attachment buffer:", attachment.content.data)
+//   //     })
 
-  //     setMailBody(responseData.mail) // Set the decrypted email body
-  //     setAttachments(reconstructedAttachments) // Set reconstructed attachments
-  //   } catch (err) {
-  //     console.error("Failed to fetch email body.", err)
-  //   }
-  // }
+//   //     setMailBody(responseData.mail) // Set the decrypted email body
+//   //     setAttachments(reconstructedAttachments) // Set reconstructed attachments
+//   //   } catch (err) {
+//   //     console.error("Failed to fetch email body.", err)
+//   //   }
+//   // }
 
-  const handleArchive = () => {
-    console.log("Archived email:", subject)
-    onBack() // optionally return to list
-  }
+//   const handleArchive = () => {
+//     console.log("Archived email:", subject)
+//     onBack() // optionally return to list
+//   }
 
-  const handleReport = () => {
-    console.log("Reported email:", subject)
-    alert("Email reported as suspicious.")
-  }
+//   const handleReport = () => {
+//     console.log("Reported email:", subject)
+//     alert("Email reported as suspicious.")
+//   }
 
-  const handleDelete = () => {
-    console.log("Deleted email:", subject)
-    onBack()
-  }
+//   const handleDelete = () => {
+//     console.log("Deleted email:", subject)
+//     onBack()
+//   }
 
-  const handleMarkUnread = () => {
-    console.log("Marked as unread:", subject)
-    onBack()
-  }
+//   const handleMarkUnread = () => {
+//     console.log("Marked as unread:", subject)
+//     onBack()
+//   }
 
-  const handlePrint = () => {
-    window.print()
-  }
+//   const handlePrint = () => {
+//     window.print()
+//   }
 
-  const handleOpenNew = () => {
-    alert("Opening in new window...")
-  }
+//   const handleOpenNew = () => {
+//     alert("Opening in new window...")
+//   }
 
-  return (
-    <div className="w-full h-full bg-white overflow-y-auto p-4 sm:p-6 text-gray-800">
-      {/* Top Bar Actions */}
-      <div className="flex justify-between items-center border-b pb-3 mb-5">
-        <div className="flex items-center space-x-3 flex-wrap">
-          <button
-            onClick={onBack}
-            title="Back"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleArchive}
-            title="Archive"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <Archive className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleReport}
-            title="Report"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <AlertTriangle className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleDelete}
-            title="Delete"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleMarkUnread}
-            title="Mark as unread"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <MailOpen className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={handlePrint}
-            title="Print"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <Printer className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleOpenNew}
-            title="Open in new window"
-            className="hover:bg-gray-100 p-2 rounded"
-          >
-            <ExternalLink className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
+//   return (
+//     <div className="w-full h-full bg-white overflow-y-auto p-4 sm:p-6 text-gray-800">
+//       {/* Top Bar Actions */}
+//       <div className="flex justify-between items-center border-b pb-3 mb-5">
+//         <div className="flex items-center space-x-3 flex-wrap">
+//           <button
+//             onClick={onBack}
+//             title="Back"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <ChevronLeft className="w-5 h-5" />
+//           </button>
+//           <button
+//             onClick={handleArchive}
+//             title="Archive"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <Archive className="w-5 h-5" />
+//           </button>
+//           <button
+//             onClick={handleReport}
+//             title="Report"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <AlertTriangle className="w-5 h-5" />
+//           </button>
+//           <button
+//             onClick={handleDelete}
+//             title="Delete"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <Trash2 className="w-5 h-5" />
+//           </button>
+//           <button
+//             onClick={handleMarkUnread}
+//             title="Mark as unread"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <MailOpen className="w-5 h-5" />
+//           </button>
+//         </div>
+//         <div className="flex items-center space-x-3">
+//           <button
+//             onClick={handlePrint}
+//             title="Print"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <Printer className="w-5 h-5" />
+//           </button>
+//           <button
+//             onClick={handleOpenNew}
+//             title="Open in new window"
+//             className="hover:bg-gray-100 p-2 rounded"
+//           >
+//             <ExternalLink className="w-5 h-5" />
+//           </button>
+//         </div>
+//       </div>
 
-      {/* Subject */}
-      <h1 className="text-2xl sm:text-3xl font-semibold mb-4">{subject}</h1>
+//       {/* Subject */}
+//       <h1 className="text-2xl sm:text-3xl font-semibold mb-4">{subject}</h1>
 
-      {/* Sender Info */}
-      <div className="flex justify-between items-start sm:items-center mb-6">
-        <div className="flex items-center gap-3">
-          <img
-            src="../public/logo.jpg"
-            alt="Sender"
-            className="w-10 h-10 rounded-full"
-          />
-          <div>
-            <p className="font-semibold">{from}</p>
-            <p className="text-sm text-gray-500">to {to}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>{new Date(date).toLocaleTimeString()}</span>
-          <span title="Star this message">
-            <Star className="w-4 h-4 cursor-pointer" />
-          </span>
-          <span title="React to message">
-            <Smile className="w-4 h-4 cursor-pointer" />
-          </span>
-        </div>
-      </div>
+//       {/* Sender Info */}
+//       <div className="flex justify-between items-start sm:items-center mb-6">
+//         <div className="flex items-center gap-3">
+//           <img
+//             src="../public/logo.jpg"
+//             alt="Sender"
+//             className="w-10 h-10 rounded-full"
+//           />
+//           <div>
+//             <p className="font-semibold">{from}</p>
+//             <p className="text-sm text-gray-500">to {to}</p>
+//           </div>
+//         </div>
+//         <div className="flex items-center gap-2 text-sm text-gray-500">
+//           <span>{new Date(date).toLocaleTimeString()}</span>
+//           <span title="Star this message">
+//             <Star className="w-4 h-4 cursor-pointer" />
+//           </span>
+//           <span title="React to message">
+//             <Smile className="w-4 h-4 cursor-pointer" />
+//           </span>
+//         </div>
+//       </div>
 
-      <div className="text-base leading-relaxed whitespace-pre-line mb-6">
-        {mailBody}
-      </div>
+//       <div className="text-base leading-relaxed whitespace-pre-line mb-6">
+//         {mailBody}
+//       </div>
 
-      {attachments.length > 0 && (
-        <div className="mb-10">
-          <h2 className="text-sm font-semibold mb-2">Attachments</h2>
-          <div className="grid grid-cols-2 sm:flex gap-4">
-            {attachments.map((attachment, idx) => (
-              <div
-                key={idx}
-                className="border p-2 rounded-md bg-gray-50 text-center shadow-sm"
-              >
-                <p className="text-xs text-gray-700 truncate">
-                  {attachment.name}
-                </p>
-                <a
-                  href={attachment.url}
-                  className="text-blue-600 text-xs mt-1 hover:underline block"
-                  download={attachment.name}
-                >
-                  Download
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+//       {attachments.length > 0 && (
+//         <div className="mb-10">
+//           <h2 className="text-sm font-semibold mb-2">Attachments</h2>
+//           <div className="grid grid-cols-2 sm:flex gap-4">
+//             {attachments.map((attachment, idx) => (
+//               <div
+//                 key={idx}
+//                 className="border p-2 rounded-md bg-gray-50 text-center shadow-sm"
+//               >
+//                 <p className="text-xs text-gray-700 truncate">
+//                   {attachment.name}
+//                 </p>
+//                 <a
+//                   href={attachment.url}
+//                   className="text-blue-600 text-xs mt-1 hover:underline block"
+//                   download={attachment.name}
+//                 >
+//                   Download
+//                 </a>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   )
+// }
 
-export default EmailView
+// export default EmailView
