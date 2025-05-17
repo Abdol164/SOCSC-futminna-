@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const clientConfigSchema = z.object({
+const suimailClientConfigSchema = z.object({
   SUI_NETWORK: z.string(),
   SUI_NETWORK_NAME: z.enum(["mainnet", "testnet"]),
   ENOKI_API_KEY: z.string(),
@@ -8,7 +8,7 @@ const clientConfigSchema = z.object({
   PACKAGE_ID: z.string(),
 })
 
-const clientConfig = clientConfigSchema.parse({
+const suimailClientConfig = suimailClientConfigSchema.parse({
   SUI_NETWORK: import.meta.env.VITE_SUI_NETWORK!,
   SUI_NETWORK_NAME: import.meta.env.VITE_SUI_NETWORK_NAME as
     | "mainnet"
@@ -18,4 +18,4 @@ const clientConfig = clientConfigSchema.parse({
   PACKAGE_ID: import.meta.env.VITE_PACKAGE_ID!,
 })
 
-export default clientConfig
+export { suimailClientConfig }

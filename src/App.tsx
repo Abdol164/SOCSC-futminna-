@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { RouterProvider } from "react-router-dom"
 import {
-  createNetworkConfig,
-  SuiClientProvider,
   WalletProvider,
+  SuiClientProvider,
+  createNetworkConfig,
   useSuiClientContext,
 } from "@mysten/dapp-kit"
 import { getFullnodeUrl } from "@mysten/sui/client"
@@ -12,7 +12,7 @@ import { isEnokiNetwork, registerEnokiWallets } from "@mysten/enoki"
 import "@mysten/dapp-kit/dist/index.css"
 import routes from "./routes"
 import { queryClient } from "./query-client"
-import clientConfig from "./utils/config/clientConfig"
+import { suimailClientConfig } from "./utils/config/clientConfig"
 import AppProvider from "./utils/contexts/AppContext/AppContextProvider"
 
 // Config options for the networks you want to connect to
@@ -48,10 +48,10 @@ function RegisterEnokiWallets() {
     if (!isEnokiNetwork(network)) return
 
     const { unregister } = registerEnokiWallets({
-      apiKey: clientConfig.ENOKI_API_KEY,
+      apiKey: suimailClientConfig.ENOKI_API_KEY,
       providers: {
         google: {
-          clientId: clientConfig.GOOGLE_CLIENT_ID,
+          clientId: suimailClientConfig.GOOGLE_CLIENT_ID,
         },
         facebook: {
           clientId: "YOUR_FACEBOOK_CLIENT_ID",
