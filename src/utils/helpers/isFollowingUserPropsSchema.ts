@@ -1,11 +1,11 @@
-import { UserProps } from "../types/Authentication"; 
+import type { UserProps } from "@/types/Authentication"
 
-export const isFollowingUserPropsSchema = (obj: any): obj is UserProps => {
-    return (
-        typeof obj.firstName === "string" &&
-        typeof obj.lastName === "string" &&
-        typeof obj.email === "string" &&
-        typeof obj.role === "string" &&
-        typeof obj.picture === "string"
-    );
-};
+export const isFollowingUserPropsSchema = (obj: unknown): obj is UserProps => {
+  return (
+    typeof (obj as UserProps).firstName === "string" &&
+    typeof (obj as UserProps).lastName === "string" &&
+    typeof (obj as UserProps).email === "string" &&
+    typeof (obj as UserProps).role === "string" &&
+    typeof (obj as UserProps).picture === "string"
+  )
+}
