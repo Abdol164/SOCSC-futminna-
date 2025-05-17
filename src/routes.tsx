@@ -53,10 +53,6 @@ const routes = createBrowserRouter([
             element: <ComposePage />,
           },
           {
-            path: "/mail/settings",
-            element: <SettingsPage />,
-          },
-          {
             path: "/account/payment",
             element: <p>Payment</p>,
           },
@@ -70,7 +66,7 @@ const routes = createBrowserRouter([
           },
           {
             path: "/settings",
-            element: <p>Settings</p>,
+            element: <SettingsPage />,
           },
           {
             path: "/profile",
