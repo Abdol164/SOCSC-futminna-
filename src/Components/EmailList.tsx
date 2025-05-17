@@ -1,13 +1,8 @@
-import React from "react";
+import React from "react"
+import type { IEmail } from "../types/generic"
 
 interface EmailListProps {
-  email: {
-    date: string;
-    subject: string;
-    from: string;
-    to: string;
-    isRead?: boolean;
-  };
+  email: IEmail
 }
 
 const EmailList: React.FC<EmailListProps> = ({ email }) => {
@@ -68,7 +63,7 @@ const EmailList: React.FC<EmailListProps> = ({ email }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmailList;
+export default EmailList
