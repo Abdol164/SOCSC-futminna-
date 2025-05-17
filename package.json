@@ -1,8 +1,17 @@
 {
-  "name": "suimail-frontend-refactor",
+  "name": "suimail-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://github.com/SUIMAIL/Suimail-frontend#readme",
+  "bugs": {
+    "url": "https://github.com/SUIMAIL/Suimail-frontend/issues"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SUIMAIL/Suimail-frontend.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
