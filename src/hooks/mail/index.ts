@@ -29,7 +29,7 @@ export function useFetchOutboxQuery() {
   return useQuery({
     queryKey: ["outbox"],
     queryFn: async (): Promise<IEmail[]> => {
-      return await httpService.get("/mail/outbox")
+      return await httpService.get("/mail/outbox/me")
     },
   })
 }

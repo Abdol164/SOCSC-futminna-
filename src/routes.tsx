@@ -17,7 +17,7 @@ const routes = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/mail",
+        path: "/",
         element: <MailBoardLayout />,
         children: [
           {
@@ -33,12 +33,44 @@ const routes = createBrowserRouter([
             element: <SentPage />,
           },
           {
+            path: "/mail/draft",
+            element: <p>Draft</p>,
+          },
+          {
+            path: "/mail/spam",
+            element: <p>Spam</p>,
+          },
+          {
+            path: "/mail/archive",
+            element: <p>Archive</p>,
+          },
+          {
+            path: "/mail/trash",
+            element: <p>Trash</p>,
+          },
+          {
             path: "/mail/compose",
             element: <ComposePage />,
           },
           {
-            path: "/mail/settings",
+            path: "/account/payment",
+            element: <p>Payment</p>,
+          },
+          {
+            path: "/account/subscription",
+            element: <p>Subscription</p>,
+          },
+          {
+            path: "/help",
+            element: <p>Help</p>,
+          },
+          {
+            path: "/settings",
             element: <SettingsPage />,
+          },
+          {
+            path: "/profile",
+            element: <p>Profile</p>,
           },
         ],
       },

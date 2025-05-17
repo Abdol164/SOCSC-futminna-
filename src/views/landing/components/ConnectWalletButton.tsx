@@ -1,6 +1,5 @@
-import React from "react"
 import { useConnectWallet } from "@mysten/dapp-kit"
-import { WalletWithRequiredFeatures } from "@mysten/wallet-standard"
+import type { WalletWithRequiredFeatures } from "@mysten/wallet-standard"
 
 interface ConnectWalletButtonProps {
   wallet: WalletWithRequiredFeatures
