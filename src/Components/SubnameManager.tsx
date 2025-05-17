@@ -1,40 +1,40 @@
-import { SuinsClient, SuinsTransaction } from "@mysten/suins";
-import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
-import { Transaction } from "@mysten/sui/transactions";
-import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import React, { useEffect, useState, useContext } from "react";
-import { AppContext, AppContextProps } from "../utils/contexts/AppContext";
-import axios from "axios";
+import { SuinsClient, SuinsTransaction } from "@mysten/suins"
+import { SuiClient, getFullnodeUrl } from "@mysten/sui/client"
+import { Transaction } from "@mysten/sui/transactions"
+import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519"
+import axios from "axios"
+import { useCallback, useEffect, useState } from "react"
+import { useAppContext } from "@/utils/contexts/AppContext/AppContext"
 
-const rpcUrl = getFullnodeUrl("testnet");
-export const client = new SuiClient({ url: rpcUrl });
+const rpcUrl = getFullnodeUrl("testnet")
+export const client = new SuiClient({ url: rpcUrl })
 
 if (!import.meta.env.VITE_PRIVATE_KEY) {
-  throw new Error("Missing VITE_PRIVATE_KEY in environment variables");
+  throw new Error("Missing VITE_PRIVATE_KEY in environment variables")
 }
-const keypair = Ed25519Keypair.fromSecretKey(import.meta.env.VITE_PRIVATE_KEY); 
+const keypair = Ed25519Keypair.fromSecretKey(import.meta.env.VITE_PRIVATE_KEY)
 
 export const suinsClient = new SuinsClient({
   client,
   network: "testnet",
-});
+})
 
 export const createLeafSubname = async (
   name: string,
   parentNftId: string,
   targetAddress: string
 ) => {
-  const transaction = new Transaction();
-  const suinsTransaction = new SuinsTransaction(suinsClient, transaction);
+  const transaction = new Transaction()
+  const suinsTransaction = new SuinsTransaction(suinsClient, transaction)
 
   suinsTransaction.createLeafSubName({
     parentNft: parentNftId,
     name,
     targetAddress,
-  });
+  })
 
   try {
-    const { events } = await client.signAndExecuteTransaction({
+    await client.signAndExecuteTransaction({
       signer: keypair,
       transaction: suinsTransaction.transaction,
       options: {
@@ -45,68 +45,73 @@ export const createLeafSubname = async (
         showObjectChanges: true,
         showRawInput: false,
       },
-    });
+    })
   } catch {
-    console.log("Transaction Failed");
+    console.log("Transaction Failed")
   }
-};
+}
 
 const SubnameManager = () => {
-  const { walletAddress, setSubname } = useContext(AppContext) as AppContextProps;
-  const [name, setName] = useState("");
-  const [parentNftId, setParentNftId] = useState("");
-  const [status, setStatus] = useState("");
-  const [availability, setAvailability] = useState<"available" | "taken" | "checking" | "">("");
+  const { walletAddress, setSubname } = useAppContext()
+  const [name, setName] = useState("")
+  const [parentNftId, setParentNftId] = useState("")
+  const [status, setStatus] = useState("")
+  const [availability, setAvailability] = useState<
+    "available" | "taken" | "checking" | ""
+  >("")
 
-  const fullName = `${name}`;
+  const fullName = `${name}`
 
-  const checkAvailability = async () => {
+  const checkAvailability = useCallback(async () => {
     if (!name) {
-      setAvailability("");
-      return;
+      setAvailability("")
+      return
     }
-    setAvailability("checking");
+    setAvailability("checking")
     try {
-      const record = await suinsClient.getNameRecord(fullName);
+      const record = await suinsClient.getNameRecord(fullName)
       if (record) {
-        setAvailability("taken");
+        setAvailability("taken")
       } else {
-        setAvailability("available");
+        setAvailability("available")
       }
     } catch {
       // If not found, we consider it available
-      setAvailability("available");
+      setAvailability("available")
     }
-  };
+  }, [fullName, name])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      checkAvailability();
-    }, 500); // debounce input
-    return () => clearTimeout(timeout);
-  }, [name]);
+      checkAvailability()
+    }, 500) // debounce input
+    return () => clearTimeout(timeout)
+  }, [checkAvailability, name])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (availability !== "available") {
-      setStatus("❌ Name is not available.");
-      return;
+      setStatus("❌ Name is not available.")
+      return
     }
-    setStatus("Processing...");
+    setStatus("Processing...")
     try {
-      await createLeafSubname(name, parentNftId, walletAddress);
-      setStatus("✅ Subname registered successfully!");
+      await createLeafSubname(name, parentNftId, walletAddress)
+      setStatus("✅ Subname registered successfully!")
 
       // Send the registered subname to the backend
-      await axios.post("/https://suimail-backend.onrender.com/register-subname", { name, parentNftId, walletAddress });
+      await axios.post(
+        "/https://suimail-backend.onrender.com/register-subname",
+        { name, parentNftId, walletAddress }
+      )
 
       // Store the registered subname in context
-      setSubname(name);
+      setSubname(name)
     } catch (error) {
-      console.error(error);
-      setStatus("❌ Failed to register subname.");
+      console.error(error)
+      setStatus("❌ Failed to register subname.")
     }
-  };
+  }
 
   return (
     <div
@@ -134,13 +139,19 @@ const SubnameManager = () => {
               required
             />
             {availability === "checking" && (
-              <p className="text-sm text-gray-500 mt-1">Checking availability...</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Checking availability...
+              </p>
             )}
             {availability === "available" && (
-              <p className="text-sm text-green-600 mt-1">✅ {fullName} is available</p>
+              <p className="text-sm text-green-600 mt-1">
+                ✅ {fullName} is available
+              </p>
             )}
             {availability === "taken" && (
-              <p className="text-sm text-red-600 mt-1">❌ {fullName} is already taken</p>
+              <p className="text-sm text-red-600 mt-1">
+                ❌ {fullName} is already taken
+              </p>
             )}
           </div>
 
@@ -166,7 +177,7 @@ const SubnameManager = () => {
             className="w-full  text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-300"
             disabled={availability !== "available"}
             style={{
-              background: 'linear-gradient(to bottom, #006bf9, #00c1fa)',
+              background: "linear-gradient(to bottom, #006bf9, #00c1fa)",
             }}
           >
             Register
@@ -177,7 +188,7 @@ const SubnameManager = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SubnameManager;
+export default SubnameManager
