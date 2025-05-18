@@ -1,35 +1,30 @@
-import { Link } from "react-router-dom"
-import EmailList from "../../../components/EmailList"
-import useMediaQuery from "../../../hooks/useMediaQuery"
+import { useMemo } from "react"
 import { useFetchOutboxQuery } from "../../../hooks/mail"
+import useMediaQuery from "../../../hooks/useMediaQuery"
+import { PageLayout } from "@/components/layouts/PageLayout"
+import { EmailList } from "../inbox/components/EmailList"
+import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
+import { ExtendedToolbar } from "@/components/ExtendedToolbar"
 
 export default function SentPage() {
   const isDesktop = useMediaQuery("(min-width: 1024px)")
 
-  const { data: outbox, isFetching } = useFetchOutboxQuery()
+  const { data: outbox, isFetching, isError } = useFetchOutboxQuery()
 
-  if (isFetching) {
-    return <div>Loading...</div>
-  }
-
-  const hasOutbox = outbox && outbox.length > 0
-
-  if (!hasOutbox) {
-    return <div>No outbox found</div>
-  }
+  const emails = useMemo(() => {
+    return outbox || []
+  }, [outbox])
 
   return (
-    <div className={`flex flex-col h-screen pt-${isDesktop ? 16 : 5}`}>
-      <div className="w-full h-full overflow-y-auto border-r border-gray-200">
-        {outbox
-          .slice()
-          .reverse()
-          .map((email, index) => (
-            <Link key={index} to={`/mail/outbox/${email.id}`}>
-              <EmailList email={email} />
-            </Link>
-          ))}
-      </div>
-    </div>
+    <PageLayout loading={isFetching} isError={isError}>
+      <ExtendedToolbar getPageTitle={() => "Sent"} />
+      <MailBoardPageLayout>
+        <div className={`flex flex-col h-screen pt-${isDesktop ? 16 : 5}`}>
+          <div className="w-full h-full overflow-y-auto border-r border-gray-200">
+            <EmailList emails={emails} />
+          </div>
+        </div>
+      </MailBoardPageLayout>
+    </PageLayout>
   )
 }
