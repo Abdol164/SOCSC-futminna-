@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
-import Loading from "../Loading"
+import { Loading } from "../Loading"
 import { getCookie } from "@/utils/helpers/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
 

@@ -114,7 +114,7 @@ export function AppSidebar() {
         <img
           src="/images/suimail-logo.png"
           alt="SUIMAIL"
-          className="w-[200px] h-auto"
+          className="w-[150px] h-auto"
         />
 
         <div className="mt-2 px-4 w-full">
