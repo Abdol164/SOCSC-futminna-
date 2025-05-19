@@ -53,18 +53,6 @@ export default function LandingPage() {
               />
             </div>
           </div>
-          <button
-            type="button"
-            disabled={isLoginPending}
-            className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100"
-          >
-            <img
-              src="/icons/google-icon.png"
-              alt="Google"
-              className="w-6 h-6 mr-2"
-            />
-            Sign in with Google
-          </button>
         </div>
       </div>
     </div>
