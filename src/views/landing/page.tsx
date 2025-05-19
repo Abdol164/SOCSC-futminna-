@@ -1,16 +1,33 @@
 import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { type WalletAccount } from "@wallet-standard/base"
-import { ConnectModal, useCurrentAccount } from "@mysten/dapp-kit"
+import { ConnectModal, useConnectWallet, useCurrentAccount, useWallets } from "@mysten/dapp-kit"
 import { useLoginMutation } from "../../hooks/auth"
 import { setCookie } from "@/utils/helpers/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
+import { isEnokiWallet, type EnokiWallet, type AuthProvider } from '@mysten/enoki';
+import Google from "../../../public/images/Google.png"
+
+
 
 export default function LandingPage() {
   const navigate = useNavigate()
   const currentAccount = useCurrentAccount()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { mutateAsync: login, isPending: isLoginPending } = useLoginMutation()
+  const { mutateAsync: connect } = useConnectWallet();
+
+
+  const wallets = useWallets().filter(isEnokiWallet);
+  const walletsByProvider = wallets.reduce(
+    (map: { set: (arg0: any, arg1: any) => any }, wallet: { provider: any }) => map.set(wallet.provider, wallet),
+    new Map<AuthProvider, EnokiWallet>(),
+  );
+  console.log(wallets);
+
+  const googleWallet = walletsByProvider.get('google');
+  console.log('currentAccount:(connect)', currentAccount?.address);
+  console.log(connect);
 
   const handleLogin = useCallback(
     async (wallet: WalletAccount) => {
@@ -53,7 +70,7 @@ export default function LandingPage() {
               />
             </div>
           </div>
-          <button
+          {/* <button
             type="button"
             disabled={isLoginPending}
             className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100"
@@ -64,7 +81,20 @@ export default function LandingPage() {
               className="w-6 h-6 mr-2"
             />
             Sign in with Google
-          </button>
+          </button> */}
+
+{googleWallet ? (
+              <button
+                type="button"
+                className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100"
+                onClick={() => {
+                  connect({ wallet: googleWallet });
+                }}
+              >
+                <img src={Google} alt="Google" className="w-6 h-6 mr-2" />
+                Sign in with Google
+              </button>
+            ) : null}
         </div>
       </div>
     </div>
