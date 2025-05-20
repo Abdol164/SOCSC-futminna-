@@ -10,6 +10,7 @@ export default function LandingPage() {
   const navigate = useNavigate()
   const currentAccount = useCurrentAccount()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentAccountIsSet, setCurrentAccountIsSet] = useState(false)
   const { mutateAsync: login, isPending: isLoginPending } = useLoginMutation()
 
   const handleLogin = useCallback(
@@ -28,10 +29,11 @@ export default function LandingPage() {
   )
 
   useEffect(() => {
-    if (currentAccount) {
+    if (currentAccount && !currentAccountIsSet) {
       handleLogin(currentAccount)
+      setCurrentAccountIsSet(true)
     }
-  }, [currentAccount, handleLogin])
+  }, [currentAccount, handleLogin, currentAccountIsSet])
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">

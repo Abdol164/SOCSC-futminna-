@@ -7,5 +7,4 @@ export type SettingsViewType =
 export interface SettingsTab {
   label: string
   view: SettingsViewType
-  icon: React.ReactNode
 }
