@@ -1,29 +1,30 @@
-import type { SettingsViewType } from "../types"
+import { cn } from "@/lib/utils"
 
 interface SetTabButtonProps {
   label: string
-  icon: React.ReactNode
-  view: SettingsViewType
   onClick: () => void
+  isActive: boolean
 }
 
 export function SetTabButton({
   label,
-  icon,
-  view,
+
   onClick,
+  isActive,
 }: SetTabButtonProps) {
   return (
     <button
       key={label}
       onClick={onClick}
-      className={`flex items-center px-5 py-3 cursor-pointer rounded-lg transition ${
-        view === view
-          ? "bg-blue-100 text-blue-700 font-semibold"
-          : "hover:bg-gray-100 text-gray-700"
-      }`}
+      className={cn(
+        "flex items-center px-5 py-3 cursor-pointer transition text-sm",
+        [
+          isActive
+            ? "bg-zinc-100 font-medium"
+            : "hover:bg-zinc-100 hover:text-zinc-500",
+        ]
+      )}
     >
-      <span className="mr-3 text-lg">{icon}</span>
       {label}
     </button>
   )
