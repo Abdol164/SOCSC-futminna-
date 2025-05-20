@@ -80,7 +80,7 @@ const AccountNavigationItems: SidebarItem[] = [
   },
   {
     title: "Subscription",
-    url: "/account/subscription",
+    url: "/account/Subscription",
     icon: <Repeat />,
   },
 ]

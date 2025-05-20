@@ -6,7 +6,7 @@ import ComposePage from "./views/mail/compose/page"
 import SettingsPage from "./views/mail/settings/page"
 import { DashboardLayout } from "./components/layouts/DashboardLayout"
 import { MailBoardLayout } from "./components/layouts/MailBoardLayout"
-
+import  SubscriptionPage  from "./views/accounts/Subscription/page"
 const routes = createBrowserRouter([
   {
     index: true,
@@ -57,8 +57,8 @@ const routes = createBrowserRouter([
             element: <p>Payment</p>,
           },
           {
-            path: "/account/subscription",
-            element: <p>Subscription</p>,
+            path: "/account/Subscription",
+            element: <SubscriptionPage/>,
           },
           {
             path: "/help",
