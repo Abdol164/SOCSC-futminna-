@@ -1,4 +1,5 @@
 export interface IEmail {
+  body: string
   id: string
   date: string
   subject: string

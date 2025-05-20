@@ -1,5 +1,6 @@
-import type { IEmail } from "@/types/generic"
 import { Link } from "react-router-dom"
+import type { IEmail } from "@/types/generic"
+import { cn } from "@/lib/utils"
 
 interface EmailTabProps {
   email: IEmail
@@ -7,61 +8,50 @@ interface EmailTabProps {
 
 export function EmailTab({ email }: EmailTabProps) {
   return (
-    <Link to={`/mail/inbox/${email.id}`}>
+    <Link to={`/mail/inbox/${email.id}`} className="block w-full">
       <div
-        className="w-full px-4 pt-0 pb-4 md:px-6 md:pt-4 md:pb-5 border-b border-gray-200 bg-white transition-all duration-200 cursor-pointer
-               hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01] hover:z-10 rounded-md"
+        className={cn(
+          "group relative flex flex-col gap-1 border-b p-4 transition-all hover:bg-gray-50 sm:flex-row sm:items-center sm:gap-4",
+          !email.isRead && "bg-gray-50"
+        )}
       >
-        <div className="flex items-start gap-4">
-          {/* Sender Avatar */}
-          <div className="flex-shrink-0">
+        {/* Left section - Avatar and star */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-shrink-0">
             <img
               src="/png/profile.png"
-              alt="Sender"
-              className="h-10 w-10 rounded-full object-cover"
+              alt=""
+              className="h-9 w-9 rounded-full object-cover"
             />
+            {!email.isRead && (
+              <span className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full bg-blue-500" />
+            )}
           </div>
+        </div>
 
-          {/* Email Details */}
-          <div className="flex-1 min-w-0">
-            <div className="flex justify-between items-center">
-              {/* Sender */}
-              <p
-                className={`text-sm truncate ${
-                  email.isRead ? "text-gray-600" : "text-gray-900 font-semibold"
-                }`}
-              >
-                {email.from}
-              </p>
-
-              {/* Date */}
-              <span className="text-xs text-gray-400 whitespace-nowrap">
-                {new Date(email.date).toLocaleDateString(undefined, {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center mt-0.5">
-              {/* Subject */}
-              <p
-                className={`text-sm leading-snug truncate ${
-                  email.isRead ? "text-gray-500" : "text-gray-700 font-medium"
-                }`}
-              >
-                {email.subject}
-              </p>
-
-              {/* Unread Dot */}
-              {!email.isRead && (
-                <span
-                  className="ml-2 h-2.5 w-2.5 bg-blue-500 rounded-full shrink-0"
-                  title="Unread"
-                ></span>
+        {/* Middle section - Content */}
+        <div className="flex flex-1 flex-col gap-1 overflow-hidden">
+          <div className="flex items-center justify-between gap-2">
+            <p
+              className={cn(
+                "truncate text-sm text-gray-600",
+                !email.isRead && "font-medium text-gray-900"
               )}
-            </div>
+            >
+              {email.from}
+            </p>
           </div>
+          <h3
+            className={cn(
+              "line-clamp-1 text-sm text-gray-600",
+              !email.isRead && "font-medium text-gray-900"
+            )}
+          >
+            {email.subject}
+          </h3>
+          <p className="line-clamp-1 text-xs text-gray-500">
+            {email.body?.substring(0, 120)}
+          </p>
         </div>
       </div>
     </Link>

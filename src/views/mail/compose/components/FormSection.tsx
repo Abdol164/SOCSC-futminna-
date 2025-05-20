@@ -1,3 +1,7 @@
+"use client"
+
+import type React from "react"
+
 import { useMemo } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -46,12 +50,13 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
     },
   })
 
-  const { data: suimailNs, isFetching: isFetchingSuimailNs } =
-    useGetRecipientSuimailNsQuery(watch("recipient"), {
+  const { isFetching: isFetchingSuimailNs } = useGetRecipientSuimailNsQuery(
+    watch("recipient"),
+    {
       queryKey: ["recipient-suimail-ns", watch("recipient")],
       enabled: isValidSuiAddress(watch("recipient")),
-    })
-  console.log("Suimail NS", suimailNs)
+    }
+  )
 
   const { data: mailFee, isFetching: isFetchingMailFee } = useGetMailFeeQuery(
     watch("recipient"),
@@ -60,7 +65,6 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
       enabled: isValidSuiAddress(watch("recipient")),
     }
   )
-  console.log("Mail fee", mailFee)
 
   const requiredFee = useMemo(() => mailFee ?? 0, [mailFee])
 
@@ -121,7 +125,7 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
         error={errors.message?.message}
         register={register}
         required
-        rows={6}
+        rows={12}
       />
 
       <div className="space-y-2">

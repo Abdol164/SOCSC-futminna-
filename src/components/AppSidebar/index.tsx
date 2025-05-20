@@ -30,6 +30,8 @@ import {
 } from "lucide-react"
 import { Profile } from "./Profile"
 
+import useMediaQuery from "@/hooks/useMediaQuery"
+
 interface SidebarItem {
   title: string
   url: string
@@ -99,6 +101,7 @@ export function AppSidebar() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { isMobile, setOpenMobile, openMobile } = useSidebar()
+  const isSmallScreen = useMediaQuery("(max-width: 768px)")
 
   const handleGoTo = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
     e.preventDefault()
@@ -106,6 +109,11 @@ export function AppSidebar() {
       setOpenMobile(false)
     }
     navigate(url)
+  }
+
+  const handleComposeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigate("/mail/compose")
   }
 
   return (
@@ -117,20 +125,20 @@ export function AppSidebar() {
           className="w-[150px] h-auto"
         />
 
-        <div className="mt-2 px-4 w-full">
-          <Button
-            asChild
-            className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full gap-2"
-          >
-            <Link
-              to="/mail/compose"
-              onClick={(e) => handleGoTo(e, "/mail/compose")}
+        {!isSmallScreen && (
+          <div className="mt-2 px-4 w-full">
+            <Button
+              asChild
+              className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full gap-2"
+              onClick={handleComposeClick}
             >
-              <Plus className="size-4" />
-              <span>Compose</span>
-            </Link>
-          </Button>
-        </div>
+              <Link to="">
+                <Plus className="size-4" />
+                <span>Compose</span>
+              </Link>
+            </Button>
+          </div>
+        )}
       </SidebarHeader>
 
       <SidebarSeparator />
