@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import {
@@ -113,128 +112,124 @@ export function AppSidebar() {
   }
 
   const handleComposeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate("/mail/compose");
+    e.preventDefault()
+    navigate("/mail/compose")
   }
 
   return (
-    <>
-      <Sidebar>
-        <SidebarHeader className="py-5 flex flex-col items-center">
-          <img
-            src="/images/suimail-logo.png"
-            alt="SUIMAIL"
-            className="w-[150px] h-auto"
-          />
+    <Sidebar>
+      <SidebarHeader className="py-5 flex flex-col items-center">
+        <img
+          src="/images/suimail-logo.png"
+          alt="SUIMAIL"
+          className="w-[150px] h-auto"
+        />
 
-          {!isSmallScreen && (
-            <div className="mt-2 px-4 w-full">
-              <Button
+        {!isSmallScreen && (
+          <div className="mt-2 px-4 w-full">
+            <Button
+              asChild
+              className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full gap-2"
+              onClick={handleComposeClick}
+            >
+              <Link to="">
+                <Plus className="size-4" />
+                <span>Compose</span>
+              </Link>
+            </Button>
+          </div>
+        )}
+      </SidebarHeader>
+
+      <SidebarSeparator />
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Mail</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {MailNavigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    isActive={pathname === item.url}
+                    asChild
+                    className={cn(
+                      "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    )}
+                  >
+                    <Link
+                      to={item.url}
+                      onClick={(e) => handleGoTo(e, item.url)}
+                    >
+                      {item.icon}
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {AccountNavigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    isActive={pathname === item.url}
+                    asChild
+                    className={cn(
+                      "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    )}
+                  >
+                    <Link
+                      to={item.url}
+                      onClick={(e) => handleGoTo(e, item.url)}
+                    >
+                      {item.icon}
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter className="border-t p-4">
+        <SidebarMenu>
+          {HelpNavigationItems.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                isActive={pathname === item.url}
                 asChild
-                className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full gap-2"
-                onClick={handleComposeClick}
+                className={cn(
+                  "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                )}
               >
-                <Link to="">
-                  <Plus className="size-4" />
-                  <span>Compose</span>
+                <Link to={item.url} onClick={(e) => handleGoTo(e, item.url)}>
+                  {item.icon}
+                  {item.title}
                 </Link>
-              </Button>
-            </div>
-          )}
-        </SidebarHeader>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
 
         <SidebarSeparator />
 
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Mail</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {MailNavigationItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      isActive={pathname === item.url}
-                      asChild
-                      className={cn(
-                        "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
-                      )}
-                    >
-                      <Link
-                        to={item.url}
-                        onClick={(e) => handleGoTo(e, item.url)}
-                      >
-                        {item.icon}
-                        {item.title}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-          <SidebarSeparator />
-          <SidebarGroup>
-            <SidebarGroupLabel>Account</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {AccountNavigationItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      isActive={pathname === item.url}
-                      asChild
-                      className={cn(
-                        "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
-                      )}
-                    >
-                      <Link
-                        to={item.url}
-                        onClick={(e) => handleGoTo(e, item.url)}
-                      >
-                        {item.icon}
-                        {item.title}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-
-        <SidebarFooter className="border-t p-4">
-          <SidebarMenu>
-            {HelpNavigationItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  isActive={pathname === item.url}
-                  asChild
-                  className={cn(
-                    "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  )}
-                >
-                  <Link to={item.url} onClick={(e) => handleGoTo(e, item.url)}>
-                    {item.icon}
-                    {item.title}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-
-          <SidebarSeparator />
-
-          <div className="mt-2">
-            <Profile
-              avatar="/images/avatar.png"
-              name="Lacasa"
-              email="lacasadapapel@suimail"
-              onClick={(e) => handleGoTo(e, "/profile")}
-            />
-          </div>
-        </SidebarFooter>
-      </Sidebar>
-
-    
-    </>
+        <div className="mt-2">
+          <Profile
+            avatar="/images/avatar.png"
+            name="Lacasa"
+            email="lacasadapapel@suimail"
+            onClick={(e) => handleGoTo(e, "/profile")}
+          />
+        </div>
+      </SidebarFooter>
+    </Sidebar>
   )
 }

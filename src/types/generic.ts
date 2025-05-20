@@ -1,8 +1,5 @@
 export interface IEmail {
-  body: any
-  labels: any
-  isStarred: any
-  preview: any
+  body: string
   id: string
   date: string
   subject: string

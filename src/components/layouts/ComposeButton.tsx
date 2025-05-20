@@ -1,7 +1,5 @@
-"use client"
-
-import { Plus } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { Plus } from "lucide-react"
 
 export function ComposeButton() {
   const navigate = useNavigate()
