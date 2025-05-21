@@ -1,5 +1,3 @@
-"use client"
-
 import { useMemo } from "react"
 import { useFetchInboxQuery } from "@/hooks/mail"
 import { PageLayout } from "@/components/layouts/PageLayout"
@@ -8,7 +6,6 @@ import { EmailList } from "@/components/EmailViewComponents/EmailList"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import type { IEmail } from "@/types/generic"
 
-// Function to generate dummy sender emails
 const generateDummySender = (index: number) => {
   const senders = [
     "dean@suimail",

@@ -1,14 +1,11 @@
-"use client"
-
 import { useMemo } from "react"
+import type { IEmail } from "@/types/generic"
 import { useFetchOutboxQuery } from "@/hooks/mail"
 import { PageLayout } from "@/components/layouts/PageLayout"
-import { EmailList } from "@/components/EmailViewComponents/EmailList"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
+import { EmailList } from "@/components/EmailViewComponents/EmailList"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
-import type { IEmail } from "@/types/generic"
 
-// Function to generate dummy recipient emails
 const generateDummyRecipient = (index: number) => {
   const recipients = [
     "john@suimail",
