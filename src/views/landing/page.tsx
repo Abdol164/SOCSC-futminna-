@@ -1,5 +1,3 @@
-"use client"
-
 import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import type { WalletAccount } from "@wallet-standard/base"
@@ -8,7 +6,7 @@ import { setCookie } from "@/utils/helpers/auth"
 import { useLoginMutation } from "../../hooks/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
 
-export default function ConnectPage() {
+export default function LandingPage() {
   const navigate = useNavigate()
   const currentAccount = useCurrentAccount()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -39,7 +37,6 @@ export default function ConnectPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-      {/* Logo */}
       <div className="flex items-center gap-2 mb-8">
         <img
           src="/images/suimail-logo.png"
@@ -48,7 +45,6 @@ export default function ConnectPage() {
         />
       </div>
 
-      {/* Connect Card */}
       <div className="w-full max-w-sm p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
         <h1 className="text-xl font-medium text-center text-gray-800 mb-6">
           Login to your account
@@ -77,7 +73,6 @@ export default function ConnectPage() {
         </p>
       </div>
 
-      {/* Footer */}
       <p className="mt-8 text-xs text-gray-400">
         &copy; {new Date().getFullYear()} SuiMail
       </p>
