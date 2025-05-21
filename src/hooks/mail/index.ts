@@ -62,13 +62,13 @@ export function usePostDraftMailMutation() {
 
 export function useGetMailFeeQuery(
   recipient: string,
-  options?: UseQueryOptions<number, AxiosError>
+  options?: UseQueryOptions<{ mailFee: number }, AxiosError>
 ) {
   return useQuery({
     ...(options ?? {}),
     queryKey: ["mail-fee", recipient],
     queryFn: async () => {
-      return await httpService.get(`/mail/fee/${recipient}`)
+      return await httpService.get(`/user/mailfee/${recipient}`)
     },
   })
 }

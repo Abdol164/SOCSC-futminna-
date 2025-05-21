@@ -1,10 +1,11 @@
 import { useMemo } from "react"
+import { cn } from "@/lib/utils"
 import { EmailList } from "./components/EmailList"
-import { useFetchInboxQuery } from "../../../hooks/mail"
 import useMediaQuery from "../../../hooks/useMediaQuery"
+import { useFetchInboxQuery } from "../../../hooks/mail"
 import { PageLayout } from "@/components/layouts/PageLayout"
-import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
+import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 
 export default function InboxPage() {
   const { data: inbox, isFetching, isError } = useFetchInboxQuery()
@@ -18,7 +19,9 @@ export default function InboxPage() {
     <PageLayout loading={isFetching} isError={isError}>
       <ExtendedToolbar getPageTitle={() => "Inbox"} />
       <MailBoardPageLayout>
-        <div className={`flex flex-col h-screen pt-${isDesktop ? 16 : 5}`}>
+        <div
+          className={cn("flex flex-col h-screen", isDesktop ? "pt-16" : "pt-5")}
+        >
           <div className="w-full h-full overflow-y-auto border-r border-gray-200">
             <EmailList emails={emails} />
           </div>

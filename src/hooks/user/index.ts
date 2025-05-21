@@ -8,13 +8,13 @@ import type { AxiosError } from "axios"
 
 export const useGetRecipientSuimailNsQuery = (
   recipient: string,
-  options?: UseQueryOptions<string, AxiosError>
+  options?: UseQueryOptions<{ suimailNs: string }, AxiosError>
 ) => {
   return useQuery({
     ...(options ?? {}),
     queryKey: ["recipient-suimail-ns", recipient],
     queryFn: async () => {
-      return await httpService.get(`/user/suimail-ns/${recipient}`)
+      return await httpService.get(`/user/suimailns/${recipient}`)
     },
   })
 }
@@ -22,7 +22,7 @@ export const useGetRecipientSuimailNsQuery = (
 export const useSetUserMailFeeMutation = () => {
   return useMutation({
     mutationFn: async (mailFee: number) => {
-      return await httpService.post("/user/mail-fee", { mailFee })
+      return await httpService.post("/user/mailfee", { mailFee })
     },
   })
 }
