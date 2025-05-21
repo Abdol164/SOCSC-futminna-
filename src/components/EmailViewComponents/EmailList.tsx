@@ -1,5 +1,6 @@
 import type { IEmail } from "@/types/generic"
 import { EmailTab } from "./EmailTab"
+
 interface EmailListProps {
   emails: IEmail[]
 }

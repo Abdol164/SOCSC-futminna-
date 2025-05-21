@@ -6,25 +6,18 @@ import {
   Reply,
   Forward,
   X,
-  Maximize2,
-  Minimize2,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react"
 import { format } from "date-fns"
 import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
 
+import { useFetchMailBodyQuery } from "@/hooks/mail"
 import type { IEmail } from "@/types/generic"
-import { emailService } from "@/lib/services/emailService"
-import useMediaQuery from "@/hooks/useMediaQuery"
 
 export default function EmailView() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [email, setEmail] = useState<IEmail | null>(null)
-  const [isFullScreen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const isMobile = useMediaQuery("(max-width: 768px)")
 
   const [isEntering, setIsEntering] = useState(true)
   const [isExiting, setIsExiting] = useState(false)
@@ -34,25 +27,21 @@ export default function EmailView() {
   const [previousId, setPreviousId] = useState<string | null>(null)
   const [nextId, setNextId] = useState<string | null>(null)
 
+  const { data: email, isLoading } = useFetchMailBodyQuery(
+    "walletAddress",
+    id || ""
+  )
+
   useEffect(() => {
     if (!id) return
 
-    const fetchEmail = async () => {
-      setIsLoading(true)
+    setIsEntering(true)
+    setTimeout(() => setIsEntering(false), 50)
+
+    // Simulate fetching all emails to determine previous and next
+    const fetchAllEmails = async () => {
       try {
-        // Fetch the email
-        const { data } = await emailService.getEmailById(id)
-        if (data) {
-          setEmail(data)
-
-          // Mark as read if it wasn't already
-          if (!data.isRead) {
-            emailService.markAsRead(data.id)
-          }
-        }
-
-        // Fetch all emails to determine previous and next
-        const { data: allEmails } = await emailService.getInboxEmails()
+        const allEmails: IEmail[] = []
         if (allEmails.length > 0) {
           const currentIndex = allEmails.findIndex((email) => email.id === id)
           if (currentIndex > 0) {
@@ -72,18 +61,11 @@ export default function EmailView() {
           }
         }
       } catch (error) {
-        console.error("Error fetching email:", error)
-      } finally {
-        setIsLoading(false)
+        console.error("Error fetching all emails:", error)
       }
     }
 
-    fetchEmail()
-
-    setIsEntering(true)
-    setTimeout(() => setIsEntering(false), 50)
-
-    return () => {}
+    fetchAllEmails()
   }, [id])
 
   const getInitials = (name: string) => {
@@ -182,16 +164,6 @@ export default function EmailView() {
                   }`}
                 />
               </button>
-
-              {!isMobile && (
-                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                  {isFullScreen ? (
-                    <Minimize2 className="h-5 w-5 text-gray-600" />
-                  ) : (
-                    <Maximize2 className="h-5 w-5 text-gray-600" />
-                  )}
-                </button>
-              )}
 
               <button
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors"
