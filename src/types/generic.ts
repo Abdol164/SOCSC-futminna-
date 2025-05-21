@@ -10,12 +10,12 @@ export interface IUser {
 
 export interface IEmail {
   id: string
-  date: string
   subject: string
   body: string
-  sender: string
-  recipient: string
+  sender: Pick<IUser, "suimailNs">
+  recipient: Pick<IUser, "suimailNs">
   isRead: boolean
+  createdAt: string
 }
 
 export interface IPlan {

@@ -16,11 +16,11 @@ export function useFetchInboxQuery() {
   })
 }
 
-export function useFetchMailBodyQuery(walletAddress: string, mailId: string) {
+export function useFetchMailBodyQuery(mailId: string) {
   return useQuery({
-    queryKey: ["mail-body", walletAddress, mailId],
+    queryKey: ["mail-body", mailId],
     queryFn: async (): Promise<IEmail> => {
-      return await httpService.get(`/mail/inbox/${mailId}`)
+      return await httpService.get(`/mail/${mailId}`)
     },
   })
 }

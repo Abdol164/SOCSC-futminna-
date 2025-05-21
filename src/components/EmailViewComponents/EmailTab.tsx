@@ -1,15 +1,24 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Calendar } from "lucide-react"
 import type { IEmail } from "@/types/generic"
 import { cn } from "@/lib/utils"
+import { useMemo } from "react"
 
 interface EmailTabProps {
   email: IEmail
 }
 
 export function EmailTab({ email }: EmailTabProps) {
+  const { pathname } = useLocation()
+
+  const isInboxPage = useMemo(() => pathname === "/mail", [pathname])
+  const isOutboxPage = useMemo(() => pathname === "/mail/sent", [pathname])
+
   return (
-    <Link to={`/mail/inbox/${email.id}`} className="block w-full">
+    <Link
+      to={`/mail/${isInboxPage ? "inbox" : "sent"}/${email.id}`}
+      className="block w-full"
+    >
       <div
         className={cn(
           "group relative flex flex-col gap-1 border-b p-4 transition-all hover:bg-gray-50 sm:flex-row sm:items-center sm:gap-4",
@@ -37,15 +46,16 @@ export function EmailTab({ email }: EmailTabProps) {
                 !email.isRead && "font-medium text-gray-900"
               )}
             >
-              {email.sender}
+              {isInboxPage && email.recipient.suimailNs}
+              {isOutboxPage && email.sender.suimailNs}
             </p>
             <div className="flex items-center gap-2">
               <time
                 className="flex items-center whitespace-nowrap text-xs text-gray-400"
-                dateTime={email.date}
+                dateTime={email.createdAt}
               >
                 <Calendar className="mr-1 h-3 w-3" />
-                {new Date(email.date).toLocaleDateString("en-US", {
+                {new Date(email.createdAt).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                 })}

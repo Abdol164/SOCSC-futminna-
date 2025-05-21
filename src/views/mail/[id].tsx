@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import {
   ArrowLeft,
   Trash2,
@@ -10,164 +9,52 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { format } from "date-fns"
-import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
-
+import { Loading } from "@/components/Loading"
 import { useFetchMailBodyQuery } from "@/hooks/mail"
-import type { IEmail } from "@/types/generic"
+import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
+import { Button } from "@/components/ui/button"
 
 export default function EmailView() {
-  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
 
-  const [isEntering, setIsEntering] = useState(true)
-  const [isExiting, setIsExiting] = useState(false)
+  const { data: email, isFetching } = useFetchMailBodyQuery(id ?? "")
 
-  const [hasPrevious, setHasPrevious] = useState(false)
-  const [hasNext, setHasNext] = useState(false)
-  const [previousId, setPreviousId] = useState<string | null>(null)
-  const [nextId, setNextId] = useState<string | null>(null)
+  if (isFetching) return <Loading message="Loading email..." />
 
-  const { data: email, isLoading } = useFetchMailBodyQuery(
-    "walletAddress",
-    id || ""
-  )
-
-  useEffect(() => {
-    if (!id) return
-
-    setIsEntering(true)
-    setTimeout(() => setIsEntering(false), 50)
-
-    // Simulate fetching all emails to determine previous and next
-    const fetchAllEmails = async () => {
-      try {
-        const allEmails: IEmail[] = []
-        if (allEmails.length > 0) {
-          const currentIndex = allEmails.findIndex((email) => email.id === id)
-          if (currentIndex > 0) {
-            setHasPrevious(true)
-            setPreviousId(allEmails[currentIndex - 1].id)
-          } else {
-            setHasPrevious(false)
-            setPreviousId(null)
-          }
-
-          if (currentIndex < allEmails.length - 1) {
-            setHasNext(true)
-            setNextId(allEmails[currentIndex + 1].id)
-          } else {
-            setHasNext(false)
-            setNextId(null)
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching all emails:", error)
-      }
-    }
-
-    fetchAllEmails()
-  }, [id])
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase()
-      .substring(0, 2)
-  }
-
-  const handleBack = () => {
-    setIsExiting(true)
-    setTimeout(() => {
-      navigate("/mail/inbox")
-    }, 300)
-  }
-
-  const handlePrevious = () => {
-    if (hasPrevious && previousId) {
-      navigate(`/mail/inbox/${previousId}`)
-    }
-  }
-
-  const handleNext = () => {
-    if (hasNext && nextId) {
-      navigate(`/mail/inbox/${nextId}`)
-    }
-  }
-
-  if (isLoading || !email) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-500">Loading email...</p>
-        </div>
-      </div>
-    )
-  }
+  if (!email) return <div>Email not found</div>
 
   return (
     <div className="h-full w-full relative">
-      {isExiting && (
-        <div
-          className="absolute inset-0 bg-black bg-opacity-10 z-10 transition-opacity duration-300 ease-in-out"
-          style={{ opacity: isExiting ? 1 : 0 }}
-        />
-      )}
-
-      <div
-        className={`absolute inset-0 bg-white border-l border-gray-200 shadow-md z-20 overflow-hidden
-          transition-all duration-300 ease-out
-          ${isEntering ? "translate-x-full" : "translate-x-0"}
-          ${isExiting ? "translate-x-full" : "translate-x-0"}`}
-        style={{
-          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-      >
+      <div className="absolute inset-0 bg-white border-l border-gray-200 shadow-md z-20 overflow-hidden">
         {/* Email view header */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center">
-              <button
-                onClick={handleBack}
-                className="mr-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+              <Button
+                variant="ghost"
+                className="mr-4 p-2 hover:bg-gray-100 transition-colors"
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft className="h-5 w-5 text-gray-600" />
-              </button>
+              </Button>
               <h2 className="text-lg font-medium text-gray-900 truncate">
                 {email.subject}
               </h2>
             </div>
 
             <div className="flex items-center space-x-2">
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                onClick={handlePrevious}
-                disabled={!hasPrevious}
-              >
-                <ChevronLeft
-                  className={`h-5 w-5 ${
-                    hasPrevious ? "text-gray-600" : "text-gray-300"
-                  }`}
-                />
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <ChevronLeft className="h-5 w-5 text-gray-600" />
+              </button>
+
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <ChevronRight className="h-5 w-5 text-gray-600" />
               </button>
 
               <button
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                onClick={handleNext}
-                disabled={!hasNext}
-              >
-                <ChevronRight
-                  className={`h-5 w-5 ${
-                    hasNext ? "text-gray-600" : "text-gray-300"
-                  }`}
-                />
-              </button>
-
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                onClick={handleBack}
+                // onClick={handleBack}
               >
                 <X className="h-5 w-5 text-gray-600" />
               </button>
@@ -200,31 +87,23 @@ export default function EmailView() {
         >
           {/* Sender info */}
           <div className="flex items-start mb-6">
-            <SimpleAvatar
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
-                email.sender
-              )}`}
-              alt={email.sender}
-              initials={getInitials(email.sender)}
-              size="lg"
-              className="mr-4"
-            />
-
             <div className="flex-1">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">
-                    {email.sender}
+                    {email.sender.suimailNs}
                   </h3>
-                  <p className="text-sm text-gray-500">To: {email.recipient}</p>
+                  <p className="text-sm text-gray-500">
+                    To: {email.recipient.suimailNs}
+                  </p>
                 </div>
 
                 <div className="text-right">
                   <p className="text-sm text-gray-500">
-                    {format(new Date(email.date), "PPP")}
+                    {format(new Date(email.createdAt), "PPP")}
                   </p>
                   <p className="text-xs text-gray-400">
-                    {format(new Date(email.date), "p")}
+                    {format(new Date(email.createdAt), "p")}
                   </p>
                 </div>
               </div>
