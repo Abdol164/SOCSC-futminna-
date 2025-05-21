@@ -30,7 +30,7 @@ export default function ComposePage() {
 
     if (!chargeMailTxFeeResult) {
       setNotification({
-        message: "Failed to charge mail tx fee",
+        message: "Failed to charge mail Transaction Fee",
         type: "error",
       })
       return

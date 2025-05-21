@@ -19,6 +19,14 @@ export const useGetRecipientSuimailNsQuery = (
   })
 }
 
+export const useSetUserSuimailNsMutation = () => {
+  return useMutation({
+    mutationFn: async (suimailNs: string) => {
+      return await httpService.post("/user/suimailns", { suimailNs })
+    },
+  })
+}
+
 export const useSetUserMailFeeMutation = () => {
   return useMutation({
     mutationFn: async (mailFee: number) => {

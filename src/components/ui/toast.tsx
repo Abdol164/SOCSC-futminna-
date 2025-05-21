@@ -14,6 +14,7 @@ import { randomToastId } from "@/utils/helpers/random-toast-id"
 interface ToastNotification {
   id: string
   message: string
+  description?: string
   type: "success" | "error"
 }
 
@@ -61,6 +62,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
           <Notification
             id={notification.id}
             message={notification.message}
+            description={notification.description}
             type={notification.type}
             removeNotif={removeNotification}
           />
@@ -83,6 +85,7 @@ export const useToastContext = () => {
 const Notification = ({
   id,
   message,
+  description,
   type,
   removeNotif,
 }: ToastNotification & { removeNotif: () => void }) => {
@@ -107,7 +110,12 @@ const Notification = ({
         type === "success" ? "bg-emerald-600" : "bg-red-500"
       )}
     >
-      <span className="font-sans">{message}</span>
+      <div className="flex flex-col gap-1">
+        <span className="font-sans">{message}</span>
+        {description && (
+          <span className="font-sans text-[11px]">{description}</span>
+        )}
+      </div>
       <button className="cursor-pointer" onClick={removeNotif}>
         <XIcon className="w-4 h-4" />
       </button>

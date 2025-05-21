@@ -10,6 +10,7 @@ import SubscriptionPage from "./views/accounts/subscription/page"
 import { DashboardLayout } from "./components/layouts/DashboardLayout"
 import { MailBoardLayout } from "./components/layouts/MailBoardLayout"
 import TrashPage from "./views/mail/trash/page"
+import OnboardingPage from "./views/onboarding/page"
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const routes = createBrowserRouter([
   {
     element: <DashboardLayout />,
     children: [
+      {
+        path: "/onboarding",
+        element: <OnboardingPage />,
+      },
       {
         path: "/",
         element: <MailBoardLayout />,

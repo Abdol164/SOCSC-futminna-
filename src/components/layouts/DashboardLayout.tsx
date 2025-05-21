@@ -1,20 +1,41 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
 import { Loading } from "../Loading"
 import { getCookie } from "@/utils/helpers/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
+import { useGetAuthUserQuery } from "@/hooks/auth"
 
 export function DashboardLayout() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    const token = getCookie(ACCESS_TOKEN_COOKIE_NAME)
-    if (!token.length) {
+  const { data: user, isFetching } = useGetAuthUserQuery()
+
+  const handleAuthFlow = useCallback(async () => {
+    try {
+      const token = getCookie(ACCESS_TOKEN_COOKIE_NAME)
+      if (!token.length) {
+        navigate("/")
+        return
+      }
+
+      if (user?.suimailNs) {
+        navigate("/mail")
+      } else {
+        if (!isFetching) {
+          navigate("/onboarding")
+        }
+      }
+
+      setIsLoading(false)
+    } catch {
       navigate("/")
     }
-    setIsLoading(false)
-  }, [navigate])
+  }, [user, isFetching, navigate])
+
+  useEffect(() => {
+    handleAuthFlow()
+  }, [handleAuthFlow])
 
   if (isLoading) {
     return <Loading />
