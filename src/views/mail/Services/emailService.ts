@@ -90,7 +90,11 @@ export const emailService = {
    * Get all emails for the inbox
    * @returns Promise with array of IEmail objects
    */
-  getInboxEmails: async (): Promise<{ data: IEmail[]; isFetching: boolean; isError: boolean }> => {
+  getInboxEmails: async (): Promise<{
+    data: IEmail[]
+    isFetching: boolean
+    isError: boolean
+  }> => {
     if (USE_DUMMY_DATA) {
       return {
         data: dummyEmails,
@@ -125,7 +129,9 @@ export const emailService = {
    * @param id The email ID to find
    * @returns Promise with the email object or undefined if not found
    */
-  getEmailById: async (id: string): Promise<{ data: IEmail | null; isLoading: boolean; isError: boolean }> => {
+  getEmailById: async (
+    id: string
+  ): Promise<{ data: IEmail | null; isLoading: boolean; isError: boolean }> => {
     if (USE_DUMMY_DATA) {
       const email = dummyEmails.find((email) => email.id === id)
       return {
@@ -161,7 +167,9 @@ export const emailService = {
    * @param id The email ID to mark as read
    * @returns Promise with the updated email or null if not found
    */
-  markAsRead: async (id: string): Promise<{ success: boolean; data: IEmail | null }> => {
+  markAsRead: async (
+    id: string
+  ): Promise<{ success: boolean; data: IEmail | null }> => {
     if (USE_DUMMY_DATA) {
       const email = dummyEmails.find((email) => email.id === id)
       if (email) {

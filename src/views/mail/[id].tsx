@@ -1,29 +1,34 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { ArrowLeft, Trash2, Reply, Forward, X, Maximize2, Minimize2, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  ArrowLeft,
+  Trash2,
+  Reply,
+  Forward,
+  X,
+  Maximize2,
+  Minimize2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
 import { format } from "date-fns"
 import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
 
 import type { IEmail } from "@/types/generic"
-import { emailService } from "@/views/mail/Services/emailService"
+import { emailService } from "@/views/mail/services/emailService"
 import useMediaQuery from "@/hooks/useMediaQuery"
 
 export default function EmailView() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [email, setEmail] = useState<IEmail | null>(null)
-  const [isFullScreen, setIsFullScreen] = useState(false)
-  const [viewWidth, setViewWidth] = useState<number>(70) // Default to 70% width
+  const [isFullScreen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const isMobile = useMediaQuery("(max-width: 768px)")
 
-  // Animation states
   const [isEntering, setIsEntering] = useState(true)
   const [isExiting, setIsExiting] = useState(false)
 
-  // Get the previous and next email IDs
   const [hasPrevious, setHasPrevious] = useState(false)
   const [hasNext, setHasNext] = useState(false)
   const [previousId, setPreviousId] = useState<string | null>(null)
@@ -75,16 +80,12 @@ export default function EmailView() {
 
     fetchEmail()
 
-    // Reset animation state when email changes
     setIsEntering(true)
-    setTimeout(() => setIsEntering(false), 50) // Shorter delay for smoother appearance
+    setTimeout(() => setIsEntering(false), 50)
 
-    return () => {
-      // Cleanup
-    }
+    return () => {}
   }, [id])
 
-  // Function to get initials from sender's name
   const getInitials = (name: string) => {
     return name
       .split(" ")
@@ -98,27 +99,18 @@ export default function EmailView() {
     setIsExiting(true)
     setTimeout(() => {
       navigate("/mail/inbox")
-    }, 300) // Match the transition duration
+    }, 300)
   }
 
   const handlePrevious = () => {
     if (hasPrevious && previousId) {
-      navigate(`/mail/${previousId}`)
+      navigate(`/mail/inbox/${previousId}`)
     }
   }
 
   const handleNext = () => {
     if (hasNext && nextId) {
-      navigate(`/mail/${nextId}`)
-    }
-  }
-
-  const toggleFullScreen = () => {
-    setIsFullScreen(!isFullScreen)
-    if (!isFullScreen) {
-      setViewWidth(95)
-    } else {
-      setViewWidth(70)
+      navigate(`/mail/inbox/${nextId}`)
     }
   }
 
@@ -133,12 +125,8 @@ export default function EmailView() {
     )
   }
 
-  // Set width based on device and fullscreen state
-  const emailViewWidth = isMobile ? 100 : isFullScreen ? 95 : viewWidth
-
   return (
     <div className="h-full w-full relative">
-      {/* Overlay for smooth exit animation */}
       {isExiting && (
         <div
           className="absolute inset-0 bg-black bg-opacity-10 z-10 transition-opacity duration-300 ease-in-out"
@@ -152,17 +140,22 @@ export default function EmailView() {
           ${isEntering ? "translate-x-full" : "translate-x-0"}
           ${isExiting ? "translate-x-full" : "translate-x-0"}`}
         style={{
-          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)", // Smooth easing
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         {/* Email view header */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center">
-              <button onClick={handleBack} className="mr-4 p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <button
+                onClick={handleBack}
+                className="mr-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+              >
                 <ArrowLeft className="h-5 w-5 text-gray-600" />
               </button>
-              <h2 className="text-lg font-medium text-gray-900 truncate">{email.subject}</h2>
+              <h2 className="text-lg font-medium text-gray-900 truncate">
+                {email.subject}
+              </h2>
             </div>
 
             <div className="flex items-center space-x-2">
@@ -171,7 +164,11 @@ export default function EmailView() {
                 onClick={handlePrevious}
                 disabled={!hasPrevious}
               >
-                <ChevronLeft className={`h-5 w-5 ${hasPrevious ? "text-gray-600" : "text-gray-300"}`} />
+                <ChevronLeft
+                  className={`h-5 w-5 ${
+                    hasPrevious ? "text-gray-600" : "text-gray-300"
+                  }`}
+                />
               </button>
 
               <button
@@ -179,11 +176,15 @@ export default function EmailView() {
                 onClick={handleNext}
                 disabled={!hasNext}
               >
-                <ChevronRight className={`h-5 w-5 ${hasNext ? "text-gray-600" : "text-gray-300"}`} />
+                <ChevronRight
+                  className={`h-5 w-5 ${
+                    hasNext ? "text-gray-600" : "text-gray-300"
+                  }`}
+                />
               </button>
 
               {!isMobile && (
-                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors" onClick={toggleFullScreen}>
+                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                   {isFullScreen ? (
                     <Minimize2 className="h-5 w-5 text-gray-600" />
                   ) : (
@@ -192,7 +193,10 @@ export default function EmailView() {
                 </button>
               )}
 
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors" onClick={handleBack}>
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                onClick={handleBack}
+              >
                 <X className="h-5 w-5 text-gray-600" />
               </button>
             </div>
@@ -218,11 +222,16 @@ export default function EmailView() {
         </div>
 
         {/* Email content */}
-        <div className="p-6 overflow-y-auto" style={{ height: "calc(100vh - 140px)" }}>
+        <div
+          className="p-6 overflow-y-auto"
+          style={{ height: "calc(100vh - 140px)" }}
+        >
           {/* Sender info */}
           <div className="flex items-start mb-6">
             <SimpleAvatar
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(email.from)}`}
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+                email.from
+              )}`}
               alt={email.from}
               initials={getInitials(email.from)}
               size="lg"
@@ -232,20 +241,28 @@ export default function EmailView() {
             <div className="flex-1">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900">{email.from}</h3>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    {email.from}
+                  </h3>
                   <p className="text-sm text-gray-500">To: {email.to}</p>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">{format(new Date(email.date), "PPP")}</p>
-                  <p className="text-xs text-gray-400">{format(new Date(email.date), "p")}</p>
+                  <p className="text-sm text-gray-500">
+                    {format(new Date(email.date), "PPP")}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {format(new Date(email.date), "p")}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Subject */}
-          <h1 className="text-2xl font-bold mb-6 text-gray-900">{email.subject}</h1>
+          <h1 className="text-2xl font-bold mb-6 text-gray-900">
+            {email.subject}
+          </h1>
 
           {/* Email body */}
           <div className="prose max-w-none">
