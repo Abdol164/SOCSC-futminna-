@@ -117,7 +117,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar>
+    <Sidebar className="fixed">
       <SidebarHeader className="py-5 flex flex-col items-center">
         <img
           src="/images/suimail-logo.png"

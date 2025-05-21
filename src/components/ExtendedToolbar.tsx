@@ -20,7 +20,7 @@ export function ExtendedToolbar({
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
-    <div className="w-full flex items-center h-14 px-4 border-b border-gray-200">
+    <div className="fixed z-[50] w-full flex items-center h-14 px-4 border-b border-gray-200 bg-white">
       <div className="flex items-center gap-2">
         <SidebarTrigger />
 
