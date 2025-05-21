@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Mail, Zap, Crown } from "lucide-react"
 import { Benefits } from "./Benefits"
-// import { FAQTeaser } from "./FAQTeaser"
 import { PricingCard } from "./PricingCard"
 import type { IPlan } from "@/types/generic"
 import { SubscriptionHeader, type BillingCycle } from "./SubscriptionHeader"
