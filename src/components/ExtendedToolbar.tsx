@@ -1,26 +1,34 @@
-import { ArrowLeft, Search, X } from "lucide-react"
-import { Button } from "./ui/button"
-import { SidebarTrigger } from "./ui/sidebar"
-import { Input } from "./ui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { ArrowLeft, Search, X } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Input } from "./ui/input"
+import { Button } from "./ui/button"
+import { SidebarTrigger } from "./ui/sidebar"
 
 interface ExtendedToolbarProps {
   canGoBack?: boolean
+  isSticky?: boolean
   getPageTitle?: () => string
   addCTA?: React.ReactNode
 }
 
 export function ExtendedToolbar({
   canGoBack = false,
-  getPageTitle = () => "Inbox",
+  isSticky = true,
+  getPageTitle = () => "Inbox",  
   addCTA,
 }: ExtendedToolbarProps) {
   const navigate = useNavigate()
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
-    <div className="fixed z-[50] w-full flex items-center h-14 px-4 border-b border-gray-200 bg-white">
+    <div
+      className={cn(
+        isSticky ? "fixed" : "relative",
+        "z-[50] w-full flex items-center h-14 px-4 border-b border-gray-200 bg-white"
+      )}
+    >
       <div className="flex items-center gap-2">
         <SidebarTrigger />
 

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
 import { Calendar } from "lucide-react"
-
 import type { IEmail } from "@/types/generic"
 import { cn } from "@/lib/utils"
 
@@ -38,7 +37,7 @@ export function EmailTab({ email }: EmailTabProps) {
                 !email.isRead && "font-medium text-gray-900"
               )}
             >
-              {email.from}
+              {email.sender}
             </p>
             <div className="flex items-center gap-2">
               <time
