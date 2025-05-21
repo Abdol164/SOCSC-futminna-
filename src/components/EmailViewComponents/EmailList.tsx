@@ -5,6 +5,7 @@ interface EmailListProps {
 }
 
 export function EmailList({ emails }: EmailListProps) {
+
   const hasEmails = emails.length > 0
 
   return (

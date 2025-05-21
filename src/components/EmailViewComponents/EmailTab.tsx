@@ -60,9 +60,7 @@ export function EmailTab({ email }: EmailTabProps) {
           >
             {email.subject}
           </h3>
-          <p className="line-clamp-1 text-xs text-gray-500">
-            {email.body?.substring(0, 120)}
-          </p>
+        
         </div>
       </div>
     </Link>

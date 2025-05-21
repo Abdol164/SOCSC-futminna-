@@ -1,27 +1,50 @@
-import { useEffect, useState } from "react"
-import type { IEmail } from "@/types/generic"
+"use client"
+
+import { useMemo } from "react"
+import { useFetchInboxQuery } from "@/hooks/mail"
 import { PageLayout } from "@/components/layouts/PageLayout"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
-import { emailService } from "@/lib/services/emailService"
 import { EmailList } from "@/components/EmailViewComponents/EmailList"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
+import type { IEmail } from "@/types/generic"
+
+// Function to generate dummy sender emails
+const generateDummySender = (index: number) => {
+  const senders = [
+    "dean@suimail",
+    "sarah@suimail",
+    "alex@suimail",
+    "taylor@suimail",
+    "jordan@suimail",
+    "morgan@suimail",
+    "casey@suimail",
+    "jamie@suimail",
+    "riley@suimail",
+    "quinn@suimail",
+  ]
+
+  return senders[index % senders.length]
+}
 
 export default function InboxPage() {
-  const [emails, setEmails] = useState<IEmail[]>([])
-  const [isFetching, setIsFetching] = useState(true)
-  const [isError, setIsError] = useState(false)
+  const { data: inbox, isFetching, isError } = useFetchInboxQuery()
 
-  useEffect(() => {
-    const fetchEmails = async () => {
-      setIsFetching(true)
-      const { data, isFetching, isError } = await emailService.getInboxEmails()
-      setEmails(data)
-      setIsFetching(isFetching)
-      setIsError(isError)
-    }
+  const emails: IEmail[] = useMemo(() => {
+    return (inbox?.data || []).map((email, index) => {
+      // Generate a dummy sender if one doesn't exist
+      const dummySender = generateDummySender(index)
 
-    fetchEmails()
-  }, [])
+      return {
+        id: email.id || Math.floor(Math.random() * 10000).toString(),
+        date: email.date || new Date().toISOString(),
+        subject: email.subject || "No Subject",
+        body: email.body || email.message || "No message content",
+        sender: email.sender || email.from || dummySender,
+        recipient: email.recipient || email.to || "me@suimail.com",
+        isRead: email.isRead || false,
+      }
+    })
+  }, [inbox])
 
   return (
     <PageLayout loading={isFetching} isError={isError}>

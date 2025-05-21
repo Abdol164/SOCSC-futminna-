@@ -77,7 +77,7 @@ const dummyEmails: IEmail[] = [
 ]
 
 // Flag to toggle between real data and dummy data
-export const USE_DUMMY_DATA = true // Set to false when you want to use real data
+export const USE_DUMMY_DATA = false // Set to false when you want to use real data
 
 // API endpoints
 const API_ENDPOINTS = {

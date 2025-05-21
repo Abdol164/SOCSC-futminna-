@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   Trash2,
@@ -10,81 +10,64 @@ import {
   Minimize2,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react"
-import { format } from "date-fns"
-import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
+} from "lucide-react";
+import { format } from "date-fns";
+import { SimpleAvatar } from "@/components/ui/SimpleAvatar";
 
-import type { IEmail } from "@/types/generic"
-import { emailService } from "@/lib/services/emailService"
-import useMediaQuery from "@/hooks/useMediaQuery"
+import { useFetchMailBodyQuery } from "@/hooks/mail";
+import { emailService } from "@/lib/services/emailService";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export default function EmailView() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const [email, setEmail] = useState<IEmail | null>(null)
-  const [isFullScreen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const isMobile = useMediaQuery("(max-width: 768px)")
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const [isEntering, setIsEntering] = useState(true)
-  const [isExiting, setIsExiting] = useState(false)
+  const [isEntering, setIsEntering] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
 
-  const [hasPrevious, setHasPrevious] = useState(false)
-  const [hasNext, setHasNext] = useState(false)
-  const [previousId, setPreviousId] = useState<string | null>(null)
-  const [nextId, setNextId] = useState<string | null>(null)
+  const [hasPrevious, setHasPrevious] = useState(false);
+  const [hasNext, setHasNext] = useState(false);
+  const [previousId, setPreviousId] = useState<string | null>(null);
+  const [nextId, setNextId] = useState<string | null>(null);
+
+  const { data: email, isLoading } = useFetchMailBodyQuery("walletAddress", id || "");
 
   useEffect(() => {
-    if (!id) return
+    if (!id) return;
 
-    const fetchEmail = async () => {
-      setIsLoading(true)
+    setIsEntering(true);
+    setTimeout(() => setIsEntering(false), 50);
+
+    // Simulate fetching all emails to determine previous and next
+    const fetchAllEmails = async () => {
       try {
-        // Fetch the email
-        const { data } = await emailService.getEmailById(id)
-        if (data) {
-          setEmail(data)
-
-          // Mark as read if it wasn't already
-          if (!data.isRead) {
-            emailService.markAsRead(data.id)
-          }
-        }
-
-        // Fetch all emails to determine previous and next
-        const { data: allEmails } = await emailService.getInboxEmails()
+        const { data: allEmails } = await emailService.getInboxEmails();
         if (allEmails.length > 0) {
-          const currentIndex = allEmails.findIndex((email) => email.id === id)
+          const currentIndex = allEmails.findIndex((email) => email.id === id);
           if (currentIndex > 0) {
-            setHasPrevious(true)
-            setPreviousId(allEmails[currentIndex - 1].id)
+            setHasPrevious(true);
+            setPreviousId(allEmails[currentIndex - 1].id);
           } else {
-            setHasPrevious(false)
-            setPreviousId(null)
+            setHasPrevious(false);
+            setPreviousId(null);
           }
 
           if (currentIndex < allEmails.length - 1) {
-            setHasNext(true)
-            setNextId(allEmails[currentIndex + 1].id)
+            setHasNext(true);
+            setNextId(allEmails[currentIndex + 1].id);
           } else {
-            setHasNext(false)
-            setNextId(null)
+            setHasNext(false);
+            setNextId(null);
           }
         }
       } catch (error) {
-        console.error("Error fetching email:", error)
-      } finally {
-        setIsLoading(false)
+        console.error("Error fetching all emails:", error);
       }
-    }
+    };
 
-    fetchEmail()
-
-    setIsEntering(true)
-    setTimeout(() => setIsEntering(false), 50)
-
-    return () => {}
-  }, [id])
+    fetchAllEmails();
+  }, [id]);
 
   const getInitials = (name: string) => {
     return name
@@ -92,27 +75,27 @@ export default function EmailView() {
       .map((part) => part[0])
       .join("")
       .toUpperCase()
-      .substring(0, 2)
-  }
+      .substring(0, 2);
+  };
 
   const handleBack = () => {
-    setIsExiting(true)
+    setIsExiting(true);
     setTimeout(() => {
-      navigate("/mail/inbox")
-    }, 300)
-  }
+      navigate("/mail/inbox");
+    }, 300);
+  };
 
   const handlePrevious = () => {
     if (hasPrevious && previousId) {
-      navigate(`/mail/inbox/${previousId}`)
+      navigate(`/mail/inbox/${previousId}`);
     }
-  }
+  };
 
   const handleNext = () => {
     if (hasNext && nextId) {
-      navigate(`/mail/inbox/${nextId}`)
+      navigate(`/mail/inbox/${nextId}`);
     }
-  }
+  };
 
   if (isLoading || !email) {
     return (
@@ -122,7 +105,7 @@ export default function EmailView() {
           <p className="mt-4 text-gray-500">Loading email...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -292,5 +275,5 @@ export default function EmailView() {
         </div>
       </div>
     </div>
-  )
+  );
 }
