@@ -1,16 +1,8 @@
-"use client"
-
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Plus } from "lucide-react"
 
 export function ComposeButton() {
   const navigate = useNavigate()
-  const location = useLocation()
-
-  // Hide the button when on the compose page
-  if (location.pathname === "/mail/compose") {
-    return null
-  }
 
   return (
     <button

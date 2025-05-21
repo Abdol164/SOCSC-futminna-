@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import type { WalletAccount } from "@wallet-standard/base"
 import { ConnectModal, useCurrentAccount } from "@mysten/dapp-kit"
-import { useLoginMutation } from "../../hooks/auth"
 import { setCookie } from "@/utils/helpers/auth"
+import { useLoginMutation } from "../../hooks/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
-import { Shield } from "lucide-react"
 
 export default function ConnectPage() {
   const navigate = useNavigate()
@@ -28,7 +27,7 @@ export default function ConnectPage() {
         console.error(error)
       }
     },
-    [login, navigate],
+    [login, navigate]
   )
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function ConnectPage() {
     <div className="min-h-screen bg-white flex flex-col items-center justify-center">
       {/* Logo */}
       <div className="flex items-center gap-2 mb-8">
-      <img
+        <img
           src="/images/suimail-logo.png"
           alt="SUIMAIL"
           className="w-[150px] h-auto"
@@ -51,7 +50,9 @@ export default function ConnectPage() {
 
       {/* Connect Card */}
       <div className="w-full max-w-sm p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-        <h1 className="text-xl font-medium text-center text-gray-800 mb-6">Login to your account</h1>
+        <h1 className="text-xl font-medium text-center text-gray-800 mb-6">
+          Login to your account
+        </h1>
 
         <ConnectModal
           trigger={
@@ -63,16 +64,7 @@ export default function ConnectPage() {
                   : "bg-blue-500 hover:bg-blue-600 text-white"
               }`}
             >
-              {isLoginPending && (
-                <svg className="animate-spin h-4 w-4 text-current" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              )}
+              {isLoginPending && <LoginCircle />}
               {renderConnectButtonLabel(currentAccount, isLoginPending)}
             </button>
           }
@@ -86,13 +78,38 @@ export default function ConnectPage() {
       </div>
 
       {/* Footer */}
-      <p className="mt-8 text-xs text-gray-400">© {new Date().getFullYear()} SuiMail</p>
+      <p className="mt-8 text-xs text-gray-400">
+        &copy; {new Date().getFullYear()} SuiMail
+      </p>
     </div>
   )
 }
 
-const renderConnectButtonLabel = (wallet: WalletAccount | null, isPending: boolean) => {
+const renderConnectButtonLabel = (
+  wallet: WalletAccount | null,
+  isPending: boolean
+) => {
   if (!wallet) return "Connect Wallet"
   if (isPending) return "Connecting..."
   return `${wallet.address.slice(0, 4)}...${wallet.address.slice(-4)}`
+}
+
+const LoginCircle = () => {
+  return (
+    <svg className="animate-spin h-4 w-4 text-current" viewBox="0 0 24 24">
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  )
 }
