@@ -1,73 +1,72 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import {
   ArrowLeft,
   Trash2,
   Reply,
   Forward,
   X,
-  Maximize2,
-  Minimize2,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
-import { format } from "date-fns";
-import { SimpleAvatar } from "@/components/ui/SimpleAvatar";
+} from "lucide-react"
+import { format } from "date-fns"
+import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
 
-import { useFetchMailBodyQuery } from "@/hooks/mail";
-import { emailService } from "@/lib/services/emailService";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import { useFetchMailBodyQuery } from "@/hooks/mail"
+import type { IEmail } from "@/types/generic"
 
 export default function EmailView() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
 
-  const [isEntering, setIsEntering] = useState(true);
-  const [isExiting, setIsExiting] = useState(false);
+  const [isEntering, setIsEntering] = useState(true)
+  const [isExiting, setIsExiting] = useState(false)
 
-  const [hasPrevious, setHasPrevious] = useState(false);
-  const [hasNext, setHasNext] = useState(false);
-  const [previousId, setPreviousId] = useState<string | null>(null);
-  const [nextId, setNextId] = useState<string | null>(null);
+  const [hasPrevious, setHasPrevious] = useState(false)
+  const [hasNext, setHasNext] = useState(false)
+  const [previousId, setPreviousId] = useState<string | null>(null)
+  const [nextId, setNextId] = useState<string | null>(null)
 
-  const { data: email, isLoading } = useFetchMailBodyQuery("walletAddress", id || "");
+  const { data: email, isLoading } = useFetchMailBodyQuery(
+    "walletAddress",
+    id || ""
+  )
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return
 
-    setIsEntering(true);
-    setTimeout(() => setIsEntering(false), 50);
+    setIsEntering(true)
+    setTimeout(() => setIsEntering(false), 50)
 
     // Simulate fetching all emails to determine previous and next
     const fetchAllEmails = async () => {
       try {
-        const { data: allEmails } = await emailService.getInboxEmails();
+        const allEmails: IEmail[] = []
         if (allEmails.length > 0) {
-          const currentIndex = allEmails.findIndex((email) => email.id === id);
+          const currentIndex = allEmails.findIndex((email) => email.id === id)
           if (currentIndex > 0) {
-            setHasPrevious(true);
-            setPreviousId(allEmails[currentIndex - 1].id);
+            setHasPrevious(true)
+            setPreviousId(allEmails[currentIndex - 1].id)
           } else {
-            setHasPrevious(false);
-            setPreviousId(null);
+            setHasPrevious(false)
+            setPreviousId(null)
           }
 
           if (currentIndex < allEmails.length - 1) {
-            setHasNext(true);
-            setNextId(allEmails[currentIndex + 1].id);
+            setHasNext(true)
+            setNextId(allEmails[currentIndex + 1].id)
           } else {
-            setHasNext(false);
-            setNextId(null);
+            setHasNext(false)
+            setNextId(null)
           }
         }
       } catch (error) {
-        console.error("Error fetching all emails:", error);
+        console.error("Error fetching all emails:", error)
       }
-    };
+    }
 
-    fetchAllEmails();
-  }, [id]);
+    fetchAllEmails()
+  }, [id])
 
   const getInitials = (name: string) => {
     return name
@@ -75,27 +74,27 @@ export default function EmailView() {
       .map((part) => part[0])
       .join("")
       .toUpperCase()
-      .substring(0, 2);
-  };
+      .substring(0, 2)
+  }
 
   const handleBack = () => {
-    setIsExiting(true);
+    setIsExiting(true)
     setTimeout(() => {
-      navigate("/mail/inbox");
-    }, 300);
-  };
+      navigate("/mail/inbox")
+    }, 300)
+  }
 
   const handlePrevious = () => {
     if (hasPrevious && previousId) {
-      navigate(`/mail/inbox/${previousId}`);
+      navigate(`/mail/inbox/${previousId}`)
     }
-  };
+  }
 
   const handleNext = () => {
     if (hasNext && nextId) {
-      navigate(`/mail/inbox/${nextId}`);
+      navigate(`/mail/inbox/${nextId}`)
     }
-  };
+  }
 
   if (isLoading || !email) {
     return (
@@ -105,7 +104,7 @@ export default function EmailView() {
           <p className="mt-4 text-gray-500">Loading email...</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -165,16 +164,6 @@ export default function EmailView() {
                   }`}
                 />
               </button>
-
-              {!isMobile && (
-                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                  {isFullScreen ? (
-                    <Minimize2 className="h-5 w-5 text-gray-600" />
-                  ) : (
-                    <Maximize2 className="h-5 w-5 text-gray-600" />
-                  )}
-                </button>
-              )}
 
               <button
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -275,5 +264,5 @@ export default function EmailView() {
         </div>
       </div>
     </div>
-  );
+  )
 }

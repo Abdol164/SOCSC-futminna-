@@ -10,7 +10,7 @@ import type { AxiosError } from "axios"
 export function useFetchInboxQuery() {
   return useQuery({
     queryKey: ["inbox"],
-    queryFn: async (): Promise<IEmail[]> => {
+    queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get("/mail/inbox/me")
     },
   })
@@ -28,7 +28,7 @@ export function useFetchMailBodyQuery(walletAddress: string, mailId: string) {
 export function useFetchOutboxQuery() {
   return useQuery({
     queryKey: ["outbox"],
-    queryFn: async (): Promise<IEmail[]> => {
+    queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get("/mail/outbox/me")
     },
   })

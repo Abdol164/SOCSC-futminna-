@@ -1,11 +1,11 @@
 import type { IEmail } from "@/types/generic"
 import { EmailTab } from "./EmailTab"
+
 interface EmailListProps {
   emails: IEmail[]
 }
 
 export function EmailList({ emails }: EmailListProps) {
-
   const hasEmails = emails.length > 0
 
   return (

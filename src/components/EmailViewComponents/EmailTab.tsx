@@ -60,7 +60,6 @@ export function EmailTab({ email }: EmailTabProps) {
           >
             {email.subject}
           </h3>
-        
         </div>
       </div>
     </Link>

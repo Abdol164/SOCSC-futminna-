@@ -35,10 +35,10 @@ export default function SentPage() {
         id: email.id || Math.floor(Math.random() * 10000).toString(),
         date: email.date || new Date().toISOString(),
         subject: email.subject || "No Subject",
-        body: email.body || email.message || "No message content",
-        sender: "me@suimail.com", 
-        recipient: email.recipient || email.to || generateDummyRecipient(index),
-        isRead: true, 
+        body: email.body || "No message content",
+        sender: "me@suimail.com",
+        recipient: email.recipient || generateDummyRecipient(index),
+        isRead: true,
       }
     })
   }, [outbox])

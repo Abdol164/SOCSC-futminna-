@@ -38,9 +38,9 @@ export default function InboxPage() {
         id: email.id || Math.floor(Math.random() * 10000).toString(),
         date: email.date || new Date().toISOString(),
         subject: email.subject || "No Subject",
-        body: email.body || email.message || "No message content",
-        sender: email.sender || email.from || dummySender,
-        recipient: email.recipient || email.to || "me@suimail.com",
+        body: email.body || "No message content",
+        sender: email.sender || dummySender,
+        recipient: email.recipient || "me@suimail.com",
         isRead: email.isRead || false,
       }
     })
