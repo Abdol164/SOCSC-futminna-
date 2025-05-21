@@ -53,12 +53,6 @@ function RegisterEnokiWallets() {
         google: {
           clientId: suimailClientConfig.GOOGLE_CLIENT_ID,
         },
-        facebook: {
-          clientId: "YOUR_FACEBOOK_CLIENT_ID",
-        },
-        twitch: {
-          clientId: "YOUR_TWITCH_CLIENT_ID",
-        },
       },
       client,
       network,
