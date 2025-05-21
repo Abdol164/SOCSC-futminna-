@@ -1,7 +1,4 @@
-"use client"
-
 import type React from "react"
-
 import { useEffect, useMemo, useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -56,6 +53,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       recipient: "",
+      recipientWalletAddress: "",
       subject: "",
       message: "",
       attachments: [],

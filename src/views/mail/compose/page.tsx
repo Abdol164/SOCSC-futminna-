@@ -25,7 +25,7 @@ export default function ComposePage() {
   const handleSend = async (data: ComposeMailValues) => {
     const chargeMailTxFeeResult = await chargeMailTxFee(
       data.requiredFee,
-      data.recipient
+      data.recipientAddress
     )
 
     if (!chargeMailTxFeeResult) {
@@ -47,7 +47,7 @@ export default function ComposePage() {
           message: "Mail sent successfully",
           type: "success",
         })
-        navigate("/mail/inbox")
+        navigate("/mail/sent")
       })
     } catch {
       setNotification({
