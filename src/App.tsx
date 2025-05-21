@@ -14,6 +14,7 @@ import routes from "./routes"
 import { queryClient } from "./query-client"
 import { suimailClientConfig } from "./utils/config/clientConfig"
 import AppProvider from "./utils/contexts/AppContext/AppContextProvider"
+import { ToastProvider } from "./components/ui/toast"
 
 // Config options for the networks you want to connect to
 const { networkConfig } = createNetworkConfig({
@@ -33,7 +34,9 @@ export default function App() {
               name: "Suimail",
             }}
           >
-            <RouterProvider router={routes} />
+            <ToastProvider>
+              <RouterProvider router={routes} />
+            </ToastProvider>
           </WalletProvider>
         </SuiClientProvider>
       </QueryClientProvider>

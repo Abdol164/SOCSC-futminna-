@@ -1,12 +1,14 @@
-"use client"
-import { FormSection } from "./components/FormSection"
-import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
-import { usePostSendMailMutation } from "@/hooks/mail"
-import { ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { usePostSendMailMutation } from "@/hooks/mail"
+import { FormSection } from "./components/FormSection"
+import { useToastContext } from "@/components/ui/toast"
+import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
 
 interface ComposeMailValues {
   recipient: string
+  recipientAddress: string
   subject: string
   message: string
   attachments?: File[]
@@ -15,29 +17,43 @@ interface ComposeMailValues {
 
 export default function ComposePage() {
   const navigate = useNavigate()
+  const { setNotification } = useToastContext()
   const { chargeMailTxFee } = useChargeMailTxFee()
-  const { mutateAsync: sendMail, isPending: isSendingMail } = usePostSendMailMutation()
+  const { mutateAsync: sendMail, isPending: isSendingMail } =
+    usePostSendMailMutation()
 
   const handleSend = async (data: ComposeMailValues) => {
-    const chargeMailTxFeeResult = await chargeMailTxFee(data.requiredFee, data.recipient)
+    const chargeMailTxFeeResult = await chargeMailTxFee(
+      data.requiredFee,
+      data.recipientAddress
+    )
 
     if (!chargeMailTxFeeResult) {
+      setNotification({
+        message: "Failed to charge mail tx fee",
+        type: "error",
+      })
       return
     }
 
     try {
       const formData = new FormData()
-      formData.append("to", data.recipient)
+      formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
-      formData.append("message", data.message)
+      formData.append("body", data.message)
       data.attachments?.forEach((file) => formData.append("attachments", file))
-      const res = await sendMail(formData)
-      console.log(res)
-
-      // Navigate back to inbox or another page after successful send
-      navigate("/mail/inbox")
-    } catch (error) {
-      console.error("Error sending mail:", error)
+      await sendMail(formData).then(() => {
+        setNotification({
+          message: "Mail sent successfully",
+          type: "success",
+        })
+        navigate("/mail/sent")
+      })
+    } catch {
+      setNotification({
+        message: "Failed to send mail",
+        type: "error",
+      })
     }
   }
 
@@ -46,9 +62,14 @@ export default function ComposePage() {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-3">
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-gray-200" aria-label="Go back">
-            <ArrowLeft className="h-5 w-5 text-gray-600" />
-          </button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+          >
+            <ArrowLeft className="h-4 w-4 text-gray-600" />
+          </Button>
           <h1 className="text-lg font-medium">New Message</h1>
         </div>
       </div>
