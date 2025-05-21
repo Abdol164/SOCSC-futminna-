@@ -14,7 +14,7 @@ export default function SentPage() {
   const emails = useMemo(() => {
     return outbox || []
   }, [outbox])
-
+  
   return (
     <PageLayout loading={isFetching} isError={isError}>
       <ExtendedToolbar getPageTitle={() => "Sent"} />
