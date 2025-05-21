@@ -5,12 +5,10 @@ import { PageLayout } from "@/components/layouts/PageLayout"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
 
 export default function SubscriptionPage() {
-  const isFetching = false
-  const isError = false
   const isDesktop = useMediaQuery("(min-width: 1024px)")
 
   return (
-    <PageLayout loading={isFetching} isError={isError}>
+    <PageLayout>
       <ExtendedToolbar getPageTitle={() => "Subscriptions"} />
 
       <div
