@@ -57,7 +57,7 @@ const routes = createBrowserRouter([
             element: <p>Payment</p>,
           },
           {
-            path: "/account/Subscription",
+            path: "/account/subscription",
             element: <SubscriptionPage/>,
           },
           {

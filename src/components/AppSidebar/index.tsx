@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import {
@@ -80,7 +79,7 @@ const AccountNavigationItems: SidebarItem[] = [
   },
   {
     title: "Subscription",
-    url: "/account/Subscription",
+    url: "/account/subscription",
     icon: <Repeat />,
   },
 ]
