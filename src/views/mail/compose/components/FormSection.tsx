@@ -1,8 +1,5 @@
-"use client"
-
 import type React from "react"
-
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,9 +11,18 @@ import { isValidSuiAddress } from "@mysten/sui/utils"
 import { useGetMailFeeQuery } from "@/hooks/mail"
 import { useGetRecipientSuimailNsQuery } from "@/hooks/user"
 import { ReturnRequiredFee } from "./ReturnRequiredFee"
+import { Button } from "@/components/ui/button"
 
 const formSchema = z.object({
-  recipient: z.string().email("Please enter a valid address"),
+  recipient: z
+    .string()
+    .regex(
+      /^[a-zA-Z0-9]+@suimail$/,
+      "Please enter a valid suimail address (e.g. name@suimail)"
+    ),
+  recipientWalletAddress: z
+    .string()
+    .refine(isValidSuiAddress, "Please enter a valid Sui address"),
   subject: z.string().min(1, "Subject is required"),
   message: z.string().min(1, "Message is required"),
   attachments: z.array(z.instanceof(File)).optional(),
@@ -25,6 +31,7 @@ const formSchema = z.object({
 export type ComposeFormData = z.infer<typeof formSchema>
 
 interface OnSubmitValues extends ComposeFormData {
+  recipientAddress: string
   requiredFee: number
 }
 
@@ -33,7 +40,9 @@ interface FormSectionProps {
   isLoading?: boolean
 }
 
-export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
+export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
+  const [recipientIsSet, setRecipientIsSet] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -44,29 +53,29 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       recipient: "",
+      recipientWalletAddress: "",
       subject: "",
       message: "",
       attachments: [],
     },
   })
 
-  const { isFetching: isFetchingSuimailNs } = useGetRecipientSuimailNsQuery(
-    watch("recipient"),
-    {
-      queryKey: ["recipient-suimail-ns", watch("recipient")],
-      enabled: isValidSuiAddress(watch("recipient")),
-    }
-  )
+  const { data: suimailNsResult, isFetching: isFetchingSuimailNs } =
+    useGetRecipientSuimailNsQuery(watch("recipientWalletAddress"), {
+      queryKey: ["recipient-suimail-ns", watch("recipientWalletAddress")],
+      enabled: isValidSuiAddress(watch("recipientWalletAddress")),
+    })
 
-  const { data: mailFee, isFetching: isFetchingMailFee } = useGetMailFeeQuery(
-    watch("recipient"),
-    {
-      queryKey: ["mail-fee", watch("recipient")],
-      enabled: isValidSuiAddress(watch("recipient")),
-    }
-  )
+  const { data: mailFeeResult, isFetching: isFetchingMailFee } =
+    useGetMailFeeQuery(watch("recipientWalletAddress"), {
+      queryKey: ["mail-fee", watch("recipientWalletAddress")],
+      enabled: isValidSuiAddress(watch("recipientWalletAddress")),
+    })
 
-  const requiredFee = useMemo(() => mailFee ?? 0, [mailFee])
+  const requiredFee = useMemo(
+    () => mailFeeResult?.mailFee ?? 0,
+    [mailFeeResult]
+  )
 
   const attachments = watch("attachments") || []
 
@@ -85,24 +94,63 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
   }
 
   const handleOnSubmit = (data: ComposeFormData) => {
+    console.log(data)
+
     onSubmit({
       ...data,
-      requiredFee: requiredFee,
+      requiredFee,
+      recipientAddress: watch("recipientWalletAddress"),
     })
   }
+
+  useEffect(() => {
+    if (suimailNsResult?.suimailNs) {
+      setValue("recipient", suimailNsResult.suimailNs)
+      setRecipientIsSet(true)
+    }
+  }, [suimailNsResult, setValue])
 
   const isFetching = isFetchingSuimailNs || isFetchingMailFee
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} className="space-y-5">
-      <FormField
-        label="To"
-        name="recipient"
-        placeholder="e.g. jane@sui.id"
-        error={errors.recipient?.message}
-        register={register}
-        required
-      />
+      {/* If the suimailNsResult is present show the suimailNs field */}
+      {recipientIsSet && (
+        <div>
+          <FormField
+            label="To"
+            name="recipient"
+            placeholder="e.g. jane@sui.id"
+            error={errors.recipient?.message}
+            register={register}
+            required
+            disabled={isFetching}
+            readonly
+            extendAction={
+              <Button
+                type="button"
+                variant="link"
+                className="absolute top-1/2 -translate-y-1/2 right-2"
+                onClick={() => setRecipientIsSet(false)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            }
+          />
+        </div>
+      )}
+      {/* If the suimailNsResult is not present show the recipientWalletAddress field */}
+      {!recipientIsSet && (
+        <FormField
+          label="To"
+          name="recipientWalletAddress"
+          placeholder="e.g. some wallet address"
+          error={errors.recipientWalletAddress?.message}
+          register={register}
+          required
+          disabled={isFetching}
+        />
+      )}
       <ReturnRequiredFee
         isFetching={isFetchingMailFee}
         requiredFee={requiredFee}
@@ -157,16 +205,14 @@ export function FormSection({ onSubmit, isLoading = false }: FormSectionProps) {
       </div>
 
       <div className="flex justify-end gap-2 pt-2">
-        <button
+        <Button
           type="submit"
           disabled={isLoading || isFetching}
-          className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
         >
           <Send className="w-5 h-5" />
           {isLoading ? "Sending..." : "Send"}
-        </button>
+        </Button>
       </div>
     </form>
   )

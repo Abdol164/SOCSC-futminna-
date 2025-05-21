@@ -1,13 +1,14 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import { FormSection } from "./components/FormSection"
-import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
-import { usePostSendMailMutation } from "@/hooks/mail"
-import { ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { usePostSendMailMutation } from "@/hooks/mail"
+import { FormSection } from "./components/FormSection"
+import { useToastContext } from "@/components/ui/toast"
+import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
 
 interface ComposeMailValues {
   recipient: string
+  recipientAddress: string
   subject: string
   message: string
   attachments?: File[]
@@ -16,6 +17,7 @@ interface ComposeMailValues {
 
 export default function ComposePage() {
   const navigate = useNavigate()
+  const { setNotification } = useToastContext()
   const { chargeMailTxFee } = useChargeMailTxFee()
   const { mutateAsync: sendMail, isPending: isSendingMail } =
     usePostSendMailMutation()
@@ -23,26 +25,35 @@ export default function ComposePage() {
   const handleSend = async (data: ComposeMailValues) => {
     const chargeMailTxFeeResult = await chargeMailTxFee(
       data.requiredFee,
-      data.recipient
+      data.recipientAddress
     )
 
     if (!chargeMailTxFeeResult) {
+      setNotification({
+        message: "Failed to charge mail tx fee",
+        type: "error",
+      })
       return
     }
 
     try {
       const formData = new FormData()
-      formData.append("to", data.recipient)
+      formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
-      formData.append("message", data.message)
+      formData.append("body", data.message)
       data.attachments?.forEach((file) => formData.append("attachments", file))
-      const res = await sendMail(formData)
-      console.log(res)
-
-      // Navigate back to inbox or another page after successful send
-      navigate("/mail/inbox")
-    } catch (error) {
-      console.error("Error sending mail:", error)
+      await sendMail(formData).then(() => {
+        setNotification({
+          message: "Mail sent successfully",
+          type: "success",
+        })
+        navigate("/mail/sent")
+      })
+    } catch {
+      setNotification({
+        message: "Failed to send mail",
+        type: "error",
+      })
     }
   }
 

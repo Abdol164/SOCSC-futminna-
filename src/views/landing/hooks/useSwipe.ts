@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, type TouchEvent } from "react"
 
 interface SwipeInput {
