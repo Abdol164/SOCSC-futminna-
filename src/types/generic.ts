@@ -1,5 +1,13 @@
 import type { LucideIcon } from "lucide-react"
 
+export interface IUser {
+  address: string
+  suimailNs?: string
+  mailFee: number
+  whitelist: string[]
+  blacklist: string[]
+}
+
 export interface IEmail {
   id: string
   date: string
