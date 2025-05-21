@@ -15,7 +15,6 @@ const tabs: SettingsTab[] = [
     view: "notifications",
   },
   { label: "Account", view: "account" },
-  // { label: "Preferences", view: "preferences" },
 ]
 
 export default function SettingsPage() {
@@ -34,7 +33,7 @@ export default function SettingsPage() {
     <PageLayout>
       <ExtendedToolbar getPageTitle={() => "Settings"} />
 
-      <main className="min-h-screen flex flex-col lg:flex-row">
+      <main className="pt-14 min-h-screen flex flex-col lg:flex-row">
         <aside className="w-full lg:w-64 border-r border-gray-200">
           <div className="flex flex-row lg:flex-col gap-0.5 lg:gap-2 lg:mt-2">
             {tabs.map(({ label, view }) => (
