@@ -4,8 +4,8 @@ import type { IEmail } from "@/types/generic"
 const dummyEmails: IEmail[] = [
   {
     id: "1",
-    from: "John Doe",
-    to: "me@example.com",
+    sender: "John Doe",
+    recipient: "me@example.com",
     subject: "Meeting Tomorrow",
     body: "Hi there, let's schedule a meeting tomorrow to discuss the project progress. I think we need to review the latest designs and make some decisions about the next steps. Let me know what time works for you.",
     date: new Date(2023, 4, 15, 10, 30).toISOString(),
@@ -13,8 +13,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "2",
-    from: "Jane Smith",
-    to: "me@example.com",
+    sender: "Jane Smith",
+    recipient: "me@example.com",
     subject: "Design Feedback",
     body: "I've reviewed the designs you sent over and I have some feedback. Overall, I think they look great, but there are a few tweaks I'd like to suggest. Can we discuss these changes soon?",
     date: new Date(2023, 4, 14, 15, 45).toISOString(),
@@ -22,8 +22,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "3",
-    from: "Alex Johnson",
-    to: "me@example.com",
+    sender: "Alex Johnson",
+    recipient: "me@example.com",
     subject: "Contract Renewal",
     body: "Your contract is up for renewal next month. Please review the attached documents and let me know if you'd like to proceed with the renewal. We've included some new terms that might interest you.",
     date: new Date(2023, 4, 13, 9, 15).toISOString(),
@@ -31,8 +31,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "4",
-    from: "Sarah Williams",
-    to: "me@example.com",
+    sender: "Sarah Williams",
+    recipient: "me@example.com",
     subject: "Weekend Plans",
     body: "Hey! Are you free this weekend? We're planning a small get-together at my place on Saturday evening. Nothing fancy, just some food, drinks, and good company. Let me know if you can make it!",
     date: new Date(2023, 4, 12, 18, 20).toISOString(),
@@ -40,8 +40,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "5",
-    from: "Michael Brown",
-    to: "me@example.com",
+    sender: "Michael Brown",
+    recipient: "me@example.com",
     subject: "Project Update - Q2 Goals",
     body: "Here's the latest update on our Q2 goals. We're making good progress on most fronts, but there are a couple of areas where we need to focus more attention. I've attached a detailed report for your review.",
     date: new Date(2023, 4, 11, 11, 0).toISOString(),
@@ -49,8 +49,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "6",
-    from: "Emily Davis",
-    to: "me@example.com",
+    sender: "Emily Davis",
+    recipient: "me@example.com",
     subject: "New Product Launch",
     body: "We're excited to announce that we'll be launching our new product next week! This is a major milestone for our team, and we'd love for you to be part of the launch event. Details are in the attached invitation.",
     date: new Date(2023, 4, 10, 14, 30).toISOString(),
@@ -58,8 +58,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "7",
-    from: "David Wilson",
-    to: "me@example.com",
+    sender: "David Wilson",
+    recipient: "me@example.com",
     subject: "Invoice #1234",
     body: "Please find attached invoice #1234 for the services provided last month. Payment is due within 30 days. Thank you for your business!",
     date: new Date(2023, 4, 9, 9, 45).toISOString(),
@@ -67,8 +67,8 @@ const dummyEmails: IEmail[] = [
   },
   {
     id: "8",
-    from: "Lisa Taylor",
-    to: "me@example.com",
+    sender: "Lisa Taylor",
+    recipient: "me@example.com",
     subject: "Vacation Request",
     body: "I'd like to request vacation time from July 15-22. I've already completed all my pending tasks and will ensure a smooth handover before I leave. Please let me know if this works for the team.",
     date: new Date(2023, 4, 8, 16, 10).toISOString(),

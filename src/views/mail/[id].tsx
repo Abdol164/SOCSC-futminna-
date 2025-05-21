@@ -15,7 +15,7 @@ import { format } from "date-fns"
 import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
 
 import type { IEmail } from "@/types/generic"
-import { emailService } from "@/views/mail/services/emailService"
+import { emailService } from "@/lib/services/emailService"
 import useMediaQuery from "@/hooks/useMediaQuery"
 
 export default function EmailView() {
@@ -230,10 +230,10 @@ export default function EmailView() {
           <div className="flex items-start mb-6">
             <SimpleAvatar
               src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
-                email.from
+                email.sender
               )}`}
-              alt={email.from}
-              initials={getInitials(email.from)}
+              alt={email.sender}
+              initials={getInitials(email.sender)}
               size="lg"
               className="mr-4"
             />
@@ -242,9 +242,9 @@ export default function EmailView() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">
-                    {email.from}
+                    {email.sender}
                   </h3>
-                  <p className="text-sm text-gray-500">To: {email.to}</p>
+                  <p className="text-sm text-gray-500">To: {email.recipient}</p>
                 </div>
 
                 <div className="text-right">

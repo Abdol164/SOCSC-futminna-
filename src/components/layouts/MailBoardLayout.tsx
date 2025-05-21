@@ -1,11 +1,15 @@
-import { Outlet } from "react-router-dom";
-import { AppSidebar } from "../AppSidebar";
-import { SidebarProvider } from "../ui/sidebar";
-import { ComposeButton } from "./ComposeButton";
-import  useMediaQuery  from "../../hooks/useMediaQuery";
+import { Outlet, useLocation } from "react-router-dom"
+import { AppSidebar } from "../AppSidebar"
+import { SidebarProvider } from "../ui/sidebar"
+import { ComposeButton } from "./ComposeButton"
+import useMediaQuery from "../../hooks/useMediaQuery"
+import { useMemo } from "react"
 
 export function MailBoardLayout() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const { pathname } = useLocation()
+  const isMobile = useMediaQuery("(max-width: 768px)")
+
+  const isComposePage = useMemo(() => pathname === "/mail/compose", [pathname])
 
   return (
     <SidebarProvider>
@@ -13,8 +17,8 @@ export function MailBoardLayout() {
 
       <main className="flex-1">
         <Outlet />
-        {isMobile && <ComposeButton />}
+        {isMobile && !isComposePage && <ComposeButton />}
       </main>
     </SidebarProvider>
-  );
+  )
 }

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import type { IEmail } from "@/types/generic"
 import { PageLayout } from "@/components/layouts/PageLayout"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
-import { emailService } from "@/views/mail/services/emailService"
-import { EmailList } from "@/views/mail/inbox/components/EmailList"
+import { emailService } from "@/lib/services/emailService"
+import { EmailList } from "@/components/EmailViewComponents/EmailList"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 
 export default function InboxPage() {
@@ -27,7 +27,7 @@ export default function InboxPage() {
     <PageLayout loading={isFetching} isError={isError}>
       <ExtendedToolbar getPageTitle={() => "Inbox"} />
       <MailBoardPageLayout>
-        <div className="h-full w-full">
+        <div className="pt-16 h-full w-full">
           <EmailList emails={emails} />
         </div>
       </MailBoardPageLayout>

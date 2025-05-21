@@ -16,8 +16,6 @@ import {
   useSidebar,
 } from "../ui/sidebar"
 import {
-  Archive,
-  CreditCard,
   FileEdit,
   HelpCircle,
   Inbox,
@@ -25,7 +23,6 @@ import {
   Repeat,
   SendHorizonal,
   Settings,
-  ShieldAlert,
   Trash2,
 } from "lucide-react"
 import { Profile } from "./Profile"
@@ -54,16 +51,16 @@ const MailNavigationItems: SidebarItem[] = [
     url: "/mail/draft",
     icon: <FileEdit />,
   },
-  {
-    title: "Spam",
-    url: "/mail/spam",
-    icon: <ShieldAlert />,
-  },
-  {
-    title: "Archive",
-    url: "/mail/archive",
-    icon: <Archive />,
-  },
+  // {
+  //   title: "Spam",
+  //   url: "/mail/spam",
+  //   icon: <ShieldAlert />,
+  // },
+  // {
+  //   title: "Archive",
+  //   url: "/mail/archive",
+  //   icon: <Archive />,
+  // },
   {
     title: "Trash",
     url: "/mail/trash",
@@ -72,11 +69,11 @@ const MailNavigationItems: SidebarItem[] = [
 ]
 
 const AccountNavigationItems: SidebarItem[] = [
-  {
-    title: "Payment",
-    url: "/account/payment",
-    icon: <CreditCard />,
-  },
+  // {
+  //   title: "Payment",
+  //   url: "/account/payment",
+  //   icon: <CreditCard />,
+  // },
   {
     title: "Subscription",
     url: "/account/subscription",

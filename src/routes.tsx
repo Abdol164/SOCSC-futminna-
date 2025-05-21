@@ -3,11 +3,14 @@ import SentPage from "./views/mail/sent/page"
 import LandingPage from "./views/landing/page"
 import InboxPage from "./views/mail/inbox/page"
 import EmailView from "./views/mail/[id]"
+import DraftsPage from "./views/mail/drafts/page"
 import ComposePage from "./views/mail/compose/page"
 import SettingsPage from "./views/mail/settings/page"
+import SubscriptionPage from "./views/accounts/subscription/page"
 import { DashboardLayout } from "./components/layouts/DashboardLayout"
 import { MailBoardLayout } from "./components/layouts/MailBoardLayout"
-import  SubscriptionPage  from "./views/accounts/Subscription/page"
+import TrashPage from "./views/mail/trash/page"
+
 const routes = createBrowserRouter([
   {
     index: true,
@@ -38,32 +41,28 @@ const routes = createBrowserRouter([
             element: <SentPage />,
           },
           {
+            path: "/mail/sent/:id",
+            element: <EmailView />,
+          },
+          {
             path: "/mail/draft",
-            element: <p>Draft</p>,
+            element: <DraftsPage />,
           },
           {
-            path: "/mail/spam",
-            element: <p>Spam</p>,
-          },
-          {
-            path: "/mail/archive",
-            element: <p>Archive</p>,
+            path: "/mail/draft/:id",
+            element: <EmailView />,
           },
           {
             path: "/mail/trash",
-            element: <p>Trash</p>,
+            element: <TrashPage />,
           },
           {
             path: "/mail/compose",
             element: <ComposePage />,
           },
           {
-            path: "/account/payment",
-            element: <p>Payment</p>,
-          },
-          {
             path: "/account/subscription",
-            element: <SubscriptionPage/>,
+            element: <SubscriptionPage />,
           },
           {
             path: "/help",
