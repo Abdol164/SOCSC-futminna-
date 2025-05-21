@@ -1,9 +1,9 @@
+import { useMemo } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { AppSidebar } from "../AppSidebar"
 import { SidebarProvider } from "../ui/sidebar"
-import { ComposeButton } from "./ComposeButton"
+import { ComposeButton } from "../ComposeButton"
 import useMediaQuery from "../../hooks/useMediaQuery"
-import { useMemo } from "react"
 
 export function MailBoardLayout() {
   const { pathname } = useLocation()
