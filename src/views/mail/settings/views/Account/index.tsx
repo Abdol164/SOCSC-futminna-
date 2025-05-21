@@ -78,7 +78,7 @@ export function AccountView() {
             )}
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full hover:bg-blue-600">
               Done
             </Button>
           </CardFooter>
