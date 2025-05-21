@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom"
 import SentPage from "./views/mail/sent/page"
 import LandingPage from "./views/landing/page"
 import InboxPage from "./views/mail/inbox/page"
+import EmailView from "./views/mail/[id]"
 import ComposePage from "./views/mail/compose/page"
 import SettingsPage from "./views/mail/settings/page"
 import { DashboardLayout } from "./components/layouts/DashboardLayout"
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
           {
             path: "/mail/inbox",
             element: <InboxPage />,
+          },
+          {
+            path: "mail/inbox/:id",
+            element: <EmailView />,
           },
           {
             path: "/mail/sent",

@@ -1,27 +1,49 @@
-import { useMemo } from "react"
-import { EmailList } from "./components/EmailList"
-import { useFetchInboxQuery } from "../../../hooks/mail"
-import useMediaQuery from "../../../hooks/useMediaQuery"
+"use client"
+
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { PageLayout } from "@/components/layouts/PageLayout"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import { ExtendedToolbar } from "@/components/ExtendedToolbar"
+import { emailService } from "@/views/mail/Services/emailService"
+import { EmailList } from "@/views/mail/inbox/components/EmailList"
+import type { IEmail } from "@/types/generic"
 
 export default function InboxPage() {
-  const { data: inbox, isFetching, isError } = useFetchInboxQuery()
-  const isDesktop = useMediaQuery("(min-width: 1024px)")
+  const [emails, setEmails] = useState<IEmail[]>([])
+  const [isFetching, setIsFetching] = useState(true)
+  const [isError, setIsError] = useState(false)
+  const navigate = useNavigate()
 
-  const emails = useMemo(() => {
-    return inbox || []
-  }, [inbox])
+  useEffect(() => {
+    const fetchEmails = async () => {
+      setIsFetching(true)
+      const { data, isFetching, isError } = await emailService.getInboxEmails()
+      setEmails(data)
+      setIsFetching(isFetching)
+      setIsError(isError)
+    }
+
+    fetchEmails()
+  }, [])
+
+  const handleSelectEmail = (email: IEmail) => {
+    // Mark as read when selected
+    emailService.markAsRead(email.id)
+
+    // Update the email in the list to show as read
+    setEmails(emails.map((e) => (e.id === email.id ? { ...e, isRead: true } : e)))
+
+    // Navigate to the email view
+    navigate(`/mail/${email.id}`)
+  }
 
   return (
     <PageLayout loading={isFetching} isError={isError}>
       <ExtendedToolbar getPageTitle={() => "Inbox"} />
       <MailBoardPageLayout>
-        <div className={`flex flex-col h-screen pt-${isDesktop ? 16 : 5}`}>
-          <div className="w-full h-full overflow-y-auto border-r border-gray-200">
-            <EmailList emails={emails} />
-          </div>
+        <div className="h-full w-full">
+          <EmailList emails={emails} title="Inbox" onSelectEmail={handleSelectEmail} />
         </div>
       </MailBoardPageLayout>
     </PageLayout>
