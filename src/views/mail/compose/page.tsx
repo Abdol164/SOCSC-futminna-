@@ -5,18 +5,21 @@ import { usePostSendMailMutation } from "@/hooks/mail"
 import { FormSection } from "./components/FormSection"
 import { useToastContext } from "@/components/ui/toast"
 import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
+import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface ComposeMailValues {
   recipient: string
-  recipientAddress: string
   subject: string
   message: string
   attachments?: File[]
   requiredFee: number
+  recipientAddress: string
 }
 
 export default function ComposePage() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { setNotification } = useToastContext()
   const { chargeMailTxFee } = useChargeMailTxFee()
   const { mutateAsync: sendMail, isPending: isSendingMail } =
@@ -42,10 +45,13 @@ export default function ComposePage() {
       formData.append("subject", data.subject)
       formData.append("body", data.message)
       data.attachments?.forEach((file) => formData.append("attachments", file))
-      await sendMail(formData).then(() => {
+      sendMail(formData).then(async () => {
         setNotification({
           message: "Mail sent successfully",
           type: "success",
+        })
+        await queryClient.invalidateQueries({
+          queryKey: ["outbox-mails"],
         })
         navigate("/mail/sent")
       })
@@ -58,8 +64,7 @@ export default function ComposePage() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      {/* Header */}
+    <div className="flex flex-col min-h-screen bg-white">
       <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-3">
         <div className="flex items-center gap-2">
           <Button
@@ -74,12 +79,13 @@ export default function ComposePage() {
         </div>
       </div>
 
-      {/* Form */}
-      <div className="flex-1 overflow-auto">
-        <div className="max-w-3xl mx-auto p-4">
-          <FormSection onSubmit={handleSend} isLoading={isSendingMail} />
+      <MailBoardPageLayout>
+        <div className="flex-1 mt-10">
+          <div className="max-w-xl mx-auto">
+            <FormSection onSubmit={handleSend} isLoading={isSendingMail} />
+          </div>
         </div>
-      </div>
+      </MailBoardPageLayout>
     </div>
   )
 }

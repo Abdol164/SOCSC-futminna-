@@ -9,13 +9,14 @@ interface FormFieldProps {
   name: keyof ComposeFormData
   type?: string
   placeholder?: string
-  error?: string
+  error?: string | null
   required?: boolean
   register: UseFormRegister<ComposeFormData>
   rows?: number
   disabled?: boolean
   readonly?: boolean
   extendAction?: React.ReactNode
+  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 
 export const FormField = ({
@@ -30,10 +31,17 @@ export const FormField = ({
   disabled,
   readonly,
   extendAction,
+  onBlur,
 }: FormFieldProps) => {
   const commonProps = {
     placeholder,
-    ...register(name),
+    ...register(name, {
+      onBlur: (e) => {
+        if (onBlur) {
+          onBlur(e)
+        }
+      }
+    }),
     required,
     disabled,
     readOnly: readonly,
@@ -51,7 +59,7 @@ export const FormField = ({
         )}
         {extendAction && extendAction}
       </div>
-      {error && <span className="text-sm text-red-500">{error}</span>}
+      {error && <span className="text-xs text-red-500/80">{error}</span>}
     </div>
   )
 }
