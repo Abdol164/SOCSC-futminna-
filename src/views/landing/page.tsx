@@ -16,7 +16,7 @@ export default function LandingPage() {
   const handleLogin = useCallback(
     async (wallet: WalletAccount) => {
       try {
-        const response = await login(wallet.address)
+        const response = await login(wallet.address )
         if (response.access_token) {
           setCookie(ACCESS_TOKEN_COOKIE_NAME, response.access_token)
           navigate("/mail")

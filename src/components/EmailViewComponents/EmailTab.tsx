@@ -46,8 +46,8 @@ export function EmailTab({ email }: EmailTabProps) {
                 !email.isRead && "font-medium text-gray-900"
               )}
             >
-              {isInboxPage && email.recipient.suimailNs}
-              {isOutboxPage && email.sender.suimailNs}
+              {isInboxPage && email.sender.suimailNs}
+              {isOutboxPage && email.recipient.suimailNs}
             </p>
             <div className="flex items-center gap-2">
               <time
