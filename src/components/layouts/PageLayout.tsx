@@ -24,9 +24,18 @@ export function PageLayout({
   if (isError) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <h1>Error</h1>
-        <Button onClick={retry}>Retry</Button>
-        <Button onClick={() => navigate("/")}>Go to home</Button>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <h1 className="text-2xl font-bold">Oh no!</h1>
+            <p className="text-gray-500">Something went wrong</p>
+          </div>
+          <Button className="bg-blue-500 hover:bg-blue-600" onClick={retry}>
+            Retry
+          </Button>
+        </div>
+        <Button className="mt-10" variant="link" onClick={() => navigate("/")}>
+          Go to home
+        </Button>
       </div>
     )
   }

@@ -7,7 +7,7 @@ import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import type { IEmail } from "@/types/generic"
 
 export default function InboxPage() {
-  const { data: inbox, isFetching, isError } = useFetchInboxQuery()
+  const { data: inbox, isFetching, isError, refetch } = useFetchInboxQuery()
 
   const emails: IEmail[] = useMemo(() => {
     return inbox?.data || []
@@ -17,8 +17,8 @@ export default function InboxPage() {
     <PageLayout loading={isFetching} isError={isError}>
       <ExtendedToolbar getPageTitle={() => "Inbox"} />
       <MailBoardPageLayout>
-        <div className="pt-16 h-full w-full">
-          <EmailList emails={emails} />
+        <div className="pt-16">
+          <EmailList refetch={refetch} emails={emails} />
         </div>
       </MailBoardPageLayout>
     </PageLayout>
