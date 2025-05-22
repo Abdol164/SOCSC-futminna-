@@ -84,7 +84,7 @@ const AccountNavigationItems: SidebarItem[] = [
 const HelpNavigationItems: SidebarItem[] = [
   {
     title: "Help",
-    url: "/help",
+    url: "/account/help",
     icon: <HelpCircle />,
   },
   {
