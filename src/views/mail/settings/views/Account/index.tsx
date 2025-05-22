@@ -6,7 +6,15 @@ import { SubviewHeader } from "../../components/subview-header"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card"
+import { useToastContext } from "@/components/ui/toast"
 
 const formSchema = z.object({
   mailFee: z
@@ -18,7 +26,9 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export function AccountView() {
-  const { mutateAsync: setUserMailFee } = useSetUserMailFeeMutation()
+  const { setNotification } = useToastContext()
+
+  const { mutateAsync: setUserMailFee, isPending } = useSetUserMailFeeMutation()
 
   const {
     handleSubmit,
@@ -37,8 +47,15 @@ export function AccountView() {
   const handleSetMailFee = async (data: FormData) => {
     try {
       await setUserMailFee(data.mailFee)
-    } catch (error) {
-      console.error(error)
+      setNotification({
+        message: `Successfully set mail fee to ${data.mailFee} SUI`,
+        type: "success",
+      })
+    } catch {
+      setNotification({
+        message: "Failed to update mail fee. Please try again.",
+        type: "error",
+      })
     }
   }
 
@@ -54,7 +71,8 @@ export function AccountView() {
           <CardHeader>
             <CardTitle>Set SUI Amount Per Mail</CardTitle>
             <CardDescription>
-              Choose how much SUI you want to charge per mail. You can set any value between 0 and 0.1 SUI.
+              Choose how much SUI you want to charge per mail. You can set any
+              value between 0 and 0.1 SUI.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -63,7 +81,9 @@ export function AccountView() {
               max={0.1}
               step={0.01}
               value={[mailFee]}
-              onValueChange={([val]) => setValue("mailFee", val, { shouldValidate: true })}
+              onValueChange={([val]) =>
+                setValue("mailFee", val, { shouldValidate: true })
+              }
               className="w-full"
               id="mailFee"
             />
@@ -78,8 +98,12 @@ export function AccountView() {
             )}
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full hover:bg-blue-600">
-              Done
+            <Button
+              type="submit"
+              className="w-full hover:bg-blue-600"
+              disabled={isPending}
+            >
+              {isPending ? "Updating..." : "Done"}
             </Button>
           </CardFooter>
         </Card>
