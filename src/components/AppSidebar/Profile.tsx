@@ -1,19 +1,12 @@
-import { Link } from "react-router-dom"
-
 interface ProfileProps {
   avatar: string
   name: string
   email: string
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
-export function Profile({ avatar, name, email, onClick }: ProfileProps) {
+export function Profile({ avatar, name, email }: ProfileProps) {
   return (
-    <Link
-      to="/profile"
-      onClick={onClick}
-      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-    >
+    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition-colors pointer-events-none select-none">
       <div className="relative">
         <img
           src={avatar}
@@ -27,6 +20,6 @@ export function Profile({ avatar, name, email, onClick }: ProfileProps) {
         <p className="font-medium text-gray-800">{name}</p>
         <p className="text-xs text-gray-500 truncate">{email}</p>
       </div>
-    </Link>
+    </div>
   )
 }

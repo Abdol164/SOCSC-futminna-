@@ -106,7 +106,7 @@ const Notification = ({
       exit={{ y: -25, scale: 0.9, opacity: 0 }}
       transition={{ type: "spring" }}
       className={cn(
-        "p-4 w-80 flex items-center justify-between rounded-lg gap-2 text-sm font-medium shadow-lg text-white fixed z-50 top-4 right-4",
+        "p-4 w-80 flex items-center justify-between rounded-lg gap-2 text-sm font-medium shadow-lg text-white fixed z-[1000] top-4 right-4",
         type === "success" ? "bg-emerald-600" : "bg-red-500"
       )}
     >
