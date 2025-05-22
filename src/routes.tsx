@@ -3,7 +3,7 @@ import SentPage from "./views/mail/sent/page"
 import LandingPage from "./views/landing/page"
 import InboxPage from "./views/mail/inbox/page"
 import EmailView from "./views/mail/[id]"
-import DraftsPage from "./views/mail/drafts/page"
+import DraftPage from "./views/mail/drafts/page"
 import ComposePage from "./views/mail/compose/page"
 import SettingsPage from "./views/mail/settings/page"
 import SubscriptionPage from "./views/accounts/subscription/page"
@@ -52,7 +52,7 @@ const routes = createBrowserRouter([
           },
           {
             path: "/mail/draft",
-            element: <DraftsPage />,
+            element: <DraftPage />,
           },
           {
             path: "/mail/draft/:id",
@@ -68,7 +68,7 @@ const routes = createBrowserRouter([
           },
           {
             path: "/account/subscription",
-            element: <SubscriptionPage />,
+            element: <SubscriptionPage />, 
           },
           {
             path: "/account/help",

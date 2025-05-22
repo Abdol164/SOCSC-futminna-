@@ -10,6 +10,14 @@ export function useFetchInboxQuery() {
     },
   })
 }
+export function useFetchDraftsQuery() {
+  return useQuery({
+    queryKey: ["drafts"],
+    queryFn: async (): Promise<{ data: IEmail[] }> => {
+      return await httpService.get(`/mail/drafts`)
+    },
+  })
+}
 
 export function useFetchMailBodyQuery(mailId: string) {
   return useQuery({
@@ -25,6 +33,15 @@ export function useFetchOutboxQuery() {
     queryKey: ["outbox-mails"],
     queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get("/mail/outbox/me")
+    },
+  })
+}
+
+export function useFetchTrashQuery() {
+  return useQuery({
+    queryKey: ["trash"],
+    queryFn: async (): Promise<{ data: IEmail[] }> => {
+      return await httpService.get(`/mail/trash`)
     },
   })
 }
