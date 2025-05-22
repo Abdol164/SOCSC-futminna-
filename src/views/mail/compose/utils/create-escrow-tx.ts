@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MIST_PER_SUI } from "@/constants";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
@@ -6,10 +7,10 @@ import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
 export const useCreateEscrowTx = () => {
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
 
-  const escrowTx = async (
+  const createEscrowTx = async (
     requiredFee: number,
     recipient: string
-  ): Promise<boolean> => {
+  ): Promise<string> => {
     const SUI_AMOUNT = requiredFee * MIST_PER_SUI;
 
     try {
@@ -20,7 +21,7 @@ export const useCreateEscrowTx = () => {
 
       // Transfer the split coin to the recipient
       tx.moveCall({
-        target:"0xc32af5cb942a3728e4922edcc88bc504e679d90d94a012214512dba9ffc869a9::escrow::create_escrow",
+        target:"0x285fb6adc9f70f7b014557948b59c6f790a8876540a793df7cbb00778e2ddbba::escrow::create_escrow",
         arguments: [
           tx.object(coin), // SUI coin object
           tx.pure.address(recipient), // recipient address
@@ -30,17 +31,17 @@ export const useCreateEscrowTx = () => {
       });
 
       // Sign and execute the transaction block
-      const result = await new Promise<boolean>((resolve, reject) => {
+      const result = await new Promise<string>((resolve, reject) => {
         signAndExecuteTransaction(
           { transaction: tx, chain: "sui:testnet" },
           {
-            onSuccess: () => {
-              console.log("Transaction executed successfully");
-              resolve(true);
+            onSuccess: (response: any) => {
+              console.log("Transaction executed successfully: ",  response.digest);
+              resolve(response.digest);
             },
             onError: (error: unknown) => {
               console.error("Transaction rejected:", error);
-              reject(false);
+              reject("false");
             },
           }
         );
@@ -49,9 +50,9 @@ export const useCreateEscrowTx = () => {
       return result;
     } catch (error) {
       console.error("Error sending SUI:", error);
-      return false;
+      return "false";
     }
   };
 
-  return { escrowTx };
+  return { createEscrowTx };
 };
