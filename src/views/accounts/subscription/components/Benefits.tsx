@@ -4,7 +4,7 @@ import { Clock, Shield } from "lucide-react"
 
 export function Benefits() {
   return (
-    <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="mt-20 grid grid-cols-1 xl:grid-cols-3 gap-8">
       <div className="bg-white p-6 rounded-xl border border-blue-100 flex flex-col items-center text-center">
         <div className="bg-blue-50 p-3 rounded-full mb-4">
           <Shield className="h-6 w-6 text-blue-500" />

@@ -7,7 +7,7 @@ import DraftsPage from "./views/mail/drafts/page"
 import ComposePage from "./views/mail/compose/page"
 import SettingsPage from "./views/mail/settings/page"
 import SubscriptionPage from "./views/accounts/subscription/page"
-import HelpSection from "./views/accounts/help/page"
+import HelpPage from "./views/accounts/help/page"
 import { DashboardLayout } from "./components/layouts/DashboardLayout"
 import { MailBoardLayout } from "./components/layouts/MailBoardLayout"
 import TrashPage from "./views/mail/trash/page"
@@ -72,15 +72,11 @@ const routes = createBrowserRouter([
           },
           {
             path: "/account/help",
-            element: <HelpSection />,
+            element: <HelpPage />,
           },
           {
             path: "/settings",
             element: <SettingsPage />,
-          },
-          {
-            path: "/profile",
-            element: <p>Profile</p>,
           },
         ],
       },

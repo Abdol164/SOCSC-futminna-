@@ -4,6 +4,8 @@ import { Loading } from "../Loading"
 import { getCookie } from "@/utils/helpers/auth"
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
 import { useGetAuthUserQuery } from "@/hooks/auth"
+import { SidebarProvider } from "../ui/sidebar"
+import { LogoutModalProvider } from "../LogoutModal"
 
 export function DashboardLayout() {
   const navigate = useNavigate()
@@ -46,5 +48,11 @@ export function DashboardLayout() {
     return <Loading />
   }
 
-  return <Outlet />
+  return (
+    <SidebarProvider>
+      <LogoutModalProvider>
+        <Outlet />
+      </LogoutModalProvider>
+    </SidebarProvider>
+  )
 }

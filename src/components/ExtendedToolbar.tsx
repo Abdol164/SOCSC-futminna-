@@ -26,7 +26,7 @@ export function ExtendedToolbar({
     <div
       className={cn(
         isSticky ? "fixed" : "relative",
-        "z-[50] w-full flex items-center h-14 px-4 border-b border-gray-200 bg-white"
+        "z-[40] w-full flex items-center h-14 px-4 border-b border-gray-200 bg-white"
       )}
     >
       <div className="flex items-center gap-2">

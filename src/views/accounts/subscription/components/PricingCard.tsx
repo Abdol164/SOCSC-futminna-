@@ -18,33 +18,14 @@ export function PricingCard({
           : "bg-white border border-blue-100 hover:border-blue-200 hover:shadow-md"
       }`}
     >
-      {plan.highlighted && (
-        <>
-          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600" />
-          <div className="absolute top-3 right-3">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Popular
-            </span>
-          </div>
-        </>
-      )}
-
-      <div className={`p-8 ${plan.highlighted ? "bg-white" : ""}`}>
+      <div className="h-full p-8 bg-white">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-xl font-bold text-gray-900">{plan.name}</h3>
             <p className="text-gray-500 mt-1 text-sm">{plan.description}</p>
           </div>
-          <div
-            className={`h-12 w-12 rounded-full ${
-              plan.highlighted ? "bg-blue-100" : "bg-blue-50"
-            } flex items-center justify-center`}
-          >
-            <plan.icon
-              className={`h-6 w-6 ${
-                plan.highlighted ? "text-blue-600" : "text-blue-500"
-              }`}
-            />
+          <div className="h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center">
+            <plan.icon className={`h-6 w-6 text-blue-500`} />
           </div>
         </div>
 

@@ -19,6 +19,7 @@ import {
   FileEdit,
   HelpCircle,
   Inbox,
+  LogOut,
   Plus,
   Repeat,
   SendHorizonal,
@@ -26,8 +27,10 @@ import {
   Trash2,
 } from "lucide-react"
 import { Profile } from "./Profile"
-
+import { Skeleton } from "../ui/skeleton"
 import useMediaQuery from "@/hooks/useMediaQuery"
+import { useGetAuthUserQuery } from "@/hooks/auth"
+import { useLogoutModal } from "../LogoutModal"
 
 interface SidebarItem {
   title: string
@@ -69,11 +72,6 @@ const MailNavigationItems: SidebarItem[] = [
 ]
 
 const AccountNavigationItems: SidebarItem[] = [
-  // {
-  //   title: "Payment",
-  //   url: "/account/payment",
-  //   icon: <CreditCard />,
-  // },
   {
     title: "Subscription",
     url: "/account/subscription",
@@ -99,6 +97,10 @@ export function AppSidebar() {
   const { pathname } = useLocation()
   const { isMobile, setOpenMobile, openMobile } = useSidebar()
   const isSmallScreen = useMediaQuery("(max-width: 768px)")
+
+  const { data: user, isFetching } = useGetAuthUserQuery()
+
+  const { setOpen } = useLogoutModal()
 
   const handleGoTo = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
     e.preventDefault()
@@ -214,17 +216,33 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
+
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => {
+                setOpenMobile(false)
+                setOpen(true)
+              }}
+              className="flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-600 opacity-80 hover:opacity-100 w-full"
+            >
+              <LogOut className="size-4" />
+              Logout
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
 
         <SidebarSeparator />
 
         <div className="mt-2">
-          <Profile
-            avatar="/images/avatar.png"
-            name="Lacasa"
-            email="lacasadapapel@suimail"
-            onClick={(e) => handleGoTo(e, "/profile")}
-          />
+          {isFetching ? (
+            <Skeleton className="w-10 h-10 rounded-full" />
+          ) : (
+            <Profile
+              avatar="/images/avatar.png"
+              name={user?.suimailNs?.split("@")[0] ?? ""}
+              email={user?.suimailNs ?? ""}
+            />
+          )}
         </div>
       </SidebarFooter>
     </Sidebar>
