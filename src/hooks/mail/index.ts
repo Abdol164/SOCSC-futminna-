@@ -1,15 +1,10 @@
-import {
-  useMutation,
-  useQuery,
-  type UseQueryOptions,
-} from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { httpService } from "../../api"
 import type { IEmail } from "../../types/generic"
-import type { AxiosError } from "axios"
 
 export function useFetchInboxQuery() {
   return useQuery({
-    queryKey: ["inbox"],
+    queryKey: ["inbox-mails"],
     queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get("/mail/inbox/me")
     },
@@ -27,7 +22,7 @@ export function useFetchMailBodyQuery(mailId: string) {
 
 export function useFetchOutboxQuery() {
   return useQuery({
-    queryKey: ["outbox"],
+    queryKey: ["outbox-mails"],
     queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get("/mail/outbox/me")
     },
@@ -56,19 +51,6 @@ export function usePostDraftMailMutation() {
           "Content-Type": "multipart/form-data",
         },
       })
-    },
-  })
-}
-
-export function useGetMailFeeQuery(
-  recipient: string,
-  options?: UseQueryOptions<{ mailFee: number }, AxiosError>
-) {
-  return useQuery({
-    ...(options ?? {}),
-    queryKey: ["mail-fee", recipient],
-    queryFn: async () => {
-      return await httpService.get(`/user/mailfee/${recipient}`)
     },
   })
 }
