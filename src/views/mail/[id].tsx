@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   Trash2,
@@ -7,22 +7,62 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react"
-import { format } from "date-fns"
-import { Loading } from "@/components/Loading"
-import { useFetchMailBodyQuery } from "@/hooks/mail"
-import { SimpleAvatar } from "@/components/ui/SimpleAvatar"
-import { Button } from "@/components/ui/button"
+} from "lucide-react";
+import { format } from "date-fns";
+import { Loading } from "@/components/Loading";
+import { useFetchMailBodyQuery } from "@/hooks/mail";
+import { SimpleAvatar } from "@/components/ui/SimpleAvatar";
+import { Button } from "@/components/ui/button";
+import { useSuiClientQuery } from "@mysten/dapp-kit";
+import { useState, useEffect, useMemo } from "react";
+import { useClaimEscrowTx } from "./hooks/claim-escrow-tx";
+// import { any } from "zod";
 
 export default function EmailView() {
-  const navigate = useNavigate()
-  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const [txDigest, setTxDigest] = useState<string>("");
 
-  const { data: email, isFetching } = useFetchMailBodyQuery(id ?? "")
+  const { claimEscrowTx } = useClaimEscrowTx();
 
-  if (isFetching) return <Loading message="Loading email..." />
+  const { data: email, isFetching } = useFetchMailBodyQuery(id ?? "");
 
-  if (!email) return <div>Email not found</div>
+  const { data } = useSuiClientQuery("getTransactionBlock", {
+    digest: txDigest,
+    options: { showObjectChanges: true },
+  });
+
+  const firstCreatedObjectId = useMemo(
+    () =>
+      data?.objectChanges?.find((change) => change.type === "created")
+        ?.objectId,
+    [data?.objectChanges]
+  );
+
+
+  useEffect(() => {
+    console.log("inside useEffect")
+    if (email?.digest) {
+      setTxDigest(email.digest);
+      console.log("Object ID:", firstCreatedObjectId);
+    }
+  }, [ email, firstCreatedObjectId]);
+
+  if (isFetching) return <Loading message="Loading email..." />;
+
+  if (!email) return <div>Email not found</div>;
+
+  // if (email.digest) {
+  //   return <p>Yooo</p>;
+  // }
+
+  const handleClaimSui = async () => {
+    console.log("Claiming Sui...");
+    if(firstCreatedObjectId){
+      console.log("objectId present")
+      claimEscrowTx(firstCreatedObjectId);
+    };
+  };
 
   return (
     <div className="h-full w-full relative">
@@ -70,6 +110,12 @@ export default function EmailView() {
             <button className="flex items-center px-3 py-1.5 rounded-md border border-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors">
               <Forward className="h-4 w-4 mr-2" />
               Forward
+            </button>
+            <button
+              onClick={handleClaimSui}
+              className="flex items-center px-3 py-1.5 rounded-md bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+            >
+              Claim Sui
             </button>
 
             <div className="flex-1"></div>
@@ -143,5 +189,5 @@ export default function EmailView() {
         </div>
       </div>
     </div>
-  )
+  );
 }
