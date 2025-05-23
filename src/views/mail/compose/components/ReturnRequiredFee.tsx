@@ -7,13 +7,13 @@ export const ReturnRequiredFee = ({
 }) => {
   if (isFetching) {
     return (
-      <span className="text-sm text-gray-500">{`Checking recipient...`}</span>
+      <span className="text-xs text-gray-500">{`Checking recipient...`}</span>
     )
   }
 
   if (requiredFee > 0) {
     return (
-      <span className="text-sm text-gray-500">{`Required fee ${requiredFee} SUI`}</span>
+      <span className="text-xs text-gray-500">{`Required fee ${requiredFee} SUI`}</span>
     )
   }
 

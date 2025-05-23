@@ -9,16 +9,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { ReturnRequiredFee } from "./ReturnRequiredFee"
-import { useGetUserMailFeeAndAddressQuery } from "@/hooks/user"
+import {
+  useGetActiveUserListStatusQuery,
+  useGetUserMailFeeAndAddressQuery,
+} from "@/hooks/user"
 import { AxiosError } from "axios"
+import { isValidSuimailAddress } from "@/utils/emailValidation"
 
 const formSchema = z.object({
-  recipient: z
-    .string()
-    .regex(
-      /^[a-zA-Z0-9]+@suimail$/,
-      "Please enter a valid suimail address (e.g. name@suimail)"
-    ),
+  recipient: z.string().refine((value) => isValidSuimailAddress(value), {
+    message: "Please enter a valid suimail address (e.g. name@suimail)",
+  }),
   subject: z.string().min(1, "Subject is required"),
   message: z.string().min(1, "Message is required"),
   attachments: z.array(z.instanceof(File)).optional(),
@@ -63,14 +64,31 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     refetch: refetchMailFeeAndAddress,
     error: mailFeeAndAddressError,
   } = useGetUserMailFeeAndAddressQuery(watch("recipient"), {
-    queryKey: ["recipient-mail-fee-and-address", watch("recipient")],
     enabled: false,
   })
 
-  const requiredFee = useMemo(
-    () => mailFeeAndAddressResult?.mailFee ?? 0,
-    [mailFeeAndAddressResult]
-  )
+  const {
+    data: senderListedData,
+    isFetching: isFetchingSenderListedData,
+    refetch: refetchSenderListedData,
+  } = useGetActiveUserListStatusQuery(watch("recipient"), {
+    enabled: false,
+  })
+
+  const requiredFee = useMemo(() => {
+    if (
+      senderListedData?.listedStatus.senderIsWhitelisted ||
+      senderListedData?.listedStatus.senderIsBlacklisted
+    ) {
+      return 0
+    }
+
+    if (mailFeeAndAddressResult) {
+      return mailFeeAndAddressResult.mailFee
+    }
+
+    return 0
+  }, [mailFeeAndAddressResult, senderListedData])
 
   const attachments = watch("attachments") || []
 
@@ -103,11 +121,20 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
   }
 
   useEffect(() => {
-    if (mailFeeAndAddressResult) {
+    if (
+      mailFeeAndAddressResult &&
+      senderListedData &&
+      !senderListedData.listedStatus.senderIsBlacklisted
+    ) {
       setRecipientAddress(mailFeeAndAddressResult.address)
       setRecipientIsSet(true)
+    } else {
+      if (senderListedData?.listedStatus.senderIsBlacklisted) {
+        setRecipientError("You cannot send mails to this recipient")
+        setTimeout(() => setRecipientError(null), 2000)
+      }
     }
-  }, [mailFeeAndAddressResult, setValue])
+  }, [mailFeeAndAddressResult, senderListedData, setValue])
 
   useEffect(() => {
     if (
@@ -138,15 +165,20 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
           error={errors.recipient?.message || recipientError}
           register={register}
           required
-          disabled={recipientIsSet || isFetchingMailFeeAndAddress}
+          disabled={
+            recipientIsSet ||
+            isFetchingMailFeeAndAddress ||
+            isFetchingSenderListedData
+          }
           readonly={recipientIsSet}
           onBlur={() => {
             if (watch("recipient")) {
-              if (/^[a-zA-Z0-9]+@suimail$/.test(watch("recipient"))) {
+              if (isValidSuimailAddress(watch("recipient"))) {
                 setValue("recipient", watch("recipient"), {
                   shouldValidate: true,
                 })
                 refetchMailFeeAndAddress()
+                refetchSenderListedData()
               } else {
                 setValue("recipient", watch("recipient"), {
                   shouldValidate: true,
@@ -174,7 +206,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
       </div>
 
       <ReturnRequiredFee
-        isFetching={isFetchingMailFeeAndAddress}
+        isFetching={isFetchingMailFeeAndAddress || isFetchingSenderListedData}
         requiredFee={requiredFee}
       />
 
@@ -229,7 +261,11 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
       <div className="flex justify-end gap-2 pt-2">
         <Button
           type="submit"
-          disabled={isLoading || isFetchingMailFeeAndAddress}
+          disabled={
+            isLoading ||
+            isFetchingMailFeeAndAddress ||
+            isFetchingSenderListedData
+          }
           className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
         >
           <Send className="w-5 h-5" />

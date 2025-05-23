@@ -23,34 +23,35 @@ export default function ComposePage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { setNotification } = useToastContext()
-  // const { chargeMailTxFee } = useChargeMailTxFee()
+
   const { createEscrowTx } = useCreateEscrowTx()
   const { mutateAsync: sendMail, isPending: isSendingMail } =
     usePostSendMailMutation()
-  const [ digest, setDigest ] = useState<string>("")
+  const [digest, setDigest] = useState<string>("")
 
   const handleSend = async (data: ComposeMailValues) => {
-    const createEscrowTxFeeResult = await createEscrowTx(
-      data.requiredFee,
-      data.recipientAddress
-    )
-
-    if (createEscrowTxFeeResult === "false") {
-      setNotification({
-        message: "Failed to charge mail Transaction Fee",
-        type: "error",
-      })
-      return
-    }
-    setDigest(createEscrowTxFeeResult)
-
     try {
+      const createEscrowTxFeeResult = await createEscrowTx(
+        data.requiredFee,
+        data.recipientAddress
+      )
+
+      if (createEscrowTxFeeResult === "false") {
+        setNotification({
+          message: "Failed to charge mail Transaction Fee",
+          type: "error",
+        })
+        return
+      }
+      setDigest(createEscrowTxFeeResult)
+
       const formData = new FormData()
       formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
       formData.append("body", data.message)
       formData.append("digest", digest)
       data.attachments?.forEach((file) => formData.append("attachments", file))
+
       sendMail(formData).then(async () => {
         setNotification({
           message: "Mail sent successfully",

@@ -23,7 +23,7 @@ export function PageLayout({
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-col items-center justify-center gap-2">
             <h1 className="text-2xl font-bold">Oh no!</h1>

@@ -16,7 +16,7 @@ export function Loading({ message }: { message?: string }) {
   }, [progress])
 
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-[50vh] p-6">
+    <div className="w-full flex flex-col items-center justify-center h-full min-h-screen p-6">
       <div className="relative mb-8">
         <div className="relative flex items-center justify-center">
           <div className="absolute animate-ping opacity-20 duration-1000">

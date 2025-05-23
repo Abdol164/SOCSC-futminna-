@@ -6,6 +6,7 @@ import { useToastContext } from "@/components/ui/toast"
 import { useSetUserSuimailNsMutation } from "@/hooks/user"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import { ConfirmSuimailNSModal } from "./components/ConfirmSuimailNSModal"
+import { AxiosError } from "axios"
 
 export default function OnboardingPage() {
   const queryClient = useQueryClient()
@@ -79,11 +80,19 @@ export default function OnboardingPage() {
         })
       })
     } catch (error) {
-      console.error(error)
-      setNotification({
-        message: "Failed to Onboard",
-        type: "error",
-      })
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 409) {
+          setNotification({
+            message: "SuiMail NS already exists",
+            type: "error",
+          })
+        }
+      } else {
+        setNotification({
+          message: "Failed to Onboard",
+          type: "error",
+        })
+      }
     }
   }
 
