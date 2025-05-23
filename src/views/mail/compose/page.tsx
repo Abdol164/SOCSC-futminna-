@@ -26,20 +26,21 @@ export default function ComposePage() {
     usePostSendMailMutation()
 
   const handleSend = async (data: ComposeMailValues) => {
-    const chargeMailTxFeeResult = await chargeMailTxFee(
-      data.requiredFee,
-      data.recipientAddress
-    )
-
-    if (!chargeMailTxFeeResult) {
-      setNotification({
-        message: "Failed to charge mail Transaction Fee",
-        type: "error",
-      })
-      return
-    }
-
     try {
+      const chargeMailTxFeeResult = await chargeMailTxFee(
+        data.requiredFee,
+        data.recipientAddress
+      )
+
+      if (!chargeMailTxFeeResult) {
+        setNotification({
+          message: "Failed to charge mail Transaction Fee",
+          description: "Please ensure you have enough SUI in your wallet",
+          type: "error",
+        })
+        return
+      }
+
       const formData = new FormData()
       formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)

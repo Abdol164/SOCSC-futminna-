@@ -16,7 +16,10 @@ export const useSetUserSuimailNsMutation = () => {
 
 export const useGetUserMailFeeAndAddressQuery = (
   recipient: string,
-  options?: UseQueryOptions<{ mailFee: number; address: string }, AxiosError>
+  options?: Omit<
+    UseQueryOptions<{ mailFee: number; address: string }, AxiosError>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
     ...(options ?? {}),
@@ -38,5 +41,88 @@ export const useSetUserMailFeeMutation = () => {
     mutationFn: async (mailFee: number) => {
       return await httpService.post("/user/mailfee", { mailFee })
     },
+  })
+}
+
+export const useSetUserWhiteListMutation = () => {
+  return useMutation({
+    mutationFn: async (suimailNs: string) => {
+      return await httpService.post("/user/whitelist", { suimailNs })
+    },
+  })
+}
+
+export const useSetUserBlackListMutation = () => {
+  return useMutation({
+    mutationFn: async (suimailNs: string) => {
+      return await httpService.post("/user/blacklist", { suimailNs })
+    },
+  })
+}
+
+export const useGetUserWhiteAndBlackListAddressQuery = () => {
+  return useQuery({
+    queryKey: ["user-white-and-black-list-address"],
+    queryFn: async () => {
+      const [whitelistData, blacklistData] = await Promise.all([
+        httpService.get("/user/whitelist"),
+        httpService.get("/user/blacklist"),
+      ])
+
+      return {
+        whitelist: whitelistData.whitelist,
+        blacklist: blacklistData.blacklist,
+      }
+    },
+  })
+}
+
+export const useGetActiveUserMailFeeQuery = () => {
+  return useQuery({
+    queryKey: ["user-active-mail-fee"],
+    queryFn: async (): Promise<{ mailFee: number }> => {
+      return httpService.get(`/user/mailfee`)
+    },
+  })
+}
+
+export const useRemoveFromWhiteListMutation = () => {
+  return useMutation({
+    mutationFn: async (suimailNs: string) => {
+      return await httpService.post(`/user/whitelist/remove`, { suimailNs })
+    },
+  })
+}
+
+export const useRemoveFromBlackListMutation = () => {
+  return useMutation({
+    mutationFn: async (suimailNs: string) => {
+      return await httpService.post(`/user/blacklist/remove`, { suimailNs })
+    },
+  })
+}
+
+export const useGetActiveUserListStatusQuery = (
+  suimailNs: string,
+  options?: Omit<
+    UseQueryOptions<
+      {
+        listedStatus: {
+          senderIsWhitelisted: boolean
+          senderIsBlacklisted: boolean
+        }
+      },
+      AxiosError
+    >,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useQuery({
+    ...(options ?? {}),
+    queryKey: ["user-list-status", suimailNs],
+    queryFn: async () => {
+      return await httpService.get(`/user/listed-status/${suimailNs}`)
+    },
+    gcTime: 0,
   })
 }
