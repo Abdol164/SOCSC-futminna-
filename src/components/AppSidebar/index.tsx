@@ -238,7 +238,6 @@ export function AppSidebar() {
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : (
             <Profile
-              avatar="/images/avatar.png"
               name={user?.suimailNs?.split("@")[0] ?? ""}
               email={user?.suimailNs ?? ""}
             />
