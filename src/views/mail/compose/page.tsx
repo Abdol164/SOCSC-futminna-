@@ -43,13 +43,16 @@ export default function ComposePage() {
         })
         return
       }
+
       setDigest(createEscrowTxFeeResult)
+      console.log("digest:", digest)
+      console.log("Fee result", createEscrowTxFeeResult)
 
       const formData = new FormData()
       formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
       formData.append("body", data.message)
-      formData.append("digest", digest)
+      formData.append("digest", createEscrowTxFeeResult)
       data.attachments?.forEach((file) => formData.append("attachments", file))
 
       sendMail(formData).then(async () => {
