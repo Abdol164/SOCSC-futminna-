@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button"
 import { usePostSendMailMutation } from "@/hooks/mail"
 import { FormSection } from "./components/FormSection"
 import { useToastContext } from "@/components/ui/toast"
-import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
+// import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
+import { useCreateEscrowTx } from "./utils/create-escrow-tx"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
 import { useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
 
 interface ComposeMailValues {
   recipient: string
@@ -21,31 +23,35 @@ export default function ComposePage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { setNotification } = useToastContext()
-  const { chargeMailTxFee } = useChargeMailTxFee()
+
+  const { createEscrowTx } = useCreateEscrowTx()
   const { mutateAsync: sendMail, isPending: isSendingMail } =
     usePostSendMailMutation()
+  const [digest, setDigest] = useState<string>("")
 
   const handleSend = async (data: ComposeMailValues) => {
     try {
-      const chargeMailTxFeeResult = await chargeMailTxFee(
+      const createEscrowTxFeeResult = await createEscrowTx(
         data.requiredFee,
         data.recipientAddress
       )
 
-      if (!chargeMailTxFeeResult) {
+      if (createEscrowTxFeeResult === "false") {
         setNotification({
           message: "Failed to charge mail Transaction Fee",
-          description: "Please ensure you have enough SUI in your wallet",
           type: "error",
         })
         return
       }
+      setDigest(createEscrowTxFeeResult)
 
       const formData = new FormData()
       formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
       formData.append("body", data.message)
+      formData.append("digest", digest)
       data.attachments?.forEach((file) => formData.append("attachments", file))
+
       sendMail(formData).then(async () => {
         setNotification({
           message: "Mail sent successfully",
