@@ -4,7 +4,6 @@ import {
   Trash2,
   Reply,
   Forward,
-  X,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react"
@@ -27,7 +26,6 @@ export default function EmailView() {
   return (
     <div className="h-full w-full relative">
       <div className="absolute inset-0 bg-white border-l border-gray-200 shadow-md z-20 overflow-hidden">
-        {/* Email view header */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center">
@@ -51,13 +49,6 @@ export default function EmailView() {
               <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                 <ChevronRight className="h-5 w-5 text-gray-600" />
               </button>
-
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                // onClick={handleBack}
-              >
-                <X className="h-5 w-5 text-gray-600" />
-              </button>
             </div>
           </div>
 
@@ -80,12 +71,10 @@ export default function EmailView() {
           </div>
         </div>
 
-        {/* Email content */}
         <div
           className="p-6 overflow-y-auto"
           style={{ height: "calc(100vh - 140px)" }}
         >
-          {/* Sender info */}
           <div className="flex items-start mb-6">
             <div className="flex-1">
               <div className="flex justify-between items-start">

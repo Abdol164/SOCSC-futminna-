@@ -1,14 +1,12 @@
 import { useNavigate } from "react-router-dom"
 import { ArrowLeft } from "lucide-react"
+import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { usePostSendMailMutation } from "@/hooks/mail"
 import { FormSection } from "./components/FormSection"
 import { useToastContext } from "@/components/ui/toast"
-// import { useChargeMailTxFee } from "./utils/charge-mail-tx-fee"
 import { useCreateEscrowTx } from "./utils/create-escrow-tx"
 import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
-import { useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
 
 interface ComposeMailValues {
   recipient: string
@@ -27,29 +25,35 @@ export default function ComposePage() {
   const { createEscrowTx } = useCreateEscrowTx()
   const { mutateAsync: sendMail, isPending: isSendingMail } =
     usePostSendMailMutation()
-  const [digest, setDigest] = useState<string>("")
 
   const handleSend = async (data: ComposeMailValues) => {
     try {
-      const createEscrowTxFeeResult = await createEscrowTx(
-        data.requiredFee,
-        data.recipientAddress
-      )
+      let createEscrowTxDigest = ""
 
-      if (createEscrowTxFeeResult === "false") {
-        setNotification({
-          message: "Failed to charge mail Transaction Fee",
-          type: "error",
-        })
-        return
+      if (data.requiredFee > 0) {
+        createEscrowTxDigest = await createEscrowTx(
+          data.requiredFee,
+          data.recipientAddress
+        )
+
+        if (createEscrowTxDigest === "false") {
+          setNotification({
+            message: "Failed to charge mail Transaction Fee",
+            type: "error",
+          })
+          return
+        }
       }
-      setDigest(createEscrowTxFeeResult)
 
       const formData = new FormData()
       formData.append("recipient", data.recipient)
       formData.append("subject", data.subject)
       formData.append("body", data.message)
-      formData.append("digest", digest)
+
+      if (createEscrowTxDigest.length > 0 && createEscrowTxDigest !== "false") {
+        formData.append("digest", createEscrowTxDigest)
+      }
+
       data.attachments?.forEach((file) => formData.append("attachments", file))
 
       sendMail(formData).then(async () => {

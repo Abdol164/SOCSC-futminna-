@@ -126,3 +126,20 @@ export const useGetActiveUserListStatusQuery = (
     gcTime: 0,
   })
 }
+
+export const useSetUserProfileImageMutation = () => {
+  return useMutation({
+    mutationFn: async (imageUrl: string) => {
+      return await httpService.post("/user/image-url", { imageUrl })
+    },
+  })
+}
+
+export const useGetUserProfileImageQuery = () => {
+  return useQuery({
+    queryKey: ["user-profile-image"],
+    queryFn: async () => {
+      return await httpService.get("/user/image-url")
+    },
+  })
+}
