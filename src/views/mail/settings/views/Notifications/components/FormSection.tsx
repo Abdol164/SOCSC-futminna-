@@ -53,21 +53,14 @@ export function FormSection() {
 
   const handleSwitchChange = async (checked: boolean) => {
     if (checked) {
-      // Request permission when enabling notifications
       const granted = await requestNotificationPermission()
       if (granted) {
         setNotificationsEnabled(true)
-        // Here you would typically save this preference to your backend/state management
-        console.log("Notifications enabled for user")
       } else {
-        // Keep switch off if permission wasn't granted
         setNotificationsEnabled(false)
       }
     } else {
-      // Disable notifications
       setNotificationsEnabled(false)
-      console.log("Notifications disabled for user")
-      // Here you would typically save this preference to your backend/state management
     }
   }
 
@@ -75,7 +68,7 @@ export function FormSection() {
     <form>
       <div className="grid grid-cols-1 gap-4 max-w-md">
         {/* Receive Notifications Switch */}
-        <div className="w-full rounded-md border border-input p-4">
+        <div className="w-full rounded-md border border-input p-4 bg-blue-50/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="flex flex-col gap-1">
@@ -83,7 +76,7 @@ export function FormSection() {
                   Receive Notifications
                 </Label>
                 <p className="text-sm text-muted-foreground">
-                  Receive notifications for new messages, replies, and mentions.
+                  Receive notifications for new mails, replies and updates.
                 </p>
               </div>
               <Switch

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { isValidSuimailAddress } from "@/utils/emailValidation"
 
 interface FormSectionProps {
   handleSubmit: ({ suimailNS }: { suimailNS: string }) => void
@@ -25,15 +26,8 @@ export function FormSection({
     "crypto.trader@suimail",
   ]
 
-  const isValidSuimailNS = useMemo(() => {
-    return (
-      suimailNS.length &&
-      suimailNS.match(/.*@suimail$/) &&
-      suimailNS.split("@")[0].match(/^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]$/) &&
-      suimailNS.split("@")[0].length >= 3 &&
-      suimailNS.split("@")[0].length <= 20 &&
-      (suimailNS.match(/@/g) || []).length === 1
-    )
+  const isValid = useMemo(() => {
+    return isValidSuimailAddress(suimailNS)
   }, [suimailNS])
 
   const selectSampleSuimailNS = (sampleSuimailNS: string) => {
@@ -89,7 +83,7 @@ export function FormSection({
               <Button
                 type="submit"
                 className="w-full bg-blue-500 hover:bg-blue-600"
-                disabled={isSettingUpSuimailNs || !isValidSuimailNS}
+                disabled={isSettingUpSuimailNs || !isValid}
               >
                 {isSettingUpSuimailNs ? (
                   <motion.div
