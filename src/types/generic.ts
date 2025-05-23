@@ -16,6 +16,7 @@ export interface IEmail {
   recipient: Pick<IUser, "suimailNs">
   isRead: boolean
   createdAt: string
+  digest?: string
 }
 
 export interface IPlan {
