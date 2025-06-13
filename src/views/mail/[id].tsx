@@ -1,13 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {
-  ArrowLeft,
-  Trash2,
-  Reply,
-  Forward,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react'
+import { ArrowLeft, Trash2, Reply } from 'lucide-react'
 import { format } from 'date-fns'
 import { Loading } from '@/components/Loading'
 import { Button } from '@/components/ui/button'
@@ -73,40 +66,26 @@ export default function EmailView() {
               </h2>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <ChevronLeft className="h-5 w-5 text-gray-600" />
-              </button>
-
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <ChevronRight className="h-5 w-5 text-gray-600" />
-              </button>
-            </div>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              <Trash2 className="h-5 w-5 text-gray-400" />
+            </Button>
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center px-4 pb-4 space-x-2">
-            <button className="flex items-center px-3 py-1.5 rounded-md bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors">
-              <Reply className="h-4 w-4 mr-2" />
-              Reply
-            </button>
-            <button className="flex items-center px-3 py-1.5 rounded-md border border-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors">
-              <Forward className="h-4 w-4 mr-2" />
-              Forward
-            </button>
-            <button
-              onClick={handleClaimSui}
-              className="flex items-center px-3 py-1.5 rounded-md bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
-            >
-              Claim Sui
-            </button>
-
-            <div className="flex-1"></div>
-
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <Trash2 className="h-5 w-5 text-gray-400" />
-            </button>
-          </div>
+          {mail.digest && (
+            <div className="flex items-center px-4 pb-4 space-x-2">
+              <button
+                onClick={handleClaimSui}
+                className="flex items-center px-3 py-1.5 rounded-md bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+              >
+                Claim Sui
+              </button>
+            </div>
+          )}
         </div>
 
         <div

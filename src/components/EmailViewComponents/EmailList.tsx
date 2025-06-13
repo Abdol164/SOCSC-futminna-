@@ -134,21 +134,19 @@ export function EmailList({ mails, refetch }: EmailListProps) {
 
   return (
     <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm">
-      {hasEmails && (
-        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-          <EmailListToolbar
-            refetch={refetch}
-            hasSelectedEmails={hasSelectedEmails}
-            handleSelectAllEmails={handleSelectAllEmails}
-            handleMarkSelectedEmailsAsRead={handleMarkSelectedEmailsAsRead}
-            handleDeleteSelectedEmails={handleDeleteSelectedEmails}
-          />
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <EmailListToolbar
+          refetch={refetch}
+          hasSelectedEmails={hasSelectedEmails}
+          handleSelectAllEmails={handleSelectAllEmails}
+          handleMarkSelectedEmailsAsRead={handleMarkSelectedEmailsAsRead}
+          handleDeleteSelectedEmails={handleDeleteSelectedEmails}
+        />
 
-          <span className="text-sm text-gray-500">
-            {mails.length} {mails.length > 1 ? 'mails' : 'mail'}
-          </span>
-        </div>
-      )}
+        <span className="text-sm text-gray-500">
+          {mails.length} {mails.length > 1 ? 'mails' : 'mail'}
+        </span>
+      </div>
 
       <div className="grid grid-cols-1">
         {hasEmails ? (

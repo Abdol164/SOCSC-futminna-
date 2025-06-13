@@ -1,9 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Calendar } from 'lucide-react'
 import type { IEmail } from '@/types/generic'
 import { cn } from '@/lib/utils'
 import { useMemo } from 'react'
 import { Checkbox } from '../ui/checkbox'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface EmailTabProps {
   mail: IEmail
@@ -18,7 +19,9 @@ export function EmailTab({
   isLoading,
   onSelect,
 }: EmailTabProps) {
+  const navigate = useNavigate()
   const { pathname } = useLocation()
+  const queryClient = useQueryClient()
 
   const isInboxPage = useMemo(() => pathname === '/mail', [pathname])
   const isOutboxPage = useMemo(() => pathname === '/mail/sent', [pathname])
@@ -43,6 +46,18 @@ export function EmailTab({
     return mail.recipient.suimailNs
   }, [isInboxPage, mail])
 
+  const handleGoToMail = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+
+    navigate(`/mail/${isInboxPage ? 'inbox' : 'sent'}/${mail.id}`)
+
+    if (isInboxPage) {
+      queryClient.invalidateQueries({
+        queryKey: ['inbox-mails'],
+      })
+    }
+  }
+
   return (
     <Link
       to={`/mail/${isInboxPage ? 'inbox' : 'sent'}/${mail.id}`}
@@ -50,6 +65,7 @@ export function EmailTab({
         'block w-full',
         isLoading && 'opacity-70 pointer-events-none'
       )}
+      onClick={handleGoToMail}
     >
       <div
         className={cn(
