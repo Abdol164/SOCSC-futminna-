@@ -6,13 +6,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { useState, createContext, useContext, useEffect } from "react"
-import { Button } from "./ui/button"
-import { useNavigate } from "react-router-dom"
-import { setCookie } from "@/utils/helpers/auth"
-import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
-import { useDisconnectWallet } from "@mysten/dapp-kit"
+} from '@/components/ui/alert-dialog'
+import { useState, createContext, useContext, useEffect } from 'react'
+import { Button } from './ui/button'
+import { useNavigate } from 'react-router-dom'
+import { setCookie } from '@/utils/helpers/auth'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants'
+import { useDisconnectWallet } from '@mysten/dapp-kit'
 
 export function LogoutModal({
   open,
@@ -27,14 +27,14 @@ export function LogoutModal({
 
   useEffect(() => {
     if (open) {
-      document.body.style.pointerEvents = ""
+      document.body.style.pointerEvents = ''
     }
   }, [open])
 
   const handleLogout = async () => {
     await disconnect().then(() => {
-      setCookie(ACCESS_TOKEN_COOKIE_NAME, "", new Date(0))
-      navigate("/")
+      setCookie(ACCESS_TOKEN_COOKIE_NAME, '', new Date(0))
+      navigate('/')
     })
   }
 
@@ -93,7 +93,7 @@ export function useLogoutModal() {
   const context = useContext(LogoutModalContext)
 
   if (!context) {
-    throw new Error("useLogoutModal must be used within a LogoutModalProvider")
+    throw new Error('useLogoutModal must be used within a LogoutModalProvider')
   }
 
   return context

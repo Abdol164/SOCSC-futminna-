@@ -1,22 +1,23 @@
-import SubscriptionPlans from "./components/Prices"
-import { PageLayout } from "@/components/layouts/PageLayout"
-import { ExtendedToolbar } from "@/components/ExtendedToolbar"
-import { Benefits } from "./components/Benefits"
-import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
+import SubscriptionPlans from './components/Prices'
+import { PageLayout } from '@/components/layouts/PageLayout'
+import { ExtendedToolbar } from '@/components/ExtendedToolbar'
+import { Benefits } from './components/Benefits'
+import { MailBoardPageLayout } from '@/components/layouts/MailBoardPageLayout'
 import {
   SubscriptionHeader,
   type BillingCycle,
-} from "./components/SubscriptionHeader"
-import { useState } from "react"
+} from './components/SubscriptionHeader'
+import { useState } from 'react'
+import { DefaultPagePadding } from '@/components/layouts/DefaultPagePadding'
 
 export default function SubscriptionPage() {
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly")
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
 
   return (
     <PageLayout>
-      <ExtendedToolbar getPageTitle={() => "Subscriptions"} />
+      <ExtendedToolbar getPageTitle={() => 'Subscriptions'} />
 
-      <div className="relative pt-20 flex flex-col min-h-screen">
+      <DefaultPagePadding>
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-white" />
         <MailBoardPageLayout>
           <div className="relative z-30 w-full h-full">
@@ -30,7 +31,7 @@ export default function SubscriptionPage() {
             </div>
           </div>
         </MailBoardPageLayout>
-      </div>
+      </DefaultPagePadding>
     </PageLayout>
   )
 }

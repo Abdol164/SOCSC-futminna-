@@ -1,14 +1,14 @@
-import { useMemo } from "react"
+import { useMemo } from 'react'
 import {
   useGetActiveUserMailFeeQuery,
   useSetUserMailFeeMutation,
-} from "@/hooks/user"
-import { useToastContext } from "@/components/ui/toast"
-import { SetMailFeeCard } from "./components/SetMailFeeCard"
-import { PageLayout } from "@/components/layouts/PageLayout"
-import { SubviewHeader } from "../../components/subview-header"
-import { SetWhiteAndBlackListAddress } from "./components/SetWhiteAndBlackListAddress"
-import { useQueryClient } from "@tanstack/react-query"
+} from '@/hooks/user'
+import { useToastContext } from '@/components/ui/toast'
+import { SetMailFeeCard } from './components/SetMailFeeCard'
+import { PageLayout } from '@/components/layouts/PageLayout'
+import { SubviewHeader } from '../../components/subview-header'
+import { SetWhiteAndBlackListAddress } from './components/SetWhiteAndBlackListAddress'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function AccountView() {
   const queryClient = useQueryClient()
@@ -26,16 +26,16 @@ export function AccountView() {
       await setUserMailFee(mailFee).then(async () => {
         setNotification({
           message: `Successfully set mail fee to ${mailFee} SUI`,
-          type: "success",
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["user-active-mail-fee"],
+          queryKey: ['user-active-mail-fee'],
         })
       })
     } catch {
       setNotification({
-        message: "Failed to update mail fee. Please try again.",
-        type: "error",
+        message: 'Failed to update mail fee. Please try again.',
+        type: 'error',
       })
     }
   }

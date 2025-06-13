@@ -1,8 +1,8 @@
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import type { UseFormRegister } from "react-hook-form"
-import type { ComposeFormData } from "./FormSection"
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import type { UseFormRegister } from 'react-hook-form'
+import type { ComposeFormData } from './FormSection'
 
 interface FormFieldProps {
   label: string
@@ -22,7 +22,7 @@ interface FormFieldProps {
 export const FormField = ({
   label,
   name,
-  type = "text",
+  type = 'text',
   placeholder,
   error,
   required,
@@ -36,11 +36,11 @@ export const FormField = ({
   const commonProps = {
     placeholder,
     ...register(name, {
-      onBlur: (e) => {
+      onBlur: e => {
         if (onBlur) {
           onBlur(e)
         }
-      }
+      },
     }),
     required,
     disabled,
@@ -52,7 +52,7 @@ export const FormField = ({
       <Label htmlFor={name}>{label}</Label>
 
       <div className="relative">
-        {type === "textarea" ? (
+        {type === 'textarea' ? (
           <Textarea id={name} rows={rows} {...commonProps} />
         ) : (
           <Input id={name} type={type} {...commonProps} />

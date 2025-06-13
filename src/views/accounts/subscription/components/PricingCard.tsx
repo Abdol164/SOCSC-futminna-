@@ -1,7 +1,7 @@
-import { Check } from "lucide-react"
-import { ArrowRight } from "lucide-react"
-import type { BillingCycle } from "./SubscriptionHeader"
-import type { IPlan } from "@/types/generic"
+import { Check } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import type { BillingCycle } from './SubscriptionHeader'
+import type { IPlan } from '@/types/generic'
 
 export function PricingCard({
   plan,
@@ -14,8 +14,8 @@ export function PricingCard({
     <div
       className={`relative rounded-2xl overflow-hidden transition-all duration-300 hover:translate-y-[-4px] ${
         plan.highlighted
-          ? "ring-2 ring-blue-500 shadow-lg shadow-blue-200 scale-105 md:scale-105 z-10"
-          : "bg-white border border-blue-100 hover:border-blue-200 hover:shadow-md"
+          ? 'ring-2 ring-blue-500 shadow-lg shadow-blue-200 scale-105 md:scale-105 z-10'
+          : 'bg-white border border-blue-100 hover:border-blue-200 hover:shadow-md'
       }`}
     >
       <div className="h-full p-8 bg-white">
@@ -32,15 +32,15 @@ export function PricingCard({
         <div className="mt-6">
           <div className="flex items-baseline">
             <span className="text-3xl font-bold text-gray-900">
-              {billingCycle === "monthly"
+              {billingCycle === 'monthly'
                 ? plan.monthlyPrice
                 : plan.yearlyPrice}
             </span>
             <span className="ml-2 text-gray-500">
-              /{billingCycle === "monthly" ? "month" : "year"}
+              /{billingCycle === 'monthly' ? 'month' : 'year'}
             </span>
           </div>
-          {billingCycle === "yearly" && (
+          {billingCycle === 'yearly' && (
             <p className="mt-1 text-sm text-blue-600 font-medium">
               {plan.yearlyDiscount}
             </p>
@@ -48,11 +48,11 @@ export function PricingCard({
         </div>
 
         <ul className="mt-8 space-y-4">
-          {plan.features.map((feature) => (
+          {plan.features.map(feature => (
             <li key={feature} className="flex items-start">
               <div
                 className={`flex-shrink-0 h-5 w-5 rounded-full ${
-                  plan.highlighted ? "bg-blue-500" : "bg-blue-400"
+                  plan.highlighted ? 'bg-blue-500' : 'bg-blue-400'
                 } flex items-center justify-center mt-0.5`}
               >
                 <Check className="h-3 w-3 text-white" />
@@ -66,8 +66,8 @@ export function PricingCard({
           <button
             className={`w-full py-3 px-4 rounded-xl flex items-center justify-center font-medium transition-all ${
               plan.highlighted
-                ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:shadow-blue-200"
-                : "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:shadow-blue-200'
+                : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
             }`}
           >
             {plan.ctaText}

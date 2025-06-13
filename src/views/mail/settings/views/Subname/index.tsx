@@ -1,8 +1,8 @@
-import { useGetUserProfileImageQuery } from "@/hooks/user"
-import { SubviewHeader } from "../../components/subview-header"
-import { FormSection } from "./components/FormSection"
-import { PageLayout } from "@/components/layouts/PageLayout"
-import { useMemo } from "react"
+import { useGetUserProfileImageQuery } from '@/hooks/user'
+import { SubviewHeader } from '../../components/subview-header'
+import { FormSection } from './components/FormSection'
+import { PageLayout } from '@/components/layouts/PageLayout'
+import { useMemo } from 'react'
 
 export function SubnameView() {
   const {

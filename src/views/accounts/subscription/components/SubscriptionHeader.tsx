@@ -1,4 +1,4 @@
-export type BillingCycle = "monthly" | "yearly"
+export type BillingCycle = 'monthly' | 'yearly'
 
 export function SubscriptionHeader({
   billingCycle,
@@ -19,7 +19,7 @@ export function SubscriptionHeader({
         </div>
       </div>
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-        Secure Email for the{" "}
+        Secure Email for the{' '}
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700">
           Web3 Era
         </span>
@@ -32,21 +32,21 @@ export function SubscriptionHeader({
 
       <div className="mt-8 inline-flex items-center p-1 bg-blue-50 rounded-lg border border-blue-100">
         <button
-          onClick={() => setBillingCycle("monthly")}
+          onClick={() => setBillingCycle('monthly')}
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-            billingCycle === "monthly"
-              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
-              : "text-blue-600 hover:text-blue-700"
+            billingCycle === 'monthly'
+              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
+              : 'text-blue-600 hover:text-blue-700'
           }`}
         >
           Monthly
         </button>
         <button
-          onClick={() => setBillingCycle("yearly")}
+          onClick={() => setBillingCycle('yearly')}
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-            billingCycle === "yearly"
-              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
-              : "text-blue-600 hover:text-blue-700"
+            billingCycle === 'yearly'
+              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
+              : 'text-blue-600 hover:text-blue-700'
           }`}
         >
           Yearly

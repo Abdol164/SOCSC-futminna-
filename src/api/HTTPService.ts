@@ -1,12 +1,12 @@
-import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
-import { getCookie, setCookie } from "@/utils/helpers/auth"
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants'
+import { getCookie, setCookie } from '@/utils/helpers/auth'
 import axios, {
   AxiosError,
   type AxiosInstance,
   type AxiosResponse,
-} from "axios"
+} from 'axios'
 
-declare module "axios" {
+declare module 'axios' {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-explicit-any
   interface AxiosResponse<T = any> extends Promise<T> {}
 }
@@ -15,7 +15,7 @@ class HTTPService {
   public instance: AxiosInstance
 
   public constructor(
-    baseURL: string = import.meta.env.VITE_API_BASE_URL || ""
+    baseURL: string = import.meta.env.VITE_API_BASE_URL || ''
   ) {
     this.instance = axios.create({
       baseURL,
@@ -28,7 +28,7 @@ class HTTPService {
   }
 
   private initializeRequestInterceptor() {
-    this.instance.interceptors.request.use((config) => {
+    this.instance.interceptors.request.use(config => {
       const token = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 
       if (token.length) {
@@ -49,9 +49,9 @@ class HTTPService {
 
   private handleError = (error: AxiosError) => {
     const isUnAuthenticated = error.response?.status === 401
-    if (isUnAuthenticated && window.location.pathname !== "/") {
-      setCookie(ACCESS_TOKEN_COOKIE_NAME, "", new Date(0))
-      window.location.href = "/"
+    if (isUnAuthenticated && window.location.pathname !== '/') {
+      setCookie(ACCESS_TOKEN_COOKIE_NAME, '', new Date(0))
+      window.location.href = '/'
       return
     }
     return Promise.reject(error)

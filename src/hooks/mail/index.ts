@@ -1,19 +1,19 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { httpService } from "../../api"
-import type { IEmail } from "../../types/generic"
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { httpService } from '../../api'
+import type { IEmail } from '../../types/generic'
 
 export function useFetchInboxQuery() {
   return useQuery({
-    queryKey: ["inbox-mails"],
+    queryKey: ['inbox-mails'],
     queryFn: async (): Promise<{ data: IEmail[] }> => {
-      return await httpService.get("/mail/inbox/me")
+      return await httpService.get('/mail/inbox/me')
     },
   })
 }
 
 export function useFetchMailBodyQuery(mailId: string) {
   return useQuery({
-    queryKey: ["mail-body", mailId],
+    queryKey: ['mail-body', mailId],
     queryFn: async (): Promise<IEmail> => {
       return await httpService.get(`/mail/${mailId}`)
     },
@@ -22,9 +22,9 @@ export function useFetchMailBodyQuery(mailId: string) {
 
 export function useFetchOutboxQuery() {
   return useQuery({
-    queryKey: ["outbox-mails"],
+    queryKey: ['outbox-mails'],
     queryFn: async (): Promise<{ data: IEmail[] }> => {
-      return await httpService.get("/mail/outbox/me")
+      return await httpService.get('/mail/outbox/me')
     },
   })
 }
@@ -39,16 +39,16 @@ interface IPostDraftMail {
 
 export function usePostDraftMailMutation() {
   return useMutation({
-    mutationFn: async (email: IPostDraftMail) => {
+    mutationFn: async (mail: IPostDraftMail) => {
       const formData = new FormData()
-      formData.append("from", email.walletAddress)
-      formData.append("to", email.recipient)
-      formData.append("subject", email.subject)
-      formData.append("message", email.message)
-      email.attachments.forEach((file) => formData.append("attachments", file))
-      return await httpService.post("/mail/saveDraft", formData, {
+      formData.append('from', mail.walletAddress)
+      formData.append('to', mail.recipient)
+      formData.append('subject', mail.subject)
+      formData.append('message', mail.message)
+      mail.attachments.forEach(file => formData.append('attachments', file))
+      return await httpService.post('/mail/saveDraft', formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       })
     },
@@ -57,10 +57,38 @@ export function usePostDraftMailMutation() {
 
 export function usePostSendMailMutation() {
   return useMutation({
-    mutationFn: async (emailContent: FormData) => {
-      return await httpService.post("/mail/send", emailContent, {
+    mutationFn: async (mailContent: FormData) => {
+      return await httpService.post('/mail/send', mailContent, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+    },
+  })
+}
+
+export function usePostMarkMailsAsReadMutation() {
+  return useMutation({
+    mutationFn: async ({ mailIds }: { mailIds: string[] }) => {
+      return await httpService.post('/mail/read-many', {
+        mailIds,
+      })
+    },
+  })
+}
+
+export function usePostDeleteMailsMutation() {
+  return useMutation({
+    mutationFn: async ({
+      mailIds,
+      path,
+    }: {
+      mailIds: string[]
+      path: 'sender' | 'recipient'
+    }) => {
+      return await httpService.delete(`/mail/${path}/delete-many`, {
+        data: {
+          mailIds,
         },
       })
     },

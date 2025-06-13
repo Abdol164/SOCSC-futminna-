@@ -1,12 +1,13 @@
-import { useNavigate } from "react-router-dom"
-import { ArrowLeft } from "lucide-react"
-import { useQueryClient } from "@tanstack/react-query"
-import { Button } from "@/components/ui/button"
-import { usePostSendMailMutation } from "@/hooks/mail"
-import { FormSection } from "./components/FormSection"
-import { useToastContext } from "@/components/ui/toast"
-import { useCreateEscrowTx } from "./utils/create-escrow-tx"
-import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
+import { useNavigate } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { usePostSendMailMutation } from '@/hooks/mail'
+import { FormSection } from './components/FormSection'
+import { useToastContext } from '@/components/ui/toast'
+import { useCreateEscrowTx } from './utils/create-escrow-tx'
+import { MailBoardPageLayout } from '@/components/layouts/MailBoardPageLayout'
+import { DefaultPagePadding } from '@/components/layouts/DefaultPagePadding'
 
 interface ComposeMailValues {
   recipient: string
@@ -28,7 +29,7 @@ export default function ComposePage() {
 
   const handleSend = async (data: ComposeMailValues) => {
     try {
-      let createEscrowTxDigest = ""
+      let createEscrowTxDigest = ''
 
       if (data.requiredFee > 0) {
         createEscrowTxDigest = await createEscrowTx(
@@ -36,40 +37,40 @@ export default function ComposePage() {
           data.recipientAddress
         )
 
-        if (createEscrowTxDigest === "false") {
+        if (createEscrowTxDigest === 'false') {
           setNotification({
-            message: "Failed to charge mail Transaction Fee",
-            type: "error",
+            message: 'Failed to charge mail Transaction Fee',
+            type: 'error',
           })
           return
         }
       }
 
       const formData = new FormData()
-      formData.append("recipient", data.recipient)
-      formData.append("subject", data.subject)
-      formData.append("body", data.message)
+      formData.append('recipient', data.recipient)
+      formData.append('subject', data.subject)
+      formData.append('body', data.message)
 
-      if (createEscrowTxDigest.length > 0 && createEscrowTxDigest !== "false") {
-        formData.append("digest", createEscrowTxDigest)
+      if (createEscrowTxDigest.length > 0 && createEscrowTxDigest !== 'false') {
+        formData.append('digest', createEscrowTxDigest)
       }
 
-      data.attachments?.forEach((file) => formData.append("attachments", file))
+      data.attachments?.forEach(file => formData.append('attachments', file))
 
       sendMail(formData).then(async () => {
         setNotification({
-          message: "Mail sent successfully",
-          type: "success",
+          message: 'Mail sent successfully',
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["outbox-mails"],
+          queryKey: ['outbox-mails'],
         })
-        navigate("/mail/sent")
+        navigate('/mail/sent')
       })
     } catch {
       setNotification({
-        message: "Failed to send mail",
-        type: "error",
+        message: 'Failed to send mail',
+        type: 'error',
       })
     }
   }
@@ -90,13 +91,13 @@ export default function ComposePage() {
         </div>
       </div>
 
-      <MailBoardPageLayout>
-        <div className="flex-1 mt-10">
+      <DefaultPagePadding>
+        <MailBoardPageLayout>
           <div className="max-w-xl mx-auto">
             <FormSection onSubmit={handleSend} isLoading={isSendingMail} />
           </div>
-        </div>
-      </MailBoardPageLayout>
+        </MailBoardPageLayout>
+      </DefaultPagePadding>
     </div>
   )
 }

@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"
-import { Loader2, Mail } from "lucide-react"
+import { useState, useEffect } from 'react'
+import { Loader2, Mail } from 'lucide-react'
 
 export function Loading({ message }: { message?: string }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setProgress((prev) => {
+      setProgress(prev => {
         if (prev >= 100) return 100
         return prev + Math.random() * 15
       })
@@ -40,11 +40,11 @@ export function Loading({ message }: { message?: string }) {
 
       <div className="text-center space-y-2">
         <h3 className="text-lg font-medium text-foreground">
-          {progress < 30 && "Connecting to Sui network..."}
-          {progress >= 70 && "Almost ready..."}
+          {progress < 30 && 'Connecting to Sui network...'}
+          {progress >= 70 && 'Almost ready...'}
         </h3>
         <p className="text-sm text-muted-foreground max-w-xs">
-          {message || "Loading your inbox..."}
+          {message || 'Loading your inbox...'}
         </p>
       </div>
 

@@ -1,21 +1,21 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom"
-import { AppSidebar } from "../AppSidebar"
-import { ComposeButton } from "../ComposeButton"
-import { useGetAuthUserQuery } from "@/hooks/auth"
-import { Loading } from "../Loading"
-import useMediaQuery from "@/hooks/useMediaQuery"
-import { useMemo } from "react"
-import { LogoutModal, useLogoutModal } from "../LogoutModal"
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { AppSidebar } from '../AppSidebar'
+import { ComposeButton } from '../ComposeButton'
+import { useGetAuthUserQuery } from '@/hooks/auth'
+import { Loading } from '../Loading'
+import useMediaQuery from '@/hooks/useMediaQuery'
+import { useMemo } from 'react'
+import { LogoutModal, useLogoutModal } from '../LogoutModal'
 
 export function MailBoardLayout() {
   const { data: user, isFetching } = useGetAuthUserQuery()
 
   const { pathname } = useLocation()
 
-  const isMobile = useMediaQuery("(max-width: 768px)")
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
-  const isComposePage = useMemo(() => pathname === "/mail/compose", [pathname])
-  const isHelpPage = useMemo(() => pathname === "/account/help", [pathname])
+  const isComposePage = useMemo(() => pathname === '/mail/compose', [pathname])
+  const isHelpPage = useMemo(() => pathname === '/account/help', [pathname])
 
   const { open, setOpen } = useLogoutModal()
 

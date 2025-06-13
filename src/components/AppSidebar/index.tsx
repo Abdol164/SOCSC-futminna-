@@ -1,6 +1,6 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { cn } from "@/lib/utils"
-import { Button } from "../ui/button"
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { cn } from '@/lib/utils'
+import { Button } from '../ui/button'
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
-} from "../ui/sidebar"
+} from '../ui/sidebar'
 import {
   FileEdit,
   HelpCircle,
@@ -25,12 +25,13 @@ import {
   SendHorizonal,
   Settings,
   Trash2,
-} from "lucide-react"
-import { Profile } from "./Profile"
-import { Skeleton } from "../ui/skeleton"
-import useMediaQuery from "@/hooks/useMediaQuery"
-import { useGetAuthUserQuery } from "@/hooks/auth"
-import { useLogoutModal } from "../LogoutModal"
+  Wallet,
+} from 'lucide-react'
+import { Profile } from './Profile'
+import { Skeleton } from '../ui/skeleton'
+import useMediaQuery from '@/hooks/useMediaQuery'
+import { useGetAuthUserQuery } from '@/hooks/auth'
+import { useLogoutModal } from '../LogoutModal'
 
 interface SidebarItem {
   title: string
@@ -40,18 +41,18 @@ interface SidebarItem {
 
 const MailNavigationItems: SidebarItem[] = [
   {
-    title: "Inbox",
-    url: "/mail",
+    title: 'Inbox',
+    url: '/mail',
     icon: <Inbox />,
   },
   {
-    title: "Sent",
-    url: "/mail/sent",
+    title: 'Sent',
+    url: '/mail/sent',
     icon: <SendHorizonal />,
   },
   {
-    title: "Draft",
-    url: "/mail/draft",
+    title: 'Draft',
+    url: '/mail/draft',
     icon: <FileEdit />,
   },
   // {
@@ -65,29 +66,34 @@ const MailNavigationItems: SidebarItem[] = [
   //   icon: <Archive />,
   // },
   {
-    title: "Trash",
-    url: "/mail/trash",
+    title: 'Trash',
+    url: '/mail/trash',
     icon: <Trash2 />,
   },
 ]
 
 const AccountNavigationItems: SidebarItem[] = [
   {
-    title: "Subscription",
-    url: "/account/subscription",
+    title: 'My Wallet',
+    url: '/account/wallet',
+    icon: <Wallet />,
+  },
+  {
+    title: 'Subscription',
+    url: '/account/subscription',
     icon: <Repeat />,
   },
 ]
 
 const HelpNavigationItems: SidebarItem[] = [
   {
-    title: "Help",
-    url: "/account/help",
+    title: 'Help',
+    url: '/account/help',
     icon: <HelpCircle />,
   },
   {
-    title: "Settings",
-    url: "/settings",
+    title: 'Settings',
+    url: '/settings',
     icon: <Settings />,
   },
 ]
@@ -96,7 +102,7 @@ export function AppSidebar() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { isMobile, setOpenMobile, openMobile } = useSidebar()
-  const isSmallScreen = useMediaQuery("(max-width: 768px)")
+  const isSmallScreen = useMediaQuery('(max-width: 768px)')
 
   const { data: user, isFetching } = useGetAuthUserQuery()
 
@@ -112,7 +118,7 @@ export function AppSidebar() {
 
   const handleComposeClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    navigate("/mail/compose")
+    navigate('/mail/compose')
   }
 
   return (
@@ -147,19 +153,16 @@ export function AppSidebar() {
           <SidebarGroupLabel>Mail</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {MailNavigationItems.map((item) => (
+              {MailNavigationItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     isActive={pathname === item.url}
                     asChild
                     className={cn(
-                      "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      'flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700'
                     )}
                   >
-                    <Link
-                      to={item.url}
-                      onClick={(e) => handleGoTo(e, item.url)}
-                    >
+                    <Link to={item.url} onClick={e => handleGoTo(e, item.url)}>
                       {item.icon}
                       {item.title}
                     </Link>
@@ -174,19 +177,16 @@ export function AppSidebar() {
           <SidebarGroupLabel>Account</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {AccountNavigationItems.map((item) => (
+              {AccountNavigationItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     isActive={pathname === item.url}
                     asChild
                     className={cn(
-                      "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      'flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700'
                     )}
                   >
-                    <Link
-                      to={item.url}
-                      onClick={(e) => handleGoTo(e, item.url)}
-                    >
+                    <Link to={item.url} onClick={e => handleGoTo(e, item.url)}>
                       {item.icon}
                       {item.title}
                     </Link>
@@ -200,16 +200,16 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t p-4">
         <SidebarMenu>
-          {HelpNavigationItems.map((item) => (
+          {HelpNavigationItems.map(item => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 isActive={pathname === item.url}
                 asChild
                 className={cn(
-                  "flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  'flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700'
                 )}
               >
-                <Link to={item.url} onClick={(e) => handleGoTo(e, item.url)}>
+                <Link to={item.url} onClick={e => handleGoTo(e, item.url)}>
                   {item.icon}
                   {item.title}
                 </Link>
@@ -238,8 +238,8 @@ export function AppSidebar() {
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : (
             <Profile
-              name={user?.suimailNs?.split("@")[0] ?? ""}
-              email={user?.suimailNs ?? ""}
+              name={user?.suimailNs?.split('@')[0] ?? ''}
+              email={user?.suimailNs ?? ''}
             />
           )}
         </div>

@@ -1,15 +1,15 @@
-import { httpService } from "@/api"
+import { httpService } from '@/api'
 import {
   useMutation,
   useQuery,
   type UseQueryOptions,
-} from "@tanstack/react-query"
-import type { AxiosError } from "axios"
+} from '@tanstack/react-query'
+import type { AxiosError } from 'axios'
 
 export const useSetUserSuimailNsMutation = () => {
   return useMutation({
     mutationFn: async (suimailNs: string) => {
-      return await httpService.post("/user/suimailns", { suimailNs })
+      return await httpService.post('/user/suimailns', { suimailNs })
     },
   })
 }
@@ -18,12 +18,12 @@ export const useGetUserMailFeeAndAddressQuery = (
   recipient: string,
   options?: Omit<
     UseQueryOptions<{ mailFee: number; address: string }, AxiosError>,
-    "queryKey" | "queryFn"
+    'queryKey' | 'queryFn'
   >
 ) => {
   return useQuery({
     ...(options ?? {}),
-    queryKey: ["user-mail-fee-and-address", recipient],
+    queryKey: ['user-mail-fee-and-address', recipient],
     queryFn: async () => {
       const [mailFeeData, addressData] = await Promise.all([
         httpService.get(`/user/${recipient}/mailfee`),
@@ -39,7 +39,7 @@ export const useGetUserMailFeeAndAddressQuery = (
 export const useSetUserMailFeeMutation = () => {
   return useMutation({
     mutationFn: async (mailFee: number) => {
-      return await httpService.post("/user/mailfee", { mailFee })
+      return await httpService.post('/user/mailfee', { mailFee })
     },
   })
 }
@@ -47,7 +47,7 @@ export const useSetUserMailFeeMutation = () => {
 export const useSetUserWhiteListMutation = () => {
   return useMutation({
     mutationFn: async (suimailNs: string) => {
-      return await httpService.post("/user/whitelist", { suimailNs })
+      return await httpService.post('/user/whitelist', { suimailNs })
     },
   })
 }
@@ -55,18 +55,18 @@ export const useSetUserWhiteListMutation = () => {
 export const useSetUserBlackListMutation = () => {
   return useMutation({
     mutationFn: async (suimailNs: string) => {
-      return await httpService.post("/user/blacklist", { suimailNs })
+      return await httpService.post('/user/blacklist', { suimailNs })
     },
   })
 }
 
 export const useGetUserWhiteAndBlackListAddressQuery = () => {
   return useQuery({
-    queryKey: ["user-white-and-black-list-address"],
+    queryKey: ['user-white-and-black-list-address'],
     queryFn: async () => {
       const [whitelistData, blacklistData] = await Promise.all([
-        httpService.get("/user/whitelist"),
-        httpService.get("/user/blacklist"),
+        httpService.get('/user/whitelist'),
+        httpService.get('/user/blacklist'),
       ])
 
       return {
@@ -79,7 +79,7 @@ export const useGetUserWhiteAndBlackListAddressQuery = () => {
 
 export const useGetActiveUserMailFeeQuery = () => {
   return useQuery({
-    queryKey: ["user-active-mail-fee"],
+    queryKey: ['user-active-mail-fee'],
     queryFn: async (): Promise<{ mailFee: number }> => {
       return httpService.get(`/user/mailfee`)
     },
@@ -114,12 +114,12 @@ export const useGetActiveUserListStatusQuery = (
       },
       AxiosError
     >,
-    "queryKey" | "queryFn"
+    'queryKey' | 'queryFn'
   >
 ) => {
   return useQuery({
     ...(options ?? {}),
-    queryKey: ["user-list-status", suimailNs],
+    queryKey: ['user-list-status', suimailNs],
     queryFn: async () => {
       return await httpService.get(`/user/listed-status/${suimailNs}`)
     },
@@ -130,16 +130,16 @@ export const useGetActiveUserListStatusQuery = (
 export const useSetUserProfileImageMutation = () => {
   return useMutation({
     mutationFn: async (imageUrl: string) => {
-      return await httpService.post("/user/image-url", { imageUrl })
+      return await httpService.post('/user/image-url', { imageUrl })
     },
   })
 }
 
 export const useGetUserProfileImageQuery = () => {
   return useQuery({
-    queryKey: ["user-profile-image"],
+    queryKey: ['user-profile-image'],
     queryFn: async () => {
-      return await httpService.get("/user/image-url")
+      return await httpService.get('/user/image-url')
     },
   })
 }

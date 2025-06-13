@@ -1,6 +1,6 @@
-import { Star } from "lucide-react"
+import { Star } from 'lucide-react'
 
-import { Clock, Shield } from "lucide-react"
+import { Clock, Shield } from 'lucide-react'
 
 export function Benefits() {
   return (
@@ -13,7 +13,7 @@ export function Benefits() {
           Blockchain Security
         </h3>
         <p className="text-gray-600 text-sm">
-          Your emails are secured by Sui blockchain technology, ensuring privacy
+          Your mails are secured by Sui blockchain technology, ensuring privacy
           and protection from censorship.
         </p>
       </div>
@@ -26,7 +26,7 @@ export function Benefits() {
           Always Available
         </h3>
         <p className="text-gray-600 text-sm">
-          Decentralized infrastructure means your email is always accessible,
+          Decentralized infrastructure means your mail is always accessible,
           with no single point of failure.
         </p>
       </div>
@@ -39,7 +39,7 @@ export function Benefits() {
           Web3 Native
         </h3>
         <p className="text-gray-600 text-sm">
-          Send crypto, NFTs, and smart contracts directly through email.
+          Send crypto, NFTs, and smart contracts directly through mail.
           Integrate with your favorite Web3 apps.
         </p>
       </div>

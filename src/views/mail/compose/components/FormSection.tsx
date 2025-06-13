@@ -1,27 +1,27 @@
-import type React from "react"
-import { useEffect, useMemo, useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { Paperclip, Send, X } from "lucide-react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { FormField } from "./FormField"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { ReturnRequiredFee } from "./ReturnRequiredFee"
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { Paperclip, Send, X } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormField } from './FormField'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { ReturnRequiredFee } from './ReturnRequiredFee'
 import {
   useGetActiveUserListStatusQuery,
   useGetUserMailFeeAndAddressQuery,
-} from "@/hooks/user"
-import { AxiosError } from "axios"
-import { isValidSuimailAddress } from "@/utils/emailValidation"
+} from '@/hooks/user'
+import { AxiosError } from 'axios'
+import { isValidSuimailAddress } from '@/utils/emailValidation'
 
 const formSchema = z.object({
-  recipient: z.string().refine((value) => isValidSuimailAddress(value), {
-    message: "Please enter a valid suimail address (e.g. name@suimail)",
+  recipient: z.string().refine(value => isValidSuimailAddress(value), {
+    message: 'Please enter a valid suimail address (e.g. name@suimail)',
   }),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(1, "Message is required"),
+  subject: z.string().min(1, 'Subject is required'),
+  message: z.string().min(1, 'Message is required'),
   attachments: z.array(z.instanceof(File)).optional(),
 })
 
@@ -51,9 +51,9 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
   } = useForm<ComposeFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      recipient: "",
-      subject: "",
-      message: "",
+      recipient: '',
+      subject: '',
+      message: '',
       attachments: [],
     },
   })
@@ -63,7 +63,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     isFetching: isFetchingMailFeeAndAddress,
     refetch: refetchMailFeeAndAddress,
     error: mailFeeAndAddressError,
-  } = useGetUserMailFeeAndAddressQuery(watch("recipient"), {
+  } = useGetUserMailFeeAndAddressQuery(watch('recipient'), {
     enabled: false,
   })
 
@@ -71,7 +71,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     data: senderListedData,
     isFetching: isFetchingSenderListedData,
     refetch: refetchSenderListedData,
-  } = useGetActiveUserListStatusQuery(watch("recipient"), {
+  } = useGetActiveUserListStatusQuery(watch('recipient'), {
     enabled: false,
   })
 
@@ -90,25 +90,25 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     return 0
   }, [mailFeeAndAddressResult, senderListedData])
 
-  const attachments = watch("attachments") || []
+  const attachments = watch('attachments') || []
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files)
-      setValue("attachments", [...attachments, ...newFiles])
+      setValue('attachments', [...attachments, ...newFiles])
     }
   }
 
   const removeAttachment = (index: number) => {
     setValue(
-      "attachments",
+      'attachments',
       attachments.filter((_, i) => i !== index)
     )
   }
 
   const handleOnSubmit = (data: ComposeFormData) => {
     if (!recipientAddress) {
-      setRecipientError("Recipient not found")
+      setRecipientError('Recipient not found')
       setTimeout(() => setRecipientError(null), 2000)
       return
     }
@@ -116,7 +116,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
     onSubmit({
       ...data,
       requiredFee,
-      recipientAddress: recipientAddress ?? "",
+      recipientAddress: recipientAddress ?? '',
     })
   }
 
@@ -130,7 +130,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
       setRecipientIsSet(true)
     } else {
       if (senderListedData?.listedStatus.senderIsBlacklisted) {
-        setRecipientError("You cannot send mails to this recipient")
+        setRecipientError('You cannot send mails to this recipient')
         setTimeout(() => setRecipientError(null), 2000)
       }
     }
@@ -145,8 +145,8 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
         mailFeeAndAddressError.response?.data as { message: string }
       ).message
 
-      if (axiosErrorMessage === "User not found") {
-        setRecipientError("Recipient not found")
+      if (axiosErrorMessage === 'User not found') {
+        setRecipientError('Recipient not found')
         setTimeout(() => setRecipientError(null), 2000)
       } else {
         setRecipientError(axiosErrorMessage)
@@ -172,15 +172,15 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
           }
           readonly={recipientIsSet}
           onBlur={() => {
-            if (watch("recipient")) {
-              if (isValidSuimailAddress(watch("recipient"))) {
-                setValue("recipient", watch("recipient"), {
+            if (watch('recipient')) {
+              if (isValidSuimailAddress(watch('recipient'))) {
+                setValue('recipient', watch('recipient'), {
                   shouldValidate: true,
                 })
                 refetchMailFeeAndAddress()
                 refetchSenderListedData()
               } else {
-                setValue("recipient", watch("recipient"), {
+                setValue('recipient', watch('recipient'), {
                   shouldValidate: true,
                   shouldTouch: true,
                 })
@@ -195,7 +195,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
                 className="absolute top-1/2 -translate-y-1/2 right-2"
                 onClick={() => {
                   setRecipientIsSet(false)
-                  setValue("recipient", "")
+                  setValue('recipient', '')
                 }}
               >
                 <X className="w-4 h-4" />
@@ -269,7 +269,7 @@ export function FormSection({ onSubmit, isLoading }: FormSectionProps) {
           className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition"
         >
           <Send className="w-5 h-5" />
-          {isLoading ? "Sending..." : "Send"}
+          {isLoading ? 'Sending...' : 'Send'}
         </Button>
       </div>
     </form>

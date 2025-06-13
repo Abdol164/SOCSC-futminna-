@@ -1,18 +1,19 @@
-import { PageLayout } from "@/components/layouts/PageLayout"
-import { ExtendedToolbar } from "@/components/ExtendedToolbar"
-import { EmailList } from "@/components/EmailViewComponents/EmailList"
-import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
-import type { IEmail } from "@/types/generic"
+import { useMemo } from 'react'
+import type { IEmail } from '@/types/generic'
+import { PageLayout } from '@/components/layouts/PageLayout'
+import { ExtendedToolbar } from '@/components/ExtendedToolbar'
+import { EmailList } from '@/components/EmailViewComponents/EmailList'
+import { MailBoardPageLayout } from '@/components/layouts/MailBoardPageLayout'
 
 export default function TrashPage() {
-  const emails: IEmail[] = []
+  const mails: IEmail[] = useMemo(() => [], [])
 
   return (
     <PageLayout>
-      <ExtendedToolbar getPageTitle={() => "Trash"} />
+      <ExtendedToolbar getPageTitle={() => 'Trash'} />
       <MailBoardPageLayout>
         <div className="pt-16">
-          <EmailList emails={emails} />
+          <EmailList mails={mails} />
         </div>
       </MailBoardPageLayout>
     </PageLayout>

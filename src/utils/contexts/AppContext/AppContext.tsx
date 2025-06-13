@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext } from 'react'
 
 export interface AppContextProps {
   activeNavItem: string
@@ -18,7 +18,7 @@ export const AppContext = createContext<AppContextProps | undefined>(undefined)
 export const useAppContext = () => {
   const context = useContext(AppContext)
   if (!context) {
-    throw new Error("useAppContext must be used within an AppProvider")
+    throw new Error('useAppContext must be used within an AppProvider')
   }
   return context
 }

@@ -1,6 +1,6 @@
-import { MIST_PER_SUI } from "@/constants"
-import { Transaction } from "@mysten/sui/transactions"
-import { useSignAndExecuteTransaction } from "@mysten/dapp-kit"
+import { MIST_PER_SUI } from '@/constants'
+import { Transaction } from '@mysten/sui/transactions'
+import { useSignAndExecuteTransaction } from '@mysten/dapp-kit'
 
 export const useChargeMailTxFee = () => {
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction()
@@ -23,23 +23,23 @@ export const useChargeMailTxFee = () => {
       // Sign and execute the transaction block
       const result = await new Promise<boolean>((resolve, reject) => {
         signAndExecuteTransaction(
-          { transaction: tx, chain: "sui:testnet" },
+          { transaction: tx, chain: 'sui:testnet' },
           {
             onSuccess: () => {
-              console.log("Transaction executed successfully")
+              console.log('Transaction executed successfully')
               resolve(true)
             },
             onError: (error: unknown) => {
-              console.error("Transaction rejected:", error)
+              console.error('Transaction rejected:', error)
               reject(false)
             },
           }
         )
       })
-      console.log("Transaction result:", result)
+      console.log('Transaction result:', result)
       return result
     } catch (error) {
-      console.error("Error sending SUI:", error)
+      console.error('Error sending SUI:', error)
       return false
     }
   }

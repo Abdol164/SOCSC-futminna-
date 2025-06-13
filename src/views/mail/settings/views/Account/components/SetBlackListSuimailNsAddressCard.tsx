@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
-import { Plus, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useToastContext } from "@/components/ui/toast"
+import { useEffect, useState } from 'react'
+import { Plus, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useToastContext } from '@/components/ui/toast'
 import {
   useRemoveFromBlackListMutation,
   useSetUserBlackListMutation,
-} from "@/hooks/user"
-import { isValidSuimailAddress } from "@/utils/emailValidation"
-import { useQueryClient } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+} from '@/hooks/user'
+import { isValidSuimailAddress } from '@/utils/emailValidation'
+import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 export function SetBlackListSuimailNsAddressCard({
   blackList,
@@ -18,7 +18,7 @@ export function SetBlackListSuimailNsAddressCard({
 }) {
   const queryClient = useQueryClient()
 
-  const [blackListInput, setBlackListInput] = useState("")
+  const [blackListInput, setBlackListInput] = useState('')
 
   const { setNotification } = useToastContext()
 
@@ -37,25 +37,25 @@ export function SetBlackListSuimailNsAddressCard({
     if (isValidSuimailAddress(blackListInput)) {
       if (blackList.includes(blackListInput)) {
         setNotification({
-          message: "Address already in black list",
-          type: "error",
+          message: 'Address already in black list',
+          type: 'error',
         })
         return
       }
       await setUserBlackList(blackListInput).then(async () => {
-        setBlackListInput("")
+        setBlackListInput('')
         setNotification({
-          message: "Black List Address Added",
-          type: "success",
+          message: 'Black List Address Added',
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["user-white-and-black-list-address"],
+          queryKey: ['user-white-and-black-list-address'],
         })
       })
     } else {
       setNotification({
-        message: "Invalid Suimail Namespace",
-        type: "error",
+        message: 'Invalid Suimail Namespace',
+        type: 'error',
       })
     }
   }
@@ -63,11 +63,11 @@ export function SetBlackListSuimailNsAddressCard({
   const handleRemoveFromBlackList = async (suimailNs: string) => {
     await removeFromBlackList(suimailNs).then(async () => {
       setNotification({
-        message: "Black List Address Removed",
-        type: "success",
+        message: 'Black List Address Removed',
+        type: 'success',
       })
       await queryClient.invalidateQueries({
-        queryKey: ["user-white-and-black-list-address"],
+        queryKey: ['user-white-and-black-list-address'],
       })
     })
   }
@@ -79,20 +79,20 @@ export function SetBlackListSuimailNsAddressCard({
           setUserBlackListError.response?.data as { message: string }
         ).message
 
-        if (errorMessage === "Cannot blacklist self") {
+        if (errorMessage === 'Cannot blacklist self') {
           setNotification({
-            message: "Cannot blacklist self",
-            type: "error",
+            message: 'Cannot blacklist self',
+            type: 'error',
           })
-        } else if (errorMessage === "Suimail namespace already in blacklist") {
+        } else if (errorMessage === 'Suimail namespace already in blacklist') {
           setNotification({
-            message: "Address already in black list",
-            type: "error",
+            message: 'Address already in black list',
+            type: 'error',
           })
         } else {
           setNotification({
-            message: "Error setting black list address",
-            type: "error",
+            message: 'Error setting black list address',
+            type: 'error',
           })
         }
       }
@@ -105,7 +105,8 @@ export function SetBlackListSuimailNsAddressCard({
         <div>
           <h3 className="font-medium text-lg mb-2">Black List Address</h3>
           <p className="text-sm text-gray-500">
-            Block Suimail NS addresses to prevent mail delivery. Maximum 20 addresses.
+            Block Suimail NS addresses to prevent mail delivery. Maximum 20
+            addresses.
           </p>
         </div>
 
@@ -113,7 +114,7 @@ export function SetBlackListSuimailNsAddressCard({
           <Input
             type="email"
             value={blackListInput}
-            onChange={(e) => setBlackListInput(e.target.value)}
+            onChange={e => setBlackListInput(e.target.value)}
             placeholder="Enter email address"
           />
           <Button

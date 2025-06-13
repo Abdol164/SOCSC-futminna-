@@ -1,17 +1,17 @@
-import { X } from "lucide-react"
+import { X } from 'lucide-react'
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   useRemoveFromWhiteListMutation,
   useSetUserWhiteListMutation,
-} from "@/hooks/user"
-import { Plus } from "lucide-react"
-import { useToastContext } from "@/components/ui/toast"
-import { isValidSuimailAddress } from "@/utils/emailValidation"
-import { AxiosError } from "axios"
-import { useQueryClient } from "@tanstack/react-query"
+} from '@/hooks/user'
+import { Plus } from 'lucide-react'
+import { useToastContext } from '@/components/ui/toast'
+import { isValidSuimailAddress } from '@/utils/emailValidation'
+import { AxiosError } from 'axios'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function SetWhiteListSuimailNsAddressCard({
   whiteList,
@@ -20,7 +20,7 @@ export function SetWhiteListSuimailNsAddressCard({
 }) {
   const queryClient = useQueryClient()
 
-  const [whiteListInput, setWhiteListInput] = useState("")
+  const [whiteListInput, setWhiteListInput] = useState('')
 
   const { setNotification } = useToastContext()
 
@@ -39,25 +39,25 @@ export function SetWhiteListSuimailNsAddressCard({
     if (isValidSuimailAddress(whiteListInput)) {
       if (whiteList.includes(whiteListInput)) {
         setNotification({
-          message: "Address already in white list",
-          type: "error",
+          message: 'Address already in white list',
+          type: 'error',
         })
         return
       }
       await setUserWhiteList(whiteListInput).then(async () => {
-        setWhiteListInput("")
+        setWhiteListInput('')
         setNotification({
-          message: "White List Address Added",
-          type: "success",
+          message: 'White List Address Added',
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["user-white-and-black-list-address"],
+          queryKey: ['user-white-and-black-list-address'],
         })
       })
     } else {
       setNotification({
-        message: "Invalid Suimail Namespace",
-        type: "error",
+        message: 'Invalid Suimail Namespace',
+        type: 'error',
       })
     }
   }
@@ -65,11 +65,11 @@ export function SetWhiteListSuimailNsAddressCard({
   const handleRemoveFromWhiteList = async (suimailNs: string) => {
     await removeUserWhiteList(suimailNs).then(async () => {
       setNotification({
-        message: "White List Address Removed",
-        type: "success",
+        message: 'White List Address Removed',
+        type: 'success',
       })
       await queryClient.invalidateQueries({
-        queryKey: ["user-white-and-black-list-address"],
+        queryKey: ['user-white-and-black-list-address'],
       })
     })
   }
@@ -81,20 +81,20 @@ export function SetWhiteListSuimailNsAddressCard({
           setUserWhiteListError.response?.data as { message: string }
         ).message
 
-        if (errorMessage === "Cannot whitelist self") {
+        if (errorMessage === 'Cannot whitelist self') {
           setNotification({
-            message: "Cannot whitelist self",
-            type: "error",
+            message: 'Cannot whitelist self',
+            type: 'error',
           })
-        } else if (errorMessage === "Suimail namespace already in whitelist") {
+        } else if (errorMessage === 'Suimail namespace already in whitelist') {
           setNotification({
-            message: "Address already in white list",
-            type: "error",
+            message: 'Address already in white list',
+            type: 'error',
           })
         } else {
           setNotification({
-            message: "Error setting white list address",
-            type: "error",
+            message: 'Error setting white list address',
+            type: 'error',
           })
         }
       }
@@ -107,7 +107,8 @@ export function SetWhiteListSuimailNsAddressCard({
         <div>
           <h3 className="font-medium text-lg mb-2">White List Address</h3>
           <p className="text-sm text-gray-500">
-            Add Suimail NS addresses to allow free mail delivery. Maximum 20 addresses.
+            Add Suimail NS addresses to allow free mail delivery. Maximum 20
+            addresses.
           </p>
         </div>
 
@@ -115,7 +116,7 @@ export function SetWhiteListSuimailNsAddressCard({
           <Input
             type="email"
             value={whiteListInput}
-            onChange={(e) => setWhiteListInput(e.target.value)}
+            onChange={e => setWhiteListInput(e.target.value)}
             placeholder="Enter email address"
           />
           <Button

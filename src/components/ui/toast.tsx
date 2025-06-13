@@ -5,22 +5,22 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react"
-import { cn } from "@/lib/utils"
-import { X as XIcon } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
-import { randomToastId } from "@/utils/helpers/random-toast-id"
+} from 'react'
+import { cn } from '@/lib/utils'
+import { X as XIcon } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { randomToastId } from '@/utils/helpers/random-toast-id'
 
 interface ToastNotification {
   id: string
   message: string
   description?: string
-  type: "success" | "error"
+  type: 'success' | 'error'
 }
 
 type ToastContextProps = {
   notification: ToastNotification | null
-  setNotification: (notification: Omit<ToastNotification, "id"> | null) => void
+  setNotification: (notification: Omit<ToastNotification, 'id'> | null) => void
 }
 
 const ToastContext = createContext<ToastContextProps | null>(null)
@@ -35,7 +35,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const handleSetNotification = useCallback(
-    (notification: Omit<ToastNotification, "id"> | null) => {
+    (notification: Omit<ToastNotification, 'id'> | null) => {
       if (!notification) {
         setNotification(null)
         return
@@ -76,7 +76,7 @@ export const useToastContext = () => {
   const context = useContext(ToastContext)
 
   if (!context) {
-    throw new Error("useToastContext must be used within a ToastProvider")
+    throw new Error('useToastContext must be used within a ToastProvider')
   }
 
   return context
@@ -104,10 +104,10 @@ const Notification = ({
       initial={{ y: 15, scale: 0.9, opacity: 0 }}
       animate={{ y: 0, scale: 1, opacity: 1 }}
       exit={{ y: -25, scale: 0.9, opacity: 0 }}
-      transition={{ type: "spring" }}
+      transition={{ type: 'spring' }}
       className={cn(
-        "p-4 w-80 flex items-center justify-between rounded-lg gap-2 text-sm font-medium shadow-lg text-white fixed z-[1000] top-4 right-4",
-        type === "success" ? "bg-emerald-600" : "bg-red-500"
+        'p-4 w-80 flex items-center justify-between rounded-lg gap-2 text-sm font-medium shadow-lg text-white fixed z-[1000] top-4 right-4',
+        type === 'success' ? 'bg-emerald-600' : 'bg-red-500'
       )}
     >
       <div className="flex flex-col gap-1">

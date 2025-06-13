@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
-import { useGetUserWhiteAndBlackListAddressQuery } from "@/hooks/user"
-import { SetWhiteListSuimailNsAddressCard } from "./SetWhiteListSuimailNsAddressCard"
-import { SetBlackListSuimailNsAddressCard } from "./SetBlackListSuimailNsAddressCard"
+import { useEffect, useState } from 'react'
+import { useGetUserWhiteAndBlackListAddressQuery } from '@/hooks/user'
+import { SetWhiteListSuimailNsAddressCard } from './SetWhiteListSuimailNsAddressCard'
+import { SetBlackListSuimailNsAddressCard } from './SetBlackListSuimailNsAddressCard'
 
 export function SetWhiteAndBlackListAddress() {
   const [whiteList, setWhiteList] = useState<string[]>([])

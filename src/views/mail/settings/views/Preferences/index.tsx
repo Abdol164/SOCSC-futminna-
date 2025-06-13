@@ -1,4 +1,4 @@
-import { SubviewHeader } from "../../components/subview-header"
+import { SubviewHeader } from '../../components/subview-header'
 
 export function PreferencesView() {
   return (

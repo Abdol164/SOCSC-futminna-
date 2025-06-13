@@ -1,5 +1,5 @@
-import { useConnectWallet } from "@mysten/dapp-kit"
-import type { WalletWithRequiredFeatures } from "@mysten/wallet-standard"
+import { useConnectWallet } from '@mysten/dapp-kit'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 
 interface ConnectWalletButtonProps {
   wallet: WalletWithRequiredFeatures

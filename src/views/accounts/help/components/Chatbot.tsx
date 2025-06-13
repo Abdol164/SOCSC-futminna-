@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { MessageCircle, X, Send, Bot } from "lucide-react"
+import { useState } from 'react'
+import { MessageCircle, X, Send, Bot } from 'lucide-react'
 
 interface ChatMessage {
-  type: "user" | "bot"
+  type: 'user' | 'bot'
   message: string
 }
 
@@ -10,137 +10,137 @@ export function Chatbot() {
   const [chatbotOpen, setChatbotOpen] = useState(false)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
-      type: "bot",
+      type: 'bot',
       message:
         "Hi! I'm your Suimail assistant. I can help you with wallet connection, sending encrypted emails, gas fees, security, and more. What would you like to know?",
     },
   ])
-  const [userMessage, setUserMessage] = useState("")
+  const [userMessage, setUserMessage] = useState('')
 
   // Smart chatbot responses
   const getBotResponse = (userInput: string) => {
     const input = userInput.toLowerCase()
 
-    if (input.includes("wallet") || input.includes("connect")) {
-      if (input.includes("which") || input.includes("what wallet")) {
-        return "You can use any Sui-compatible wallet like Sui Wallet, Ethos Wallet, or Martian Wallet. I recommend Sui Wallet for the best experience. Make sure you have some SUI tokens for transaction fees!"
+    if (input.includes('wallet') || input.includes('connect')) {
+      if (input.includes('which') || input.includes('what wallet')) {
+        return 'You can use any Sui-compatible wallet like Sui Wallet, Ethos Wallet, or Martian Wallet. I recommend Sui Wallet for the best experience. Make sure you have some SUI tokens for transaction fees!'
       }
-      if (input.includes("connect") || input.includes("how")) {
+      if (input.includes('connect') || input.includes('how')) {
         return "To connect your wallet: 1) Click 'Connect Wallet' in the top-right corner, 2) Select your wallet type, 3) Approve the connection in your wallet popup. Need SUI tokens? You can get them from exchanges like Binance or KuCoin."
       }
       if (
-        input.includes("problem") ||
-        input.includes("error") ||
-        input.includes("not working")
+        input.includes('problem') ||
+        input.includes('error') ||
+        input.includes('not working')
       ) {
-        return "Wallet connection issues? Try: 1) Refresh the page, 2) Make sure your wallet extension is unlocked, 3) Clear browser cache, 4) Try switching to a different network and back. Still stuck? Let me know the exact error message!"
+        return 'Wallet connection issues? Try: 1) Refresh the page, 2) Make sure your wallet extension is unlocked, 3) Clear browser cache, 4) Try switching to a different network and back. Still stuck? Let me know the exact error message!'
       }
 
-      return "For wallet help, I can assist with connection, supported wallets, or troubleshooting. What specific wallet issue are you facing?"
+      return 'For wallet help, I can assist with connection, supported wallets, or troubleshooting. What specific wallet issue are you facing?'
     }
 
     // Email/messaging queries
     if (
-      input.includes("email") ||
-      input.includes("message") ||
-      input.includes("send")
+      input.includes('email') ||
+      input.includes('message') ||
+      input.includes('send')
     ) {
       if (
-        input.includes("cost") ||
-        input.includes("fee") ||
-        input.includes("gas")
+        input.includes('cost') ||
+        input.includes('fee') ||
+        input.includes('gas')
       ) {
-        return "Sending emails costs very little - typically under 0.001 SUI per message (less than $0.01). The exact fee depends on network congestion. Your wallet will show the exact amount before confirming."
+        return 'Sending emails costs very little - typically under 0.001 SUI per message (less than $0.01). The exact fee depends on network congestion. Your wallet will show the exact amount before confirming.'
       }
       if (
-        input.includes("private") ||
-        input.includes("secure") ||
-        input.includes("encrypted")
+        input.includes('private') ||
+        input.includes('secure') ||
+        input.includes('encrypted')
       ) {
-        return "Yes! All emails are end-to-end encrypted before going on the blockchain. Only you and the recipient can read them using your wallet keys. Much more secure than traditional email!"
+        return 'Yes! All emails are end-to-end encrypted before going on the blockchain. Only you and the recipient can read them using your wallet keys. Much more secure than traditional email!'
       }
       if (
-        input.includes("how") &&
-        (input.includes("send") || input.includes("compose"))
+        input.includes('how') &&
+        (input.includes('send') || input.includes('compose'))
       ) {
         return "To send an email: 1) Click 'Compose' or the + button, 2) Enter recipient's Sui address or ENS name, 3) Write your message, 4) Click 'Send' and confirm in your wallet. The message will be on-chain in seconds!"
       }
-      return "I can help with sending emails, costs, privacy, or any messaging features. What would you like to know?"
+      return 'I can help with sending emails, costs, privacy, or any messaging features. What would you like to know?'
     }
 
     // Security queries
     if (
-      input.includes("security") ||
-      input.includes("safe") ||
-      input.includes("secure") ||
-      input.includes("private")
+      input.includes('security') ||
+      input.includes('safe') ||
+      input.includes('secure') ||
+      input.includes('private')
     ) {
       return "Your emails are super secure! They're encrypted with your wallet keys before going on Sui blockchain. No one can read them without your private key - not even us. Always keep your seed phrase safe and never share it!"
     }
 
     // SUI token queries
     if (
-      input.includes("sui") &&
-      (input.includes("token") ||
-        input.includes("buy") ||
-        input.includes("get"))
+      input.includes('sui') &&
+      (input.includes('token') ||
+        input.includes('buy') ||
+        input.includes('get'))
     ) {
       return "You can get SUI tokens from major exchanges like Binance, KuCoin, or OKX. You'll need small amounts for sending emails (gas fees). Consider getting at least 1-2 SUI to start - that's enough for hundreds of emails!"
     }
 
     // Speed/performance queries
     if (
-      input.includes("slow") ||
-      input.includes("fast") ||
-      input.includes("speed")
+      input.includes('slow') ||
+      input.includes('fast') ||
+      input.includes('speed')
     ) {
-      return "Sui is super fast! Your emails are typically confirmed in 2-3 seconds. If it seems slow, check your wallet connection and network status. The Sui network processes thousands of transactions per second."
+      return 'Sui is super fast! Your emails are typically confirmed in 2-3 seconds. If it seems slow, check your wallet connection and network status. The Sui network processes thousands of transactions per second.'
     }
 
     // Backup/recovery queries
     if (
-      input.includes("backup") ||
-      input.includes("recover") ||
-      input.includes("lost") ||
-      input.includes("seed phrase")
+      input.includes('backup') ||
+      input.includes('recover') ||
+      input.includes('lost') ||
+      input.includes('seed phrase')
     ) {
-      return "⚠️ Important: Your emails are tied to your wallet. If you lose your wallet/seed phrase, you lose access to your email history forever. Always backup your seed phrase securely and never share it with anyone!"
+      return '⚠️ Important: Your emails are tied to your wallet. If you lose your wallet/seed phrase, you lose access to your email history forever. Always backup your seed phrase securely and never share it with anyone!'
     }
 
     // Contact/address queries
     if (
-      input.includes("contact") ||
-      input.includes("address") ||
-      input.includes("friend")
+      input.includes('contact') ||
+      input.includes('address') ||
+      input.includes('friend')
     ) {
-      return "To email someone, you need their Sui wallet address (starts with 0x...). You can also use Sui Name Service (SuiNS) names if they have one - much easier to remember! Save frequent contacts for quick access."
+      return 'To email someone, you need their Sui wallet address (starts with 0x...). You can also use Sui Name Service (SuiNS) names if they have one - much easier to remember! Save frequent contacts for quick access.'
     }
 
     // General help
     if (
-      input.includes("help") ||
-      input.includes("start") ||
-      input.includes("begin")
+      input.includes('help') ||
+      input.includes('start') ||
+      input.includes('begin')
     ) {
-      return "Welcome to decentralized email! Start by: 1) Connecting your Sui wallet, 2) Getting some SUI tokens for fees, 3) Sending your first encrypted email. Check our Quick Start guide above for step-by-step instructions!"
+      return 'Welcome to decentralized email! Start by: 1) Connecting your Sui wallet, 2) Getting some SUI tokens for fees, 3) Sending your first encrypted email. Check our Quick Start guide above for step-by-step instructions!'
     }
 
     // Error handling
     if (
-      input.includes("error") ||
-      input.includes("problem") ||
-      input.includes("issue")
+      input.includes('error') ||
+      input.includes('problem') ||
+      input.includes('issue')
     ) {
       return "I'm here to help! Can you tell me more about the specific error or problem you're experiencing? Is it related to wallet connection, sending emails, or something else?"
     }
 
     // Pricing queries
     if (
-      input.includes("price") ||
-      input.includes("cost") ||
-      input.includes("free")
+      input.includes('price') ||
+      input.includes('cost') ||
+      input.includes('free')
     ) {
-      return "The app is free to use! You only pay tiny blockchain fees (gas) when sending emails - usually less than 0.001 SUI per message. No monthly subscriptions or hidden costs!"
+      return 'The app is free to use! You only pay tiny blockchain fees (gas) when sending emails - usually less than 0.001 SUI per message. No monthly subscriptions or hidden costs!'
     }
 
     // Default responses for unmatched queries
@@ -148,7 +148,7 @@ export function Chatbot() {
       "That's a great question! Could you provide more details so I can give you the most helpful answer?",
       "I'd love to help! Can you tell me more about what you're trying to do with the Sui Email app?",
       "I'm here to assist with wallet connection, sending emails, security, or any other features. What specific area would you like help with?",
-      "Let me help you with that! Are you looking for help with technical issues, getting started, or learning about features?",
+      'Let me help you with that! Are you looking for help with technical issues, getting started, or learning about features?',
     ]
 
     return defaultResponses[Math.floor(Math.random() * defaultResponses.length)]
@@ -161,12 +161,12 @@ export function Chatbot() {
 
     const newMessages: ChatMessage[] = [
       ...chatMessages,
-      { type: "user", message: userMessage },
-      { type: "bot", message: botResponse },
+      { type: 'user', message: userMessage },
+      { type: 'bot', message: botResponse },
     ]
 
     setChatMessages(newMessages)
-    setUserMessage("")
+    setUserMessage('')
   }
 
   return (
@@ -199,14 +199,14 @@ export function Chatbot() {
               <div
                 key={index}
                 className={`flex ${
-                  msg.type === "user" ? "justify-end" : "justify-start"
+                  msg.type === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
                 <div
                   className={`max-w-xs px-4 py-2 rounded-lg ${
-                    msg.type === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-800"
+                    msg.type === 'user'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-800'
                   }`}
                 >
                   {msg.message}
@@ -220,8 +220,8 @@ export function Chatbot() {
               <input
                 type="text"
                 value={userMessage}
-                onChange={(e) => setUserMessage(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                onChange={e => setUserMessage(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Ask about wallets, sending emails, fees..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
@@ -235,8 +235,8 @@ export function Chatbot() {
             </div>
             {/* Quick suggestions */}
             <div className="flex flex-wrap gap-2 mt-3">
-              {["How to connect wallet?", "Email costs?", "Is it secure?"].map(
-                (suggestion) => (
+              {['How to connect wallet?', 'Email costs?', 'Is it secure?'].map(
+                suggestion => (
                   <button
                     key={suggestion}
                     onClick={() => setUserMessage(suggestion)}
@@ -252,4 +252,4 @@ export function Chatbot() {
       )}
     </>
   )
-} 
+}

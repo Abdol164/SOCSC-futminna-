@@ -1,16 +1,16 @@
-import { useState } from "react"
-import { motion } from "motion/react"
-import { useQueryClient } from "@tanstack/react-query"
-import { FormSection } from "./components/FormSection"
-import { useToastContext } from "@/components/ui/toast"
-import { useSetUserSuimailNsMutation } from "@/hooks/user"
-import { MailBoardPageLayout } from "@/components/layouts/MailBoardPageLayout"
-import { ConfirmSuimailNSModal } from "./components/ConfirmSuimailNSModal"
-import { AxiosError } from "axios"
+import { useState } from 'react'
+import { motion } from 'motion/react'
+import { useQueryClient } from '@tanstack/react-query'
+import { FormSection } from './components/FormSection'
+import { useToastContext } from '@/components/ui/toast'
+import { useSetUserSuimailNsMutation } from '@/hooks/user'
+import { MailBoardPageLayout } from '@/components/layouts/MailBoardPageLayout'
+import { ConfirmSuimailNSModal } from './components/ConfirmSuimailNSModal'
+import { AxiosError } from 'axios'
 
 export default function OnboardingPage() {
   const queryClient = useQueryClient()
-  const [suimailNS, setSuimailNS] = useState("")
+  const [suimailNS, setSuimailNS] = useState('')
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
@@ -19,11 +19,11 @@ export default function OnboardingPage() {
   const { mutateAsync: setUserSuimailNs, isPending: isSettingUpSuimailNs } =
     useSetUserSuimailNsMutation()
 
-  const copyToClipboard = (email: string) => {
-    navigator.clipboard.writeText(email)
+  const copyToClipboard = (mailMessage: string) => {
+    navigator.clipboard.writeText(mailMessage)
     setNotification({
-      message: "Email address copied to clipboard",
-      type: "success",
+      message: 'Mail copied to clipboard',
+      type: 'success',
     })
   }
 
@@ -35,15 +35,15 @@ export default function OnboardingPage() {
     if (
       !suimailNS.length ||
       !suimailNS.match(/.*@suimail$/) ||
-      !suimailNS.split("@")[0].match(/^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]$/) ||
-      suimailNS.split("@")[0].length < 3 ||
-      suimailNS.split("@")[0].length > 20
+      !suimailNS.split('@')[0].match(/^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]$/) ||
+      suimailNS.split('@')[0].length < 3 ||
+      suimailNS.split('@')[0].length > 20
     ) {
       setNotification({
-        message: "Invalid SuiMail NS",
+        message: 'Invalid SuiMail NS',
         description:
-          "Please enter a valid SuiMail NS. It must be between 3 and 20 characters and contain only alphanumeric characters.",
-        type: "error",
+          'Please enter a valid SuiMail NS. It must be between 3 and 20 characters and contain only alphanumeric characters.',
+        type: 'error',
       })
       return
     }
@@ -56,15 +56,15 @@ export default function OnboardingPage() {
     if (
       !suimailNS.length ||
       !suimailNS.match(/.*@suimail$/) ||
-      !suimailNS.split("@")[0].match(/^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]$/) ||
-      suimailNS.split("@")[0].length < 3 ||
-      suimailNS.split("@")[0].length > 20
+      !suimailNS.split('@')[0].match(/^[a-zA-Z0-9][a-zA-Z0-9.]*[a-zA-Z0-9]$/) ||
+      suimailNS.split('@')[0].length < 3 ||
+      suimailNS.split('@')[0].length > 20
     ) {
       setNotification({
-        message: "Invalid SuiMail NS",
+        message: 'Invalid SuiMail NS',
         description:
-          "Please enter a valid SuiMail NS. It must be between 3 and 20 characters and contain only alphanumeric characters.",
-        type: "error",
+          'Please enter a valid SuiMail NS. It must be between 3 and 20 characters and contain only alphanumeric characters.',
+        type: 'error',
       })
       return
     }
@@ -72,25 +72,25 @@ export default function OnboardingPage() {
     try {
       await setUserSuimailNs(suimailNS).then(async () => {
         setNotification({
-          message: "Onboarded Successfully 🎉",
-          type: "success",
+          message: 'Onboarded Successfully 🎉',
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["auth-user"],
+          queryKey: ['auth-user'],
         })
       })
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 409) {
           setNotification({
-            message: "SuiMail NS already exists",
-            type: "error",
+            message: 'SuiMail NS already exists',
+            type: 'error',
           })
         }
       } else {
         setNotification({
-          message: "Failed to Onboard",
-          type: "error",
+          message: 'Failed to Onboard',
+          type: 'error',
         })
       }
     }
@@ -125,7 +125,7 @@ export default function OnboardingPage() {
               }}
               transition={{
                 delay: 0.2,
-                type: "spring",
+                type: 'spring',
                 stiffness: 100,
               }}
               className="inline-flex items-center justify-center mb-4"
@@ -161,14 +161,14 @@ export default function OnboardingPage() {
             transition={{ delay: 0.8 }}
             className="text-center text-sm text-muted-foreground mt-4"
           >
-            By continuing, you agree to our{" "}
+            By continuing, you agree to our{' '}
             <a
               href="#"
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
-            </a>{" "}
-            and{" "}
+            </a>{' '}
+            and{' '}
             <a
               href="#"
               className="underline underline-offset-4 hover:text-primary"

@@ -1,22 +1,22 @@
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
 import {
   Card,
   CardHeader,
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card"
+} from '@/components/ui/card'
 
 const formSchema = z.object({
   mailFee: z
     .number()
-    .min(0, "Mail fee must be at least 0")
-    .max(0.1, "Mail fee cannot exceed 0.1"),
+    .min(0, 'Mail fee must be at least 0')
+    .max(0.1, 'Mail fee cannot exceed 0.1'),
 })
 type FormData = z.infer<typeof formSchema>
 
@@ -47,7 +47,7 @@ export function SetMailFeeCard({
     handleSetMailFee(data.mailFee)
   }
 
-  const mailFee = watch("mailFee")
+  const mailFee = watch('mailFee')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
@@ -66,7 +66,7 @@ export function SetMailFeeCard({
             step={0.01}
             value={[mailFee]}
             onValueChange={([val]) =>
-              setValue("mailFee", val, { shouldValidate: true })
+              setValue('mailFee', val, { shouldValidate: true })
             }
             className="w-full"
             id="mailFee"
@@ -87,7 +87,7 @@ export function SetMailFeeCard({
             className="w-full hover:bg-blue-600"
             disabled={isPending}
           >
-            {isPending ? "Updating..." : "Done"}
+            {isPending ? 'Updating...' : 'Done'}
           </Button>
         </CardFooter>
       </Card>

@@ -1,7 +1,7 @@
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { useToastContext } from "@/components/ui/toast"
-import { useEffect, useState } from "react"
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { useToastContext } from '@/components/ui/toast'
+import { useEffect, useState } from 'react'
 
 export function FormSection() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
@@ -12,40 +12,40 @@ export function FormSection() {
   const { setNotification } = useToastContext()
 
   useEffect(() => {
-    if ("Notification" in window) {
+    if ('Notification' in window) {
       setPermissionStatus(Notification.permission)
 
-      if (Notification.permission === "granted") {
+      if (Notification.permission === 'granted') {
         setNotificationsEnabled(true)
       }
     }
   }, [])
 
   const requestNotificationPermission = async () => {
-    if (!("Notification" in window)) {
+    if (!('Notification' in window)) {
       setNotification({
-        message: "This browser does not support notifications",
-        type: "error",
+        message: 'This browser does not support notifications',
+        type: 'error',
       })
       return false
     }
 
-    if (Notification.permission === "granted") {
+    if (Notification.permission === 'granted') {
       return true
     }
 
     const permission = await Notification.requestPermission()
     setPermissionStatus(permission)
 
-    if (permission === "granted") {
-      new Notification("Notifications Enabled!", {
-        body: "You will now receive notifications for new emails and updates.",
+    if (permission === 'granted') {
+      new Notification('Notifications Enabled!', {
+        body: 'You will now receive notifications for new mails and updates.',
       })
       return true
     } else {
       setNotification({
-        message: "Notification permission was denied",
-        type: "error",
+        message: 'Notification permission was denied',
+        type: 'error',
       })
       return false
     }
@@ -84,7 +84,7 @@ export function FormSection() {
                 checked={notificationsEnabled}
                 onCheckedChange={handleSwitchChange}
                 disabled={
-                  !("Notification" in window) || permissionStatus === "denied"
+                  !('Notification' in window) || permissionStatus === 'denied'
                 }
               />
             </div>

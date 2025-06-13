@@ -1,5 +1,5 @@
-import { Wallet, Send, User, Lock, ArrowRight } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import { Wallet, Send, User, Lock, ArrowRight } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 interface QuickAction {
   title: string
@@ -9,23 +9,23 @@ interface QuickAction {
 
 const quickActions: QuickAction[] = [
   {
-    title: "Connect Wallet",
-    description: "Link your Sui wallet to start using Suimail",
+    title: 'Connect Wallet',
+    description: 'Link your Sui wallet to start using Suimail',
     icon: Wallet,
   },
   {
-    title: "Send First Email",
-    description: "Learn how to compose and send secure messages",
+    title: 'Send First Email',
+    description: 'Learn how to compose and send secure messages',
     icon: Send,
   },
   {
-    title: "Manage Contacts",
-    description: "Add and organize your Suimail contacts",
+    title: 'Manage Contacts',
+    description: 'Add and organize your Suimail contacts',
     icon: User,
   },
   {
-    title: "Security Settings",
-    description: "Configure privacy and security options",
+    title: 'Security Settings',
+    description: 'Configure privacy and security options',
     icon: Lock,
   },
 ]
@@ -47,7 +47,9 @@ export function QuickStartSection() {
               </div>
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900">{action.title}</h3>
-                <p className="text-sm text-gray-600 mt-1">{action.description}</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {action.description}
+                </p>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
             </div>
@@ -56,4 +58,4 @@ export function QuickStartSection() {
       </div>
     </div>
   )
-} 
+}

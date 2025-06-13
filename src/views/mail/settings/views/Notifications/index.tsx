@@ -1,5 +1,5 @@
-import { SubviewHeader } from "../../components/subview-header"
-import { FormSection } from "./components/FormSection"
+import { SubviewHeader } from '../../components/subview-header'
+import { FormSection } from './components/FormSection'
 
 export function NotificationsView() {
   return (

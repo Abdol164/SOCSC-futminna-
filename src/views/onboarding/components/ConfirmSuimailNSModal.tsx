@@ -7,8 +7,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { AlertCircle, Mail } from "lucide-react"
+} from '@/components/ui/alert-dialog'
+import { AlertCircle, Mail } from 'lucide-react'
 
 interface ConfirmSuimailNSModalProps {
   showConfirmDialog: boolean
@@ -41,7 +41,7 @@ export function ConfirmSuimailNSModal({
                   <div>
                     <div className="font-medium">Important:</div>
                     <div className="text-sm mt-1">
-                      Once set, your SuiMail NS{" "}
+                      Once set, your SuiMail NS{' '}
                       <strong>cannot be changed</strong> due to the
                       decentralized nature of the Sui blockchain.
                     </div>

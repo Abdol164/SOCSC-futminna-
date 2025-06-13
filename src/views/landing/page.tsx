@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import type { WalletAccount } from "@wallet-standard/base"
-import { ConnectModal, useCurrentAccount } from "@mysten/dapp-kit"
-import { setCookie } from "@/utils/helpers/auth"
-import { useLoginMutation } from "../../hooks/auth"
-import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import type { WalletAccount } from '@wallet-standard/base'
+import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit'
+import { setCookie } from '@/utils/helpers/auth'
+import { useLoginMutation } from '../../hooks/auth'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants'
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ export default function LandingPage() {
         const response = await login(wallet.address)
         if (response.access_token) {
           setCookie(ACCESS_TOKEN_COOKIE_NAME, response.access_token)
-          navigate("/mail")
+          navigate('/mail')
         }
       } catch (error) {
         console.error(error)
@@ -56,8 +56,8 @@ export default function LandingPage() {
               disabled={!!currentAccount || isLoginPending}
               className={`w-full py-3 px-4 rounded-md flex items-center justify-center gap-2 text-base font-medium ${
                 currentAccount || isLoginPending
-                  ? "bg-gray-100 text-gray-400"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
+                  ? 'bg-gray-100 text-gray-400'
+                  : 'bg-blue-500 hover:bg-blue-600 text-white'
               }`}
             >
               {isLoginPending && <LoginCircle />}
@@ -84,8 +84,8 @@ const renderConnectButtonLabel = (
   wallet: WalletAccount | null,
   isPending: boolean
 ) => {
-  if (!wallet) return "Connect Wallet"
-  if (isPending) return "Connecting..."
+  if (!wallet) return 'Connect Wallet'
+  if (isPending) return 'Connecting...'
   return `${wallet.address.slice(0, 4)}...${wallet.address.slice(-4)}`
 }
 

@@ -1,7 +1,7 @@
-import { useGetUserProfileImageQuery } from "@/hooks/user"
-import { useMemo } from "react"
-import { Skeleton } from "../ui/skeleton"
-import { User } from "lucide-react"
+import { useGetUserProfileImageQuery } from '@/hooks/user'
+import { useMemo } from 'react'
+import { Skeleton } from '../ui/skeleton'
+import { User } from 'lucide-react'
 
 interface ProfileProps {
   name: string

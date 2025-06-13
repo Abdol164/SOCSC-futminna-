@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 /*
  * The schema for the server-side environment variables
@@ -10,10 +10,10 @@ import { z } from "zod";
  */
 
 const serverConfigSchema = z.object({
-    VITE_ENOKI_API_KEY: z.string(),
-});
+  VITE_ENOKI_API_KEY: z.string(),
+})
 const serverConfig = serverConfigSchema.parse({
-    VITE_ENOKI_API_KEY: import.meta.env.VITE_ENOKI_API_KEY,
-});
+  VITE_ENOKI_API_KEY: import.meta.env.VITE_ENOKI_API_KEY,
+})
 
-export default serverConfig;
+export default serverConfig

@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from 'axios'
 
 export async function uploadToCloudinary(file: File): Promise<string> {
   const formData = new FormData()
-  formData.append("file", file)
-  formData.append("upload_preset", "ml_default")
+  formData.append('file', file)
+  formData.append('upload_preset', 'ml_default')
 
   const response = await axios.post(
     `https://api.cloudinary.com/v1_1/${
@@ -12,7 +12,7 @@ export async function uploadToCloudinary(file: File): Promise<string> {
     formData,
     {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     }
   )

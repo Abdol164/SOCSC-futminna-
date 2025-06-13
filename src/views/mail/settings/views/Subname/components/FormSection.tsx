@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useToastContext } from "@/components/ui/toast"
-import { useSetUserProfileImageMutation } from "@/hooks/user"
-import { uploadToCloudinary } from "@/utils/cloudinary"
-import { useQueryClient } from "@tanstack/react-query"
-import { Upload, User } from "lucide-react"
-import { useMemo, useState } from "react"
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useToastContext } from '@/components/ui/toast'
+import { useSetUserProfileImageMutation } from '@/hooks/user'
+import { uploadToCloudinary } from '@/utils/cloudinary'
+import { useQueryClient } from '@tanstack/react-query'
+import { Upload, User } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
 export function FormSection({
   activeUserProfileImage,
@@ -29,9 +29,9 @@ export function FormSection({
     if (file) {
       if (file.size > 1024 * 1024) {
         setNotification({
-          message: "File too large",
-          description: "Please select an image smaller than 1MB",
-          type: "error",
+          message: 'File too large',
+          description: 'Please select an image smaller than 1MB',
+          type: 'error',
         })
         return
       }
@@ -44,9 +44,9 @@ export function FormSection({
   const handleImageUpload = async () => {
     if (!profileImage) {
       setNotification({
-        message: "No image selected",
-        description: "Please select an image to upload",
-        type: "error",
+        message: 'No image selected',
+        description: 'Please select an image to upload',
+        type: 'error',
       })
       return
     }
@@ -57,21 +57,21 @@ export function FormSection({
 
       await setUserProfileImage(url).then(async () => {
         setNotification({
-          message: "Image uploaded successfully",
-          description: "Your profile image has been updated",
-          type: "success",
+          message: 'Image uploaded successfully',
+          description: 'Your profile image has been updated',
+          type: 'success',
         })
         await queryClient.invalidateQueries({
-          queryKey: ["user-profile-image"],
+          queryKey: ['user-profile-image'],
         })
         setImageRef(null)
         setProfileImage(null)
       })
     } catch {
       setNotification({
-        message: "Failed to upload image",
-        description: "Please try again",
-        type: "error",
+        message: 'Failed to upload image',
+        description: 'Please try again',
+        type: 'error',
       })
     } finally {
       setIsUploading(false)
@@ -120,7 +120,7 @@ export function FormSection({
               disabled={isUploading}
               className="w-full bg-emerald-500 hover:bg-emerald-600 mt-3"
             >
-              {isUploading ? "Uploading..." : "Upload"}
+              {isUploading ? 'Uploading...' : 'Upload'}
             </Button>
           )}
         </div>

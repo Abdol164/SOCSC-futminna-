@@ -1,5 +1,5 @@
-import { ChevronDown, ChevronRight } from "lucide-react"
-import { useState } from "react"
+import { ChevronDown, ChevronRight } from 'lucide-react'
+import { useState } from 'react'
 
 interface FAQItem {
   question: string
@@ -13,57 +13,57 @@ interface FAQCategory {
 
 const faqs: FAQCategory[] = [
   {
-    category: "About Suimail",
+    category: 'About Suimail',
     items: [
       {
-        question: "What is Suimail?",
+        question: 'What is Suimail?',
         answer:
-          "Suimail is a decentralized, blockchain-based email platform built on the Sui network. It allows you to send and receive encrypted emails using your Sui wallet, ensuring privacy, security, and true ownership of your communications.",
+          'Suimail is a decentralized, blockchain-based email platform built on the Sui network. It allows you to send and receive encrypted emails using your Sui wallet, ensuring privacy, security, and true ownership of your communications.',
       },
       {
-        question: "How is Suimail different from traditional email?",
+        question: 'How is Suimail different from traditional email?',
         answer:
-          "Unlike traditional email, Suimail stores your messages on the Sui blockchain, making them tamper-proof and censorship-resistant. All emails are end-to-end encrypted, and only you and your recipient can read them.",
+          'Unlike traditional email, Suimail stores your messages on the Sui blockchain, making them tamper-proof and censorship-resistant. All emails are end-to-end encrypted, and only you and your recipient can read them.',
       },
       {
-        question: "Do I need a Sui wallet to use Suimail?",
+        question: 'Do I need a Sui wallet to use Suimail?',
         answer:
-          "Yes, a Sui-compatible wallet is required to use Suimail. Your wallet is used to sign in, send/receive emails, and manage your encryption keys.",
+          'Yes, a Sui-compatible wallet is required to use Suimail. Your wallet is used to sign in, send/receive emails, and manage your encryption keys.',
       },
     ],
   },
   {
-    category: "Wallet & Security",
+    category: 'Wallet & Security',
     items: [
       {
-        question: "Is my data secure on Suimail?",
+        question: 'Is my data secure on Suimail?',
         answer:
-          "Absolutely! All emails are encrypted end-to-end before being stored on the Sui blockchain. Only you and your recipient can decrypt and read your messages.",
+          'Absolutely! All emails are encrypted end-to-end before being stored on the Sui blockchain. Only you and your recipient can decrypt and read your messages.',
       },
       {
-        question: "What happens if I lose my wallet?",
+        question: 'What happens if I lose my wallet?',
         answer:
-          "If you lose access to your wallet, you lose access to your Suimail account and email history. Always back up your wallet seed phrase securely.",
+          'If you lose access to your wallet, you lose access to your Suimail account and email history. Always back up your wallet seed phrase securely.',
       },
     ],
   },
   {
-    category: "Features & Usage",
+    category: 'Features & Usage',
     items: [
       {
-        question: "Can I send attachments?",
+        question: 'Can I send attachments?',
         answer:
-          "Yes! Suimail supports encrypted file attachments. The maximum size depends on your subscription plan.",
+          'Yes! Suimail supports encrypted file attachments. The maximum size depends on your subscription plan.',
       },
       {
-        question: "How much does it cost to send an email?",
+        question: 'How much does it cost to send an email?',
         answer:
-          "Sending an email on Suimail costs a small blockchain fee (gas), usually less than 0.001 SUI per message.",
+          'Sending an email on Suimail costs a small blockchain fee (gas), usually less than 0.001 SUI per message.',
       },
       {
-        question: "Can I use Suimail on mobile?",
+        question: 'Can I use Suimail on mobile?',
         answer:
-          "Yes, Suimail is accessible on both desktop and mobile browsers. A mobile app is coming soon!",
+          'Yes, Suimail is accessible on both desktop and mobile browsers. A mobile app is coming soon!',
       },
     ],
   },
@@ -121,4 +121,4 @@ export function FAQSection() {
       ))}
     </div>
   )
-} 
+}

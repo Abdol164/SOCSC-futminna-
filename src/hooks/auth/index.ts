@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { httpService } from "../../api"
-import type { IUser } from "@/types/generic"
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { httpService } from '../../api'
+import type { IUser } from '@/types/generic'
 
 export function useLoginMutation() {
   return useMutation({
@@ -12,9 +12,9 @@ export function useLoginMutation() {
 
 export const useGetAuthUserQuery = () => {
   return useQuery({
-    queryKey: ["auth-user"],
-    queryFn: async (): Promise<Pick<IUser, "suimailNs">> => {
-      return await httpService.get("/auth/me")
+    queryKey: ['auth-user'],
+    queryFn: async (): Promise<Pick<IUser, 'suimailNs'>> => {
+      return await httpService.get('/auth/me')
     },
   })
 }

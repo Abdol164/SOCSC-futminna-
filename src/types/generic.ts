@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react"
+import type { LucideIcon } from 'lucide-react'
 
 export interface IUser {
   address: string
@@ -12,11 +12,19 @@ export interface IEmail {
   id: string
   subject: string
   body: string
-  sender: Pick<IUser, "suimailNs">
-  recipient: Pick<IUser, "suimailNs">
-  isRead: boolean
+  sender: Pick<IUser, 'suimailNs'>
+  recipient: Pick<IUser, 'suimailNs'>
+  readAt?: string
   createdAt: string
   digest?: string
+  metadata?: {
+    sender: {
+      identifier: string
+    }
+    recipient: {
+      identifier: string
+    }
+  }
 }
 
 export interface IPlan {

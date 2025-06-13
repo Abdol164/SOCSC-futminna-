@@ -1,18 +1,18 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
-import { Loading } from "../Loading"
-import { getCookie } from "@/utils/helpers/auth"
-import { ACCESS_TOKEN_COOKIE_NAME } from "@/constants"
-import { useGetAuthUserQuery } from "@/hooks/auth"
-import { SidebarProvider } from "../ui/sidebar"
-import { LogoutModalProvider } from "../LogoutModal"
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Loading } from '../Loading'
+import { getCookie } from '@/utils/helpers/auth'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants'
+import { useGetAuthUserQuery } from '@/hooks/auth'
+import { SidebarProvider } from '../ui/sidebar'
+import { LogoutModalProvider } from '../LogoutModal'
 
 export function DashboardLayout() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [isLoading, setIsLoading] = useState(true)
 
-  const isOnboardingPage = useMemo(() => pathname === "/onboarding", [pathname])
+  const isOnboardingPage = useMemo(() => pathname === '/onboarding', [pathname])
 
   const { data: user, isFetching } = useGetAuthUserQuery()
 
@@ -20,23 +20,23 @@ export function DashboardLayout() {
     try {
       const token = getCookie(ACCESS_TOKEN_COOKIE_NAME)
       if (!token.length) {
-        navigate("/")
+        navigate('/')
         return
       }
 
       if (user?.suimailNs) {
         if (isOnboardingPage) {
-          navigate("/mail")
+          navigate('/mail')
         }
       } else {
         if (!isFetching) {
-          navigate("/onboarding")
+          navigate('/onboarding')
         }
       }
 
       setIsLoading(false)
     } catch {
-      navigate("/")
+      navigate('/')
     }
   }, [user?.suimailNs, navigate, isOnboardingPage, isFetching])
 

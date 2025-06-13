@@ -1,38 +1,82 @@
-import { Link, useLocation } from "react-router-dom"
-import { Calendar } from "lucide-react"
-import type { IEmail } from "@/types/generic"
-import { cn } from "@/lib/utils"
-import { useMemo } from "react"
+import { Link, useLocation } from 'react-router-dom'
+import { Calendar } from 'lucide-react'
+import type { IEmail } from '@/types/generic'
+import { cn } from '@/lib/utils'
+import { useMemo } from 'react'
+import { Checkbox } from '../ui/checkbox'
 
 interface EmailTabProps {
-  email: IEmail
+  mail: IEmail
+  isSelected: boolean
+  isLoading: boolean
+  onSelect: (mail: IEmail) => void
 }
 
-export function EmailTab({ email }: EmailTabProps) {
+export function EmailTab({
+  mail,
+  isSelected,
+  isLoading,
+  onSelect,
+}: EmailTabProps) {
   const { pathname } = useLocation()
 
-  const isInboxPage = useMemo(() => pathname === "/mail", [pathname])
-  const isOutboxPage = useMemo(() => pathname === "/mail/sent", [pathname])
+  const isInboxPage = useMemo(() => pathname === '/mail', [pathname])
+  const isOutboxPage = useMemo(() => pathname === '/mail/sent', [pathname])
+
+  const mailIsRead = useMemo(
+    () => mail.readAt || isOutboxPage,
+    [mail.readAt, isOutboxPage]
+  )
+
+  const renderActorSuimailNs = useMemo(() => {
+    if (isInboxPage) {
+      if (!mail.sender?.suimailNs) {
+        return mail.metadata?.sender.identifier || ''
+      }
+      return mail.sender.suimailNs
+    }
+
+    if (!mail.recipient?.suimailNs) {
+      return mail.metadata?.recipient.identifier || ''
+    }
+
+    return mail.recipient.suimailNs
+  }, [isInboxPage, mail])
 
   return (
     <Link
-      to={`/mail/${isInboxPage ? "inbox" : "sent"}/${email.id}`}
-      className="block w-full"
+      to={`/mail/${isInboxPage ? 'inbox' : 'sent'}/${mail.id}`}
+      className={cn(
+        'block w-full',
+        isLoading && 'opacity-70 pointer-events-none'
+      )}
     >
       <div
         className={cn(
-          "group relative flex flex-col gap-1 border-b p-4 transition-all hover:bg-gray-50 sm:flex-row sm:items-center sm:gap-4",
-          !email.isRead && "bg-gray-50"
+          'group relative flex flex-col gap-1 border-b p-4 transition-all hover:bg-blue-50 sm:flex-row sm:items-center sm:gap-4',
+          !mailIsRead && 'bg-gray-50',
+          isSelected && 'bg-blue-50'
         )}
       >
         <div className="flex items-center gap-3">
+          <div
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+          >
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={() => onSelect(mail)}
+            />
+          </div>
           <div className="relative flex-shrink-0">
             <img
               src="/images/avatar.png"
               alt=""
               className="h-9 w-9 rounded-full object-cover"
             />
-            {!email.isRead && (
+            {!mailIsRead && (
               <span className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full bg-blue-500" />
             )}
           </div>
@@ -42,33 +86,32 @@ export function EmailTab({ email }: EmailTabProps) {
           <div className="flex items-center justify-between gap-2">
             <p
               className={cn(
-                "truncate text-sm text-gray-600",
-                !email.isRead && "font-medium text-gray-900"
+                'truncate text-sm text-gray-600',
+                !mailIsRead && 'font-medium text-gray-900'
               )}
             >
-              {isInboxPage && email.sender.suimailNs}
-              {isOutboxPage && email.recipient.suimailNs}
+              {renderActorSuimailNs}
             </p>
             <div className="flex items-center gap-2">
               <time
                 className="flex items-center whitespace-nowrap text-xs text-gray-400"
-                dateTime={email.createdAt}
+                dateTime={mail.createdAt}
               >
                 <Calendar className="mr-1 h-3 w-3" />
-                {new Date(email.createdAt).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
+                {new Date(mail.createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
                 })}
               </time>
             </div>
           </div>
           <h3
             className={cn(
-              "line-clamp-1 text-sm text-gray-600",
-              !email.isRead && "font-medium text-gray-900"
+              'line-clamp-1 text-sm text-gray-600',
+              !mailIsRead && 'font-medium text-gray-900'
             )}
           >
-            {email.subject}
+            {mail.subject}
           </h3>
         </div>
       </div>

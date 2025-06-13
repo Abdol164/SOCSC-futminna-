@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react"
-import { motion } from "motion/react"
-import { CheckCircle2, Copy, Mail, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { isValidSuimailAddress } from "@/utils/emailValidation"
+import { useMemo, useState } from 'react'
+import { motion } from 'motion/react'
+import { CheckCircle2, Copy, Mail, X } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { isValidSuimailAddress } from '@/utils/emailValidation'
 
 interface FormSectionProps {
   handleSubmit: ({ suimailNS }: { suimailNS: string }) => void
@@ -18,12 +18,12 @@ export function FormSection({
   isSettingUpSuimailNs,
   copyToClipboard,
 }: FormSectionProps) {
-  const [suimailNS, setSuimailNS] = useState("")
+  const [suimailNS, setSuimailNS] = useState('')
 
   const sampleSuimailNSs = [
-    "aliceweb3@suimail",
-    "blockchain.dev@suimail",
-    "crypto.trader@suimail",
+    'aliceweb3@suimail',
+    'blockchain.dev@suimail',
+    'crypto.trader@suimail',
   ]
 
   const isValid = useMemo(() => {
@@ -57,7 +57,7 @@ export function FormSection({
                   type="text"
                   placeholder="e.g. leadzid@suimail"
                   value={suimailNS}
-                  onChange={(e) => setSuimailNS(e.target.value)}
+                  onChange={e => setSuimailNS(e.target.value)}
                   className="pr-10"
                   required
                 />
@@ -66,7 +66,7 @@ export function FormSection({
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     type="button"
-                    onClick={() => setSuimailNS("")}
+                    onClick={() => setSuimailNS('')}
                     className="absolute right-3 top-[30%] -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     <X className="h-4 w-4" />
@@ -91,14 +91,14 @@ export function FormSection({
                     transition={{
                       duration: 1,
                       repeat: Number.POSITIVE_INFINITY,
-                      ease: "linear",
+                      ease: 'linear',
                     }}
                     className="mr-2 h-4 w-4 border-2 border-current border-t-transparent rounded-full"
                   />
                 ) : null}
                 {isSettingUpSuimailNs
-                  ? "Setting Up Your Account..."
-                  : "Continue"}
+                  ? 'Setting Up Your Account...'
+                  : 'Continue'}
               </Button>
             </motion.div>
           </div>
@@ -125,7 +125,7 @@ export function FormSection({
                 transition={{ delay: 0.6 + index * 0.1 }}
                 whileHover={{
                   scale: 1.01,
-                  backgroundColor: "rgba(0,0,0,0.02)",
+                  backgroundColor: 'rgba(0,0,0,0.02)',
                 }}
                 className="flex items-center justify-between rounded-md border p-3 cursor-pointer"
                 onClick={() => selectSampleSuimailNS(sampleSuimailNS)}
@@ -134,9 +134,9 @@ export function FormSection({
                   <Mail className="h-4 w-4 text-muted-foreground" />
                   <span
                     className={cn(
-                      "text-sm",
+                      'text-sm',
                       suimailNS === sampleSuimailNS &&
-                        "font-medium text-primary"
+                        'font-medium text-primary'
                     )}
                   >
                     {sampleSuimailNS}
@@ -156,7 +156,7 @@ export function FormSection({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation()
                       copyToClipboard(sampleSuimailNS)
                     }}

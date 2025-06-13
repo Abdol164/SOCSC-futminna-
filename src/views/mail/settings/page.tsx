@@ -1,24 +1,24 @@
-import { useMemo, useState } from "react"
-import type { SettingsTab, SettingsViewType } from "./types"
-import { SetTabButton } from "./components/set-tab-button"
-import { NotificationsView } from "./views/Notifications"
-import { AccountView } from "./views/Account"
-import { PreferencesView } from "./views/Preferences"
-import { SubnameView } from "./views/Subname"
-import { PageLayout } from "@/components/layouts/PageLayout"
-import { ExtendedToolbar } from "@/components/ExtendedToolbar"
+import { useMemo, useState } from 'react'
+import type { SettingsTab, SettingsViewType } from './types'
+import { SetTabButton } from './components/set-tab-button'
+import { NotificationsView } from './views/Notifications'
+import { AccountView } from './views/Account'
+import { PreferencesView } from './views/Preferences'
+import { SubnameView } from './views/Subname'
+import { PageLayout } from '@/components/layouts/PageLayout'
+import { ExtendedToolbar } from '@/components/ExtendedToolbar'
 
 const tabs: SettingsTab[] = [
-  { label: "Subname", view: "subname" },
+  { label: 'Subname', view: 'subname' },
   {
-    label: "Notifications",
-    view: "notifications",
+    label: 'Notifications',
+    view: 'notifications',
   },
-  { label: "Account", view: "account" },
+  { label: 'Account', view: 'account' },
 ]
 
 export default function SettingsPage() {
-  const [activeView, setActiveView] = useState<SettingsViewType>("subname")
+  const [activeView, setActiveView] = useState<SettingsViewType>('subname')
 
   const views: Record<SettingsViewType, React.ReactNode> = useMemo(() => {
     return {
@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
   return (
     <PageLayout>
-      <ExtendedToolbar getPageTitle={() => "Settings"} />
+      <ExtendedToolbar getPageTitle={() => 'Settings'} />
 
       <main className="pt-14 min-h-screen flex flex-col lg:flex-row">
         <aside className="w-full lg:w-64 border-r border-gray-200">
