@@ -108,7 +108,7 @@ export function FormSection({
           <Input
             id="profile-image"
             type="file"
-            accept="image/*"
+            accept="image/png, image/jpeg, image/webp"
             className="hidden"
             onChange={handleFileChange}
           />

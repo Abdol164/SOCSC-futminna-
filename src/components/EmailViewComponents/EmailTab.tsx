@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { useEffect, useMemo, useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { useQueryClient } from '@tanstack/react-query'
+import { randomId } from '@/utils/helpers/random-id'
 
 interface EmailTabProps {
   mail: IEmail
@@ -31,6 +32,13 @@ export function EmailTab({
   useEffect(() => {
     setMailIsRead(mail.readAt || isOutboxPage)
   }, [mail.readAt, isOutboxPage])
+
+  const renderActorImageUrl = useMemo(() => {
+    if (isInboxPage) {
+      return mail.sender.imageUrl || '/images/avatar.png'
+    }
+    return mail.recipient.imageUrl || '/images/avatar.png'
+  }, [isInboxPage, mail])
 
   const renderActorSuimailNs = useMemo(() => {
     if (isInboxPage) {
@@ -135,9 +143,9 @@ export function EmailTab({
           </div>
           <div className="relative flex-shrink-0">
             <img
-              src="/images/avatar.png"
-              alt=""
-              className="h-9 w-9 rounded-full object-cover"
+              src={renderActorImageUrl}
+              alt={mail.sender.suimailNs || randomId()}
+              className="h-9 w-9 rounded-full object-cover overflow-hidden"
             />
             {!mailIsRead && (
               <span className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full bg-blue-500" />

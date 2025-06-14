@@ -6,14 +6,15 @@ export interface IUser {
   mailFee: number
   whitelist: string[]
   blacklist: string[]
+  imageUrl?: string
 }
 
 export interface IEmail {
   id: string
   subject: string
   body: string
-  sender: Pick<IUser, 'suimailNs'>
-  recipient: Pick<IUser, 'suimailNs'>
+  sender: Pick<IUser, 'suimailNs' | 'imageUrl'>
+  recipient: Pick<IUser, 'suimailNs' | 'imageUrl'>
   readAt?: string
   createdAt: string
   digest?: string
