@@ -13,7 +13,6 @@
 //        });
 //        return resp;
 //    } catch (error) {
-//        console.error("Error creating sponsored transaction:", error);
 //        throw error; // Re-throw if needed
 //    }
 

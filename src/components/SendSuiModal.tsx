@@ -126,7 +126,6 @@ export function SendSuiModal({
           })
         },
         error => {
-          console.log(error)
           setNotification({
             message: 'Error',
             description: error.message,
@@ -134,8 +133,7 @@ export function SendSuiModal({
           })
         }
       )
-    } catch (error) {
-      console.error(error)
+    } catch {
       setNotification({
         message: 'Error',
         description: 'Failed to send SUI',

@@ -21,7 +21,7 @@ export function EmailList({ mails, refetch }: EmailListProps) {
   const hasEmails = mails.length > 0
   const { pathname } = useLocation()
 
-  const isInboxPage = useMemo(() => pathname === '/mail', [pathname])
+  const isInboxPage = useMemo(() => pathname === '/mail/inbox', [pathname])
 
   const queryClient = useQueryClient()
   const { setNotification } = useToastContext()
@@ -80,8 +80,7 @@ export function EmailList({ mails, refetch }: EmailListProps) {
           queryKey: isInboxPage ? ['inbox-mails'] : ['outbox-mails'],
         })
       })
-    } catch (error) {
-      console.error(error)
+    } catch {
       setNotification({
         message: 'Failed to mark emails as read',
         type: 'error',
@@ -118,8 +117,7 @@ export function EmailList({ mails, refetch }: EmailListProps) {
             queryKey: isInboxPage ? ['inbox-mails'] : ['outbox-mails'],
           })
         })
-      } catch (error) {
-        console.error(error)
+      } catch {
         setNotification({
           message: 'Failed to delete mails',
           type: 'error',

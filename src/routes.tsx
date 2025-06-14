@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import SentPage from './views/mail/sent/page'
 import LandingPage from './views/landing/page'
 import InboxPage from './views/mail/inbox/page'
-import EmailView from './views/mail/[id]'
 import DraftsPage from './views/mail/drafts/page'
 import ComposePage from './views/mail/compose/page'
 import SettingsPage from './views/mail/settings/page'
@@ -14,6 +13,7 @@ import TrashPage from './views/mail/trash/page'
 import OnboardingPage from './views/onboarding/page'
 import { RouterErrorBoundary } from './ErrorBoundary'
 import WalletPage from './views/accounts/wallet/page'
+import EmailViewPage from './views/mail/[id]/page'
 
 const routes = createBrowserRouter([
   {
@@ -38,7 +38,7 @@ const routes = createBrowserRouter([
         children: [
           {
             path: '/mail',
-            element: <InboxPage />,
+            element: <Navigate to="/mail/inbox" replace />,
             ErrorBoundary: RouterErrorBoundary,
           },
           {
@@ -48,7 +48,7 @@ const routes = createBrowserRouter([
           },
           {
             path: 'mail/inbox/:id',
-            element: <EmailView />,
+            element: <EmailViewPage />,
             ErrorBoundary: RouterErrorBoundary,
           },
           {
@@ -58,7 +58,7 @@ const routes = createBrowserRouter([
           },
           {
             path: '/mail/sent/:id',
-            element: <EmailView />,
+            element: <EmailViewPage />,
             ErrorBoundary: RouterErrorBoundary,
           },
           {
@@ -68,7 +68,7 @@ const routes = createBrowserRouter([
           },
           {
             path: '/mail/draft/:id',
-            element: <EmailView />,
+            element: <EmailViewPage />,
             ErrorBoundary: RouterErrorBoundary,
           },
           {

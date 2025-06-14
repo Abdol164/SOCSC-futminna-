@@ -130,7 +130,6 @@ export function HeroCard({ accountAddress }: HeroCardProps) {
               walletBalance={Number(balance?.totalBalance ?? 0)}
               onSuccess={() => {
                 refetchBalance()
-                console.log('Refetched')
               }}
             />
             <RecieveSuiModal currentAddress={accountAddress} />

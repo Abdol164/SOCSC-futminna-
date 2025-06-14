@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Calendar } from 'lucide-react'
 import type { IEmail } from '@/types/generic'
 import { cn } from '@/lib/utils'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -23,13 +23,14 @@ export function EmailTab({
   const { pathname } = useLocation()
   const queryClient = useQueryClient()
 
-  const isInboxPage = useMemo(() => pathname === '/mail', [pathname])
+  const isInboxPage = useMemo(() => pathname === '/mail/inbox', [pathname])
   const isOutboxPage = useMemo(() => pathname === '/mail/sent', [pathname])
 
-  const mailIsRead = useMemo(
-    () => mail.readAt || isOutboxPage,
-    [mail.readAt, isOutboxPage]
-  )
+  const [mailIsRead, setMailIsRead] = useState(mail.readAt || isOutboxPage)
+
+  useEffect(() => {
+    setMailIsRead(mail.readAt || isOutboxPage)
+  }, [mail.readAt, isOutboxPage])
 
   const renderActorSuimailNs = useMemo(() => {
     if (isInboxPage) {
@@ -46,16 +47,62 @@ export function EmailTab({
     return mail.recipient.suimailNs
   }, [isInboxPage, mail])
 
-  const handleGoToMail = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const updateMailReadStatus = () => {
+    const updateFunction = (oldData: any) => {
+      if (!oldData) return oldData
+
+      // Handle different data structures
+      if (oldData.pages) {
+        // Infinite query structure
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            data:
+              page.data?.map((m: IEmail) =>
+                m.id === mail.id
+                  ? { ...m, readAt: new Date().toISOString() }
+                  : m
+              ) || page.data,
+          })),
+        }
+      } else if (Array.isArray(oldData)) {
+        // Simple array structure
+        return oldData.map((m: IEmail) =>
+          m.id === mail.id ? { ...m, readAt: new Date().toISOString() } : m
+        )
+      } else if (oldData.data && Array.isArray(oldData.data)) {
+        // Object with data array
+        return {
+          ...oldData,
+          data: oldData.data.map((m: IEmail) =>
+            m.id === mail.id ? { ...m, readAt: new Date().toISOString() } : m
+          ),
+        }
+      }
+
+      return oldData
+    }
+
+    // Update both inbox and outbox caches to be safe
+    queryClient.setQueriesData({ queryKey: ['inbox-mails'] }, updateFunction)
+    queryClient.setQueriesData({ queryKey: ['outbox-mails'] }, updateFunction)
+
+    // Also update any specific mail-body cache
+    queryClient.setQueryData(['mail-body', mail.id], (oldData: any) => {
+      if (!oldData) return oldData
+      return { ...oldData, readAt: new Date().toISOString() }
+    })
+  }
+
+  const handleGoToMail = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
 
-    navigate(`/mail/${isInboxPage ? 'inbox' : 'sent'}/${mail.id}`)
+    setMailIsRead(true)
 
-    if (isInboxPage) {
-      queryClient.invalidateQueries({
-        queryKey: ['inbox-mails'],
-      })
-    }
+    updateMailReadStatus()
+
+    navigate(`/mail/${isInboxPage ? 'inbox' : 'sent'}/${mail.id}`)
   }
 
   return (

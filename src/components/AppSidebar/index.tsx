@@ -42,7 +42,7 @@ interface SidebarItem {
 const MailNavigationItems: SidebarItem[] = [
   {
     title: 'Inbox',
-    url: '/mail',
+    url: '/mail/inbox',
     icon: <Inbox />,
   },
   {

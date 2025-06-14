@@ -19,10 +19,10 @@ export default function LandingPage() {
         const response = await login(wallet.address)
         if (response.access_token) {
           setCookie(ACCESS_TOKEN_COOKIE_NAME, response.access_token)
-          navigate('/mail')
+          navigate('/mail/inbox')
         }
-      } catch (error) {
-        console.error(error)
+      } catch {
+        // Do nothing
       }
     },
     [login, navigate]

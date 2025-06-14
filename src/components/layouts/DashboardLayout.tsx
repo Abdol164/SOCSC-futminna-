@@ -26,7 +26,7 @@ export function DashboardLayout() {
 
       if (user?.suimailNs) {
         if (isOnboardingPage) {
-          navigate('/mail')
+          navigate('/mail/inbox')
         }
       } else {
         if (!isFetching) {

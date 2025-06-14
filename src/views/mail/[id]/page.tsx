@@ -1,28 +1,41 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Trash2, Reply } from 'lucide-react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ArrowLeft, Trash2, Reply, Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { Loading } from '@/components/Loading'
 import { Button } from '@/components/ui/button'
-import { useFetchMailBodyQuery } from '@/hooks/mail'
+import { useFetchMailBodyQuery, usePostDeleteMailMutation } from '@/hooks/mail'
 import { useSuiClientQuery } from '@mysten/dapp-kit'
 import MailNotFound from '@/components/MailNotFound'
 import { SimpleAvatar } from '@/components/ui/SimpleAvatar'
-import { useClaimEscrowTx } from '../../hooks/ptb/claim-escrow-tx'
+import { useClaimEscrowTx } from '../../../hooks/ptb/claim-escrow-tx'
+import { useToastContext } from '@/components/ui/toast'
+import { useQueryClient } from '@tanstack/react-query'
+import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip } from '@/components/ui/tooltip'
 
-export default function EmailView() {
+export default function EmailViewPage() {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const queryClient = useQueryClient()
+
   const { id } = useParams<{ id: string }>()
   const [txDigest, setTxDigest] = useState<string>('')
 
   const { claimEscrowTx } = useClaimEscrowTx()
+  const { setNotification } = useToastContext()
 
   const { data: mail, isFetching } = useFetchMailBodyQuery(id ?? '')
+
+  const { mutateAsync: deleteMail, isPending: isDeleting } =
+    usePostDeleteMailMutation()
 
   const { data } = useSuiClientQuery('getTransactionBlock', {
     digest: txDigest,
     options: { showObjectChanges: true },
   })
+
+  const isInbox = useMemo(() => pathname.startsWith('/mail/inbox'), [pathname])
 
   const firstCreatedObjectId = useMemo(
     () =>
@@ -41,10 +54,36 @@ export default function EmailView() {
   if (!mail) return <MailNotFound />
 
   const handleClaimSui = async () => {
-    console.log('Claiming Sui...')
     if (firstCreatedObjectId) {
-      console.log('objectId present')
       claimEscrowTx(firstCreatedObjectId)
+    }
+  }
+
+  const handleDeleteMail = async () => {
+    try {
+      await deleteMail({
+        mailId: mail.id,
+        // If the mail is in the inbox, that means that
+        // the user is the recipient and we need to delete from the
+        // recipient side and similar with outbox
+        path: isInbox ? 'recipient' : 'sender',
+      }).then(async () => {
+        await queryClient.invalidateQueries({
+          predicate: query =>
+            query.queryKey[0] === 'inbox-mails' ||
+            query.queryKey[0] === 'outbox-mails' ||
+            (query.queryKey[0] === 'mail-body' &&
+              query.queryKey[1] === mail.id),
+        })
+
+        // Navigate to back to the inbox or sent page
+        navigate(isInbox ? '/mail/inbox' : '/mail/sent')
+      })
+    } catch {
+      setNotification({
+        message: 'Failed to delete mail',
+        type: 'error',
+      })
     }
   }
 
@@ -66,13 +105,26 @@ export default function EmailView() {
               </h2>
             </div>
 
-            <Button
-              size="icon"
-              variant="ghost"
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-            >
-              <Trash2 className="h-5 w-5 text-gray-400" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  onClick={handleDeleteMail}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-5 w-5 text-gray-400 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-5 w-5 text-gray-400" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-red-400 text-white">
+                <p>Delete</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
 
           {/* Action buttons */}

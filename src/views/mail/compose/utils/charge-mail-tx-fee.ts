@@ -26,20 +26,16 @@ export const useChargeMailTxFee = () => {
           { transaction: tx, chain: 'sui:testnet' },
           {
             onSuccess: () => {
-              console.log('Transaction executed successfully')
               resolve(true)
             },
-            onError: (error: unknown) => {
-              console.error('Transaction rejected:', error)
+            onError: () => {
               reject(false)
             },
           }
         )
       })
-      console.log('Transaction result:', result)
       return result
-    } catch (error) {
-      console.error('Error sending SUI:', error)
+    } catch {
       return false
     }
   }

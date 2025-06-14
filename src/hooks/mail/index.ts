@@ -8,6 +8,8 @@ export function useFetchInboxQuery() {
     queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get('/mail/inbox/me')
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   })
 }
 
@@ -17,6 +19,8 @@ export function useFetchMailBodyQuery(mailId: string) {
     queryFn: async (): Promise<IEmail> => {
       return await httpService.get(`/mail/${mailId}`)
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   })
 }
 
@@ -26,6 +30,8 @@ export function useFetchOutboxQuery() {
     queryFn: async (): Promise<{ data: IEmail[] }> => {
       return await httpService.get('/mail/outbox/me')
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   })
 }
 
@@ -91,6 +97,20 @@ export function usePostDeleteMailsMutation() {
           mailIds,
         },
       })
+    },
+  })
+}
+
+export function usePostDeleteMailMutation() {
+  return useMutation({
+    mutationFn: async ({
+      mailId,
+      path,
+    }: {
+      mailId: string
+      path: 'sender' | 'recipient'
+    }) => {
+      return await httpService.delete(`/mail/${path}/delete/${mailId}`)
     },
   })
 }
