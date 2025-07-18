@@ -1,109 +1,43 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import SentPage from './views/mail/sent/page'
-import LandingPage from './views/landing/page'
-import InboxPage from './views/mail/inbox/page'
-import DraftsPage from './views/mail/drafts/page'
-import ComposePage from './views/mail/compose/page'
-import SettingsPage from './views/mail/settings/page'
-import SubscriptionPage from './views/accounts/subscription/page'
-import HelpPage from './views/accounts/help/page'
-import { DashboardLayout } from './components/layouts/DashboardLayout'
-import { MailBoardLayout } from './components/layouts/MailBoardLayout'
-import TrashPage from './views/mail/trash/page'
-import OnboardingPage from './views/onboarding/page'
-import { RouterErrorBoundary } from './ErrorBoundary'
-import WalletPage from './views/accounts/wallet/page'
-import EmailViewPage from './views/mail/[id]/page'
+import type { RouteObject } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { useRoutes } from 'react-router-dom'
 
-const routes = createBrowserRouter([
+const HeroSection = lazy(() => import('./components/page'))
+const About = lazy(() => import('./components/About/page'))
+const TeamPage = lazy(() => import('./components/Team/page'))
+const Projects = lazy(() => import('./components/Projects/page'))
+const Events = lazy(() => import('./components/Events/page'))
+const ContactPage = lazy(() => import('./components/Contacts/Contact'))
+
+export const routesConfig: RouteObject[] = [
   {
-    index: true,
     path: '/',
-    element: <LandingPage />,
-    ErrorBoundary: RouterErrorBoundary,
+    element: <HeroSection />,
   },
   {
-    element: <DashboardLayout />,
-    ErrorBoundary: RouterErrorBoundary,
-    children: [
-      {
-        path: '/onboarding',
-        element: <OnboardingPage />,
-        ErrorBoundary: RouterErrorBoundary,
-      },
-      {
-        path: '/',
-        element: <MailBoardLayout />,
-        ErrorBoundary: RouterErrorBoundary,
-        children: [
-          {
-            path: '/mail',
-            element: <Navigate to="/mail/inbox" replace />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/inbox',
-            element: <InboxPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: 'mail/inbox/:id',
-            element: <EmailViewPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/sent',
-            element: <SentPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/sent/:id',
-            element: <EmailViewPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/draft',
-            element: <DraftsPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/draft/:id',
-            element: <EmailViewPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/mail/trash',
-            element: <TrashPage />,
-          },
-          {
-            path: '/mail/compose',
-            element: <ComposePage />,
-          },
-          {
-            path: '/account/subscription',
-            element: <SubscriptionPage />,
-          },
-          {
-            path: '/account/wallet',
-            element: <WalletPage />,
-            ErrorBoundary: RouterErrorBoundary,
-          },
-          {
-            path: '/account/help',
-            element: <HelpPage />,
-          },
-          {
-            path: '/settings',
-            element: <SettingsPage />,
-          },
-        ],
-      },
-    ],
+    path: '/about',
+    element: <About />,
   },
   {
-    path: '*',
-    element: <Navigate to="/" replace />,
+    path: '/teams',
+    element: <TeamPage />,
   },
-])
+  {
+    path: '/projects',
+    element: <Projects />,
+  },
+  {
+    path: '/events',
+    element: <Events />, // Fix path to lowercase and with leading slash
+  },
+  {
+    path:'/Contact',
+    element:<ContactPage/>
+  }
+]
 
-export default routes
+const AppRoutes = () => {
+  return useRoutes(routesConfig)
+}
+
+export default AppRoutes
