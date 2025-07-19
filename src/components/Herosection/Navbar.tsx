@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { ConnectButton } from '@mysten/dapp-kit';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -50,12 +51,17 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <Link
-          to="/Contact"
-          className="hidden md:block bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white transition-colors duration-200"
-        >
-          Join US
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/Contact"
+            className="hidden md:block bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white transition-colors duration-200"
+          >
+            Join US
+          </Link>
+          <div className="hidden md:block">
+            <ConnectButton />
+          </div>
+        </div>
 
         {/* Mobile Button */}
         <button

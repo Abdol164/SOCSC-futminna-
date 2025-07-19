@@ -1,12 +1,62 @@
 import { FC } from 'react'
-import { FaLinkedin, FaEnvelope, FaTrash } from 'react-icons/fa'
+import {
+  FaLinkedin,
+  FaEnvelope,
+  FaGithub,
+  FaTwitter,
+  FaFacebook,
+} from 'react-icons/fa'
 
-const leaders = Array(8).fill({
-  name: 'Zid De Breaker',
-  team: 'Team Alpha',
-  desc: 'Join us to turn ideas into reality!',
-  image: 'https://i.pravatar.cc/150?img=1',
-})
+const leaders = [
+  {
+    name: 'Zid',
+    team: 'Team Alpha',
+    desc: 'Join us to turn ideas into reality!',
+    image: 'https://i.pravatar.cc/150?img=1',
+  },
+  {
+    name: 'Kadi',
+    team: 'Team Beta',
+    desc: 'Let’s build the future together!',
+    image: 'https://i.pravatar.cc/150?img=2',
+  },
+  {
+    name: 'Mr Jones',
+    team: 'Team Gamma',
+    desc: 'Empowering students for success.',
+    image: 'https://i.pravatar.cc/150?img=3',
+  },
+  {
+    name: 'Ohaii',
+    team: 'Team Delta',
+    desc: 'Innovate, collaborate, achieve.',
+    image: 'https://i.pravatar.cc/150?img=4',
+  },
+  {
+    name: 'Blockchainbard',
+    team: 'Team Blockchain',
+    desc: 'Decentralizing the future.',
+    image: 'https://i.pravatar.cc/150?img=5',
+  },
+  {
+    name: 'Zid',
+    team: 'Team Alpha',
+    desc: 'Join us to turn ideas into reality!',
+    image: 'https://i.pravatar.cc/150?img=1',
+  },
+  {
+    name: 'Kadi',
+    team: 'Team Beta',
+    desc: 'Let’s build the future together!',
+    image: 'https://i.pravatar.cc/150?img=2',
+  },
+  {
+    name: 'Mr Jones',
+    team: 'Team Gamma',
+    desc: 'Empowering students for success.',
+    image: 'https://i.pravatar.cc/150?img=3',
+  },
+]
 
 const LeadershipGrid: FC = () => {
   return (
@@ -36,7 +86,9 @@ const LeadershipGrid: FC = () => {
               <div className="flex gap-4 mt-4 text-gray-400 text-lg">
                 <FaLinkedin className="hover:text-indigo-600 cursor-pointer" />
                 <FaEnvelope className="hover:text-indigo-600 cursor-pointer" />
-                <FaTrash className="hover:text-red-500 cursor-pointer" />
+                <FaGithub className="hover:text-black cursor-pointer" />
+                <FaTwitter className="hover:text-sky-500 cursor-pointer" />
+                <FaFacebook className="hover:text-blue-600 cursor-pointer" />
               </div>
             </div>
           ))}
