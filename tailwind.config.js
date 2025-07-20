@@ -14,6 +14,16 @@ export default {
       fontFamily: {
         sans: ['Space Grotesk', 'sans-serif'],
       },
+        animation: {
+    'spin-slow': 'spin 3s linear infinite',
+    blink: 'blink 1s steps(2, start) infinite',
+  },
+  keyframes: {
+    blink: {
+      '0%, 100%': { opacity: 1 },
+      '50%': { opacity: 0 },
+    },
+  },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
