@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
         <div className="mt-8">
           <input
             type="text"
-            placeholder="🔍 Search"
+            placeholder="🔍 "
             className="w-full max-w-md px-4 py-3 rounded-md text-gray-900 focus:outline-none"
           />
         </div>
