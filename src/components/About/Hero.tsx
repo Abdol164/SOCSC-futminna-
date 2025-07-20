@@ -175,7 +175,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Meet the Team */}
+    
       <section className="py-10 px-6 md:px-16">
         <h3 className="text-md uppercase text-gray-400 font-semibold mb-2">
           Our Team

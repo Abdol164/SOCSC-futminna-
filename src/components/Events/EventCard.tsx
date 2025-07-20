@@ -3,7 +3,7 @@ interface Props {
   desc: string;
   tags: string[];
   image: string;
-  status: "coming" | "done";
+  status: 'coming' | 'done'
 }
 
 const EventCard = ({ title, desc, tags, image, status }: Props) => {
@@ -25,12 +25,12 @@ const EventCard = ({ title, desc, tags, image, status }: Props) => {
         </div>
         <span
           className={`inline-block mt-4 text-xs font-semibold ${
-            status === "coming"
-              ? "text-green-600 bg-green-100"
-              : "text-red-500 bg-red-100"
+            status === 'coming'
+              ? 'text-green-600 bg-green-100'
+              : 'text-red-500 bg-red-100'
           } px-2 py-1 rounded`}
         >
-          {status === "coming" ? "Upcoming" : "Completed"}
+          {status === 'coming' ? 'Upcoming' : 'Completed'}
         </span>
       </div>
     </div>
