@@ -58,7 +58,7 @@ const Navbar = () => {
           >
             Join US
           </Link>
-          <div className="hidden md:block">
+          <div >
             <ConnectButton />
           </div>
         </div>
