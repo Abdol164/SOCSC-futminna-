@@ -1,6 +1,6 @@
 interface Props {
   title: string;
-  desc: string;
+  desc: string | React.ReactNode;
   tags: string[];
   image: string;
   status: 'coming' | 'done'

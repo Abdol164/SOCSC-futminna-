@@ -2,7 +2,7 @@
 
 import type React from 'react'
 import { useState } from 'react'
-import type { InnovationSectionProps } from '../types/innovation'
+import type { InnovationSectionProps } from '../../types/innovation'
 import CountdownTimer from './Countdown'
 
 // added fallback iages while image loaded
@@ -112,7 +112,7 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
                 <p className="text-white opacity-90 text-sm">{eventDetails}</p>
               </div>
 
-              <CountdownTimer targetDate={eventDate} />
+              <CountdownTimer targetDate={typeof eventDate === 'string' ? new Date(eventDate) : eventDate} />
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button

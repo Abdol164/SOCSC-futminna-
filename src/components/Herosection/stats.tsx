@@ -1,4 +1,3 @@
-import React from 'react'
 
 const stats = [
   { number: '500+', label: 'Active Members' },

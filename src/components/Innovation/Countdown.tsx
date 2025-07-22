@@ -1,8 +1,12 @@
+// Standard props for a countdown timer component
+export interface CountdownTimerProps {
+  targetDate: Date;
+  className?: string;
+}
 'use client'
 
 import type React from 'react'
 import { useState, useEffect } from 'react'
-import type { CountdownTimerProps } from '../types/innovation'
 
 interface TimeLeft {
   days: number
@@ -56,7 +60,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   return (
     <div className={`flex gap-4 ${className}`}>
-      {timeUnits.map((unit, index) => (
+      {timeUnits.map((unit) => (
         <div key={unit.label} className="text-center">
           <div className="bg-white bg-opacity-20 rounded-lg p-3 min-w-[60px]">
             <div className="text-2xl md:text-3xl font-bold text-white">

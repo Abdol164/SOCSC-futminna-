@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import icon from "../assets/sui_loader_icon.svg";
 
 const Loader = () => {

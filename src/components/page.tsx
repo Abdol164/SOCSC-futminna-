@@ -1,4 +1,3 @@
-import React from 'react'
 import Navbar from './Herosection/Navbar'
 import Hero from './Herosection/Hero'
 import Stats from './Herosection/stats'

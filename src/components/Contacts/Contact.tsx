@@ -1,5 +1,6 @@
 import React from 'react'
-import { FaXTwitter, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa6"
+import { FaXTwitter, FaEnvelope } from "react-icons/fa6"
+import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa"
 
 const ContactPage: React.FC = () => {
   return (

@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import { useRoutes } from 'react-router-dom'
 
 const HeroSection = lazy(() => import('./components/page'))
