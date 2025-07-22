@@ -10,9 +10,10 @@ import { queryClient } from "./query-client";
 import { getFullnodeUrl } from "@mysten/sui/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import '@mysten/dapp-kit/dist/index.css';
+
 import './index.css';
 
-import Loader from './components/Loader' // ⬅️ Import your custom loader
+import Loader from './components/Loader'
 
 const { networkConfig } = createNetworkConfig({
   testnet: { url: getFullnodeUrl("testnet") },
