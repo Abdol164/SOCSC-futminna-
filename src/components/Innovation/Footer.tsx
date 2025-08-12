@@ -1,6 +1,7 @@
 'use client'
 
 import type React from 'react'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import type { InnovationSectionProps } from '../../types/innovation'
 import CountdownTimer from './Countdown'
@@ -139,13 +140,18 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
               <CountdownTimer targetDate={typeof eventDate === 'string' ? new Date(eventDate) : eventDate} />
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                     <Link to="/contact">
                 <button
+    
                   onClick={handleRegisterClick}
                   className="bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
                 >
-                  <SuiLogo size={20} className="text-sky-400" />
-                  {registerText}
+             
+                    <SuiLogo size={20} className="text-sky-400" />
+                    {registerText}
+                 
                 </button>
+                 </Link>
                 <button
                   onClick={handleViewPastClick}
                   className="bg-white bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"

@@ -11,17 +11,20 @@ const ProjectSpotlight = () => {
             PAYFRICA
           </h2>
           <p className="text-gray-600 mb-6">
-            Lorem ipsum dolor sit amet. Et iure tenetur et autem internos qui
-            dolor totam qui libero distinctio et ullam accusamus. Est omnis
-            consequatur aut odit voluptas est tempore illum?
+            Payfrica is redefining finance, making it decentralised, secure, and
+            user-friendly for everyone. The power of seamless finance is at your
+            fingertips👌🏾
           </p>
           <ul className="text-gray-700 list-disc list-inside space-y-2 mb-6">
             <li>Problem Statement (1 paragraph)</li>
             <li>Solution Approach (bullet points)</li>
           </ul>
-          <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-medium py-2 px-5 rounded transition">
-            Read More
-          </button>
+          <a
+            href="https://payfrica.wal.app"
+            className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-medium py-2 px-5 rounded transition"
+          >
+            Visit Payfrica
+          </a>
         </div>
 
         <div className="grid grid-cols-3 grid-rows-2 gap-4 items-center justify-center">

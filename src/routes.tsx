@@ -31,9 +31,9 @@ export const routesConfig: RouteObject[] = [
     element: <Events />, // Fix path to lowercase and with leading slash
   },
   {
-    path:'/Contact',
-    element:<ContactPage/>
-  }
+    path: '/contact',
+    element: <ContactPage />,
+  },
 ]
 
 const AppRoutes = () => {

@@ -18,25 +18,33 @@ const ContactPage: React.FC = () => {
       <section className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {[
           {
-            icon: <FaXTwitter className="text-blue-500 bg-blue-100 rounded-full p-2 w-12 h-12 shadow" />,
+            icon: (
+              <FaXTwitter className="text-blue-500 bg-blue-100 rounded-full p-2 w-12 h-12 shadow" />
+            ),
             title: 'Chat on X',
             desc: 'Send us a message via X (Twitter)',
             contact: '@socscfutminna',
           },
           {
-            icon: <FaEnvelope className="text-pink-500 bg-pink-100 rounded-full p-2 w-12 h-12 shadow" />,
+            icon: (
+              <FaEnvelope className="text-pink-500 bg-pink-100 rounded-full p-2 w-12 h-12 shadow" />
+            ),
             title: 'Chat to support',
             desc: 'We’re here to help.',
             contact: 'socscfutminna@gmail.com',
           },
           {
-            icon: <FaMapMarkerAlt className="text-green-600 bg-green-100 rounded-full p-2 w-12 h-12 shadow" />,
+            icon: (
+              <FaMapMarkerAlt className="text-green-600 bg-green-100 rounded-full p-2 w-12 h-12 shadow" />
+            ),
             title: 'Visit us',
             desc: 'Visit our office H2.',
             contact: 'Address',
           },
           {
-            icon: <FaPhoneAlt className="text-yellow-600 bg-yellow-100 rounded-full p-2 w-12 h-12 shadow" />,
+            icon: (
+              <FaPhoneAlt className="text-yellow-600 bg-yellow-100 rounded-full p-2 w-12 h-12 shadow" />
+            ),
             title: 'Call us',
             desc: 'Mon-Fri from 8am to 5pm.',
             contact: '+234 810 000 0000',
