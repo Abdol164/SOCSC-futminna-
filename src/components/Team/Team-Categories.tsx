@@ -82,7 +82,7 @@ export default function TeamCategories() {
                   </p>
                 )}
                 <a
-                  href="#"
+                  href="/projects"
                   className="text-blue-500 text-sm flex items-center gap-1 mt-2 hover:underline"
                 >
                   Projects <span>→</span>

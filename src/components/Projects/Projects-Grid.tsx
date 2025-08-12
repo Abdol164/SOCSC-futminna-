@@ -8,10 +8,10 @@ const projects = [
     description:
       'A decentralized email platform for seamless and secure communication on the Sui blockchain.',
     team: 'Team Alpha',
-    image: '/img/Suimail.png',
+    image: '/img/Suimail-project.jpg',
     author: {
-      name: 'Abdullahi Wahab',
-      avatar: '/img/Avatar.png',
+      name: 'Team Alpha',
+      avatar: '/img/Suimail-project.jpg',
     },
   },
   {
@@ -20,10 +20,10 @@ const projects = [
     description:
       'A cross-border payment solution designed to simplify transactions across Africa.',
     team: 'Team Sushi',
-    image: '/img/Payfrica.png',
+    image: '/img/payfrica-project.jpg',
     author: {
-      name: 'George',
-      avatar: '/img/Avatar.png',
+      name: 'Team Sushi',
+      avatar: '/img/Payfrica-Icon.png',
     },
   },
   {
