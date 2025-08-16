@@ -4,13 +4,13 @@ const HighlightBanner = () => {
       <h2 className="text-white text-2xl font-bold mb-6">Highlight</h2>
       <div className="flex justify-center w-full">
         <img
-          src="/img/About-1.png"
+          src="/img/Suioncampus-group.jpg"
           alt="Highlight"
           className="w-full max-w-3xl h-40 md:h-56 lg:h-64 object-cover rounded-lg shadow-lg"
         />
       </div>
     </section>
-  );
+  )
 };
 
 export default HighlightBanner;

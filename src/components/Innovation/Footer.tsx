@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import type { InnovationSectionProps } from '../../types/innovation'
 import CountdownTimer from './Countdown'
-import { Camera, Image as ImageIcon } from 'lucide-react'
+import { Camera } from 'lucide-react'
 
 // Sui Logo SVG (inline)
 const SuiLogo: React.FC<{ size?: number; className?: string }> = ({
@@ -137,21 +137,25 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
                 <p className="text-white opacity-90 text-sm">{eventDetails}</p>
               </div>
 
-              <CountdownTimer targetDate={typeof eventDate === 'string' ? new Date(eventDate) : eventDate} />
+              <CountdownTimer
+                targetDate={
+                  typeof eventDate === 'string'
+                    ? new Date(eventDate)
+                    : eventDate
+                }
+              />
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                     <Link to="/contact">
-                <button
-    
-                  onClick={handleRegisterClick}
-                  className="bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
-                >
-             
+                <Link to="/contact">
+                  <button
+                    onClick={handleRegisterClick}
+                    className="bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                  >
                     <SuiLogo size={20} className="text-sky-400" />
                     {registerText}
-                 
-                </button>
-                 </Link>
+                  </button>
+                </Link>
+                <Link to="/events">
                 <button
                   onClick={handleViewPastClick}
                   className="bg-white bg-opacity-20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
@@ -159,6 +163,7 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
                   <Camera size={20} />
                   {viewPastText}
                 </button>
+                </Link>
               </div>
             </div>
 
@@ -174,11 +179,17 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
       </div>
 
       {/* Tailwind custom animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes gradient-slow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
         .animate-gradient-slow {
           background-size: 400% 400%;
@@ -186,9 +197,15 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
         }
 
         @keyframes wave-slow {
-          0% { transform: translateX(0); }
-          50% { transform: translateX(-25px); }
-          100% { transform: translateX(0); }
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(-25px);
+          }
+          100% {
+            transform: translateX(0);
+          }
         }
         .animate-wave-slow {
           animation: wave-slow 8s ease-in-out infinite;

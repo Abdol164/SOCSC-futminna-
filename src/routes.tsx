@@ -28,7 +28,7 @@ export const routesConfig: RouteObject[] = [
   },
   {
     path: '/events',
-    element: <Events />, // Fix path to lowercase and with leading slash
+    element: <Events />,
   },
   {
     path: '/contact',

@@ -39,11 +39,12 @@ const leaders = [
     image: 'Ochaii.jpg',
   },
 
+ 
   {
     name: 'Ahmed Khadija',
     team: 'Program Manager',
     desc: 'Let’s build the future together!',
-    image: 'Ahmed.jpg',
+    image: 'Ahmed-Khadija.jpg',
   },
   {
     name: 'Mr Jones Emmanuel',

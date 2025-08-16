@@ -22,31 +22,31 @@ const projects = [
     team: 'Team Sushi',
     image: '/img/payfrica-project.jpg',
     author: {
-      name: 'Team Sushi',
+      name: 'Alainengiya Goerge',
       avatar: '/img/Payfrica-Icon.png',
     },
   },
   {
     id: 3,
-    title: 'Memepad',
+    title: 'Dropay',
     description:
-      'A collaborative note-taking and knowledge-sharing platform for students and professionals.',
-    team: 'Team Alpha',
-    image: '/img/Meet.png',
+      'Dropay refers to a blockchain-based payment gateway that facilitates cryptocurrency transactions for businesses and consumers, enabling instant payments via QR codes and Web3 wallets. Built on the Sui Network, it serves e-commerce, restaurants, and shopping malls, supporting the growing adoption of decentralized applications and cryptocurrency in the real world.   ',
+    team: 'Team Zeus',
+    image: '/img/Dropay.jpg',
     author: {
-      name: 'Chinedu Okafor',
-      avatar: '/img/Avatar.png',
+      name: 'Wallah Destiny',
+      avatar: '/img/Dropay-1.jpg',
     },
   },
   {
     id: 4,
-    title: 'Eduxverse',
+    title: 'SuiXchange',
     description:
-      'An immersive virtual learning environment connecting educators and learners globally.',
-    team: 'Team Sushi',
+      'A Secure P2P marketplace for Sui-based tokens, enabling users to trade securely and efficiently',
+    team: 'Team Zachy',
     image: '/img/Projects.png',
     author: {
-      name: 'Ochaii',
+      name: 'Zachariah ',
       avatar: '/img/Avatar.png',
     },
   },

@@ -3,7 +3,7 @@ export interface CountdownTimerProps {
   targetDate: Date;
   className?: string;
 }
-'use client'
+
 
 import type React from 'react'
 import { useState, useEffect } from 'react'
