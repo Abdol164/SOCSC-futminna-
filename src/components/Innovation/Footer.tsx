@@ -7,8 +7,6 @@ import type { InnovationSectionProps } from '../../types/innovation'
 import CountdownTimer from './Countdown'
 import { Camera } from 'lucide-react'
 
-// Sui Logo SVG (inline)
-
 // Event image with fallback
 const EventImageWithFallback: React.FC<{
   src: string

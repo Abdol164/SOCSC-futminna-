@@ -1,4 +1,3 @@
-
 const Hero = () => {
   return (
     <section className="relative h-screen min-h-[600px] flex items-center justify-center text-white overflow-hidden">
