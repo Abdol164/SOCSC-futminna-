@@ -9,7 +9,14 @@ interface Props {
 const EventCard = ({ title, desc, tags, image, status }: Props) => {
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition-all overflow-hidden">
-      <img src={image} alt={title} className="w-full h-40 object-cover" />
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+        width={400}
+        height={250}
+        className="w-full h-56 object-cover rounded-t"
+      />
       <div className="p-4">
         <h4 className="font-bold text-lg text-gray-800">{title}</h4>
         <p className="text-gray-500 text-sm mt-1">{desc}</p>

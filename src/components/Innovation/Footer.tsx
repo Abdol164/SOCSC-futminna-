@@ -151,7 +151,15 @@ const InnovationSection: React.FC<InnovationSectionProps> = ({
                     onClick={handleRegisterClick}
                     className="bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
                   >
-                    <SuiLogo size={20} className="text-sky-400" />
+                    {/* Use the provided image as the icon */}
+                    <img
+                      src="/img/Sui-Logo.png"
+                      alt="Sui Logo"
+                      width={29}
+                      height={29}
+                      className="inline-block align-middle"
+                      style={{ marginRight: 4 }}
+                    />
                     {registerText}
                   </button>
                 </Link>

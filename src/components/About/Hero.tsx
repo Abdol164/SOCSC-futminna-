@@ -34,7 +34,7 @@ const teamMembers: Props[] = [
     name: 'Micheal Obe',
     role: 'Tech Lead',
     desc: 'Let’s build the future together!',
-    image: '/img/michael.jpg',
+    image: '/img/micheal.jpg',
     socials: {},
   },
 
@@ -239,28 +239,39 @@ const AboutPage = () => {
 
     
       {/* Team Section */}
-      <section className="py-10 px-6 md:px-16">
-        <h3 className="text-md uppercase text-gray-400 font-semibold mb-2">
+      <section className="py-14 px-4 md:px-16 bg-gradient-to-br from-slate-50 to-white">
+        <h3 className="text-md uppercase text-gray-400 font-semibold mb-2 text-center tracking-wider">
           Our Team
         </h3>
-        <h2 className="text-xl font-bold mb-6">Meet Our Team</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center">
+          Meet Our Team
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
           {teamMembers.map((member, idx) => (
-            <div key={idx} className="p-4 rounded-lg hover:shadow-md transition">
+            <div
+              key={idx}
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col items-center w-full max-w-xs"
+            >
               <img
                 src={member.image}
                 alt={member.name}
-                className="w-20 h-20 mx-auto rounded-full"
+                loading="lazy"
+                width={120}
+                height={120}
+                className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow mb-4"
+                decoding="async"
+                style={{ backgroundColor: "#e0e7ef" }}
               />
-              <h4 className="mt-2 font-semibold">{member.name}</h4>
-              <p className="text-sm text-gray-500">{member.role}</p>
+              <h4 className="mt-1 font-semibold text-lg text-gray-800">{member.name}</h4>
+              <p className="text-sm text-blue-600 font-medium mb-2">{member.role}</p>
+              <p className="text-xs text-gray-500 mb-3">{member.desc}</p>
               {/* Social Icons */}
-              <div className="flex justify-center gap-3 mt-2">
+              <div className="flex justify-center gap-3 mt-auto">
                 {member.socials.twitter && (
                   <a
                     href={member.socials.twitter}
                     aria-label="Twitter"
-                    className="text-gray-600 hover:text-blue-400"
+                    className="text-gray-500 hover:text-blue-400 transition"
                   >
                     <FaTwitter size={18} />
                   </a>
@@ -269,7 +280,7 @@ const AboutPage = () => {
                   <a
                     href={member.socials.linkedin}
                     aria-label="LinkedIn"
-                    className="text-gray-600 hover:text-blue-700"
+                    className="text-gray-500 hover:text-blue-700 transition"
                   >
                     <FaLinkedin size={18} />
                   </a>
@@ -278,7 +289,7 @@ const AboutPage = () => {
                   <a
                     href={member.socials.github}
                     aria-label="GitHub"
-                    className="text-gray-600 hover:text-black"
+                    className="text-gray-500 hover:text-black transition"
                   >
                     <FaGithub size={18} />
                   </a>
@@ -287,7 +298,7 @@ const AboutPage = () => {
                   <a
                     href={member.socials.facebook}
                     aria-label="Facebook"
-                    className="text-gray-600 hover:text-blue-600"
+                    className="text-gray-500 hover:text-blue-600 transition"
                   >
                     <FaFacebook size={18} />
                   </a>

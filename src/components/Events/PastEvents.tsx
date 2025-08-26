@@ -88,6 +88,11 @@ const PastEventsGallery: React.FC = () => {
                   alt={`Past Event ${groupIdx * 5 + idx + 1}`}
                   className="rounded-lg object-cover w-full h-full shadow-md group-hover:brightness-110 group-hover:scale-110 transition-all duration-500"
                   draggable={false}
+                  loading="lazy"
+                  width={400}
+                  height={300}
+                  decoding="async"
+                  style={{ backgroundColor: "#e0e7ef" }}
                 />
                 <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -109,6 +114,9 @@ const PastEventsGallery: React.FC = () => {
               src={viewImg}
               alt="Event Large View"
               className="rounded-2xl w-full h-auto max-h-[80vh] shadow-2xl border-4 border-white animate-popIn"
+              loading="lazy"
+              decoding="async"
+              style={{ backgroundColor: "#e0e7ef" }}
             />
             <button
               className="absolute top-2 right-2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition"

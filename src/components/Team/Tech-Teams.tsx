@@ -15,11 +15,31 @@ export default function TechnicalTeams() {
         {/* Team Cards */}
         <div className="md:col-span-3 grid sm:grid-cols-2 gap-6">
           {[
-            { team: 'Team Sushi🌸', image: '/img/Team-Sushi.png' },
-            { team: 'Team Alpha🦅', image: '/img/Team-Alpha.png' },
-            { team: 'Team Grid', image: '/img/Team-Grid.png' },
-            { team: 'Team Swift', image: '/img/Team-Swift.png' },
-          ].map(({ team, image }, idx) => (
+            {
+              team: 'Team Sushi🌸',
+              image: '/img/Team-Sushi.png',
+              lead: 'George',
+              description: 'Building innovative payment systems to power seamless transactions for students and the campus community.',
+            },
+            {
+              team: 'Team Alpha🦅',
+              image: '/img/Team-Alpha.png',
+              lead: 'Abdul-Wahab',
+              description: 'Developing real-world use cases that showcase the practical impact of blockchain and technology at FUT Minna.',
+            },
+            {
+              team: 'Team Grid',
+              image: '/img/Team Grid.jpg',
+              lead: 'Wallah Destiny',
+              description: 'Focused on building robust payment systems and infrastructure for digital finance on campus.',
+            },
+            {
+              team: 'Team Swift',
+              image: '/img/Ahmed.jpg',
+              lead: 'Panda',
+              description: 'Driving creative solutions and rapid prototyping for next-generation campus technology.',
+            },
+          ].map(({ team, image, lead, description }, idx) => (
             <div
               key={idx}
               className="relative h-72 w-full rounded-md overflow-hidden shadow-md"
@@ -27,6 +47,9 @@ export default function TechnicalTeams() {
               <img
                 src={image}
                 alt={team}
+                loading="lazy"
+                width={400}
+                height={288}
                 className="absolute inset-0 h-full w-full object-cover"
               />
               {/* Glass Overlay */}
@@ -36,10 +59,9 @@ export default function TechnicalTeams() {
                           text-white rounded-md"
               >
                 <h3 className="font-semibold">{team}</h3>
-                <p className="text-sm">Lead: Mary Jane</p>
+                <p className="text-sm">Lead: {lead}</p>
                 <p className="text-xs text-gray-100 mt-1">
-                  Lorem ipsum dolor sit amet. Eos quasi autem quo nostrum
-                  voluptatem ut quibusdam.
+                  {description}
                 </p>
                 <div className="flex items-center gap-3 mt-3 text-white text-sm">
                   <i className="ri-close-line" />

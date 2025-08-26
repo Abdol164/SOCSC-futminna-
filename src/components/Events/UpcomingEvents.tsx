@@ -48,8 +48,22 @@ const events = [
   {
     title: 'Sui DeFi',
     tags: ['DeFi', 'Sui'],
-    image: '/img/projects.png',
+    image: '/img/Defii.jpg',
     desc: 'Explore the world of decentralized finance on Sui. Learn about protocols, opportunities, and how to get started building DeFi apps.',
+    status: 'coming',
+  },
+    {
+    title: 'Sui Developers Workshop',
+    tags: ['DeFi', 'Sui'],
+    image: '/img/Dev-workshop.jpg',
+    desc: 'Explore the world of decentralized finance on Sui. Learn about protocols, opportunities, and how to get started building DeFi apps.',
+    status: 'coming',
+  },
+  {
+    title: 'One Year Anniversary',
+    tags: ['DeFi', 'Sui'],
+    image: '/img/one-year.jpg',
+    desc: 'Journey So Far, How it all began...',
     status: 'coming',
   },
 ]

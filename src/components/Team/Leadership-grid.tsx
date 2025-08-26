@@ -12,19 +12,19 @@ const leaders = [
     name: 'Salisu AbdulWahab',
     team: 'Team Lead',
     desc: 'Join us to turn ideas into reality!',
-    image: 'Salisu AbdulWahab.jpg',
+    image: '/img/Salisu AbdulWahab.jpg',
   },
   {
     name: 'Alainengiya Goerge',
     team: 'Deverel of Suioncampus',
     desc: 'Decentralizing the future.',
-    image: 'George.jpg',
+    image: '/img/George.jpg',
   },
   {
     name: 'Micheal Obe',
     team: 'Tech Lead',
     desc: 'Let’s build the future together!',
-    image: 'Michael Obe.jpg',
+    image: '/img/micheal.jpg',
   },
   {
     name: 'Mr Jones',
@@ -36,20 +36,20 @@ const leaders = [
     name: 'Ochaii ',
     team: 'Head of Media and Contents',
     desc: 'Innovate, collaborate, achieve.',
-    image: 'Ochaii.jpg',
+    image: '/img/Ochaii.jpg',
   },
 
   {
     name: 'Ahmed Khadija',
     team: 'Program Manager',
     desc: 'Let’s build the future together!',
-    image: 'Ahmed.jpg',
+    image: '/img/Ahmed.jpg',
   },
   {
     name: 'Mr Jones Emmanuel',
     team: 'Community Manager',
     desc: 'Empowering students for success.',
-    image: 'Jones Emmanuel.jpg',
+    image: '/img/Jones Emmanuel.jpg',
   },
 ]
 
