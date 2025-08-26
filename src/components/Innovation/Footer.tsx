@@ -8,22 +8,6 @@ import CountdownTimer from './Countdown'
 import { Camera } from 'lucide-react'
 
 // Sui Logo SVG (inline)
-const SuiLogo: React.FC<{ size?: number; className?: string }> = ({
-  size = 20,
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    width={size}
-    height={size}
-    className={className}
-    fill="currentColor"
-  >
-    <path d="M128 0C57.31 0 0 57.31 0 128s57.31 128 128 128 128-57.31 128-128S198.69 0 128 0zm0 230.4c-56.61 0-102.4-45.79-102.4-102.4S71.39 25.6 128 25.6 230.4 71.39 230.4 128 184.61 230.4 128 230.4z"/>
-    <path d="M102.4 166.4c-2.26 0-4.53-.86-6.25-2.57-3.43-3.43-3.43-9.07 0-12.5l51.2-51.2c3.43-3.43 9.07-3.43 12.5 0 3.43 3.43 3.43 9.07 0 12.5l-51.2 51.2c-1.72 1.72-3.98 2.57-6.25 2.57z"/>
-  </svg>
-)
 
 // Event image with fallback
 const EventImageWithFallback: React.FC<{

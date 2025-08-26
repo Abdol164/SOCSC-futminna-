@@ -1,4 +1,3 @@
-import React from "react";
 
 const Hero = () => {
   return (
@@ -10,7 +9,7 @@ const Hero = () => {
           alt="Hero background"
           className="w-full h-full object-cover"
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
           width={1920}
           height={1080}
           decoding="async"
